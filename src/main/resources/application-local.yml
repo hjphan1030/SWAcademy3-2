@@ -1,0 +1,31 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:file:./tdb;AUTO_SERVER=TRUE;
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  mvc:
+    path match: # 스웨거 경로 설정
+      matching-strategy: ant_path_matcher
+  auditing:
+    enabled: true # Auditing 활성화
+
+
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        type: trace
