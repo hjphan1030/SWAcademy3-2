@@ -66,13 +66,13 @@ public class PostController {
 
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<Map<Object, Object>> deletePost(@RequestParam("postId") Long postId){
-        // 로그인 아직 없어서 권한확인 pass
-        postService.deletePost(postId);
-        Map<Object, Object> response = new HashMap<>();
-        response.put("success",true);
-        response.put("message","삭제 완료");
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
-    }
+//    @DeleteMapping("/")
+//    public ResponseEntity<Map<Object, Object>> deletePost(@RequestParam("postId") Long postId){
+//        // 로그인 아직 없어서 권한확인 pass
+//        postService.deletePost(postId);
+//        Map<Object, Object> response = new HashMap<>();
+//        response.put("success",true);
+//        response.put("message","삭제 완료");
+//        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+//    }
 }
