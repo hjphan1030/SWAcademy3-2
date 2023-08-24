@@ -23,8 +23,8 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public boolean findRestaurantByRestaurantId(String restaurant_id){
-        return restaurantRepository.existsRestaurantByRestaurantId(restaurant_id);
+    public boolean findRestaurantByRestaurantName(String restaurantName){
+        return restaurantRepository.existsRestaurantByRestaurantName(restaurantName);
     }
 
     public void saveRestaurantInfo(Map<String, String> restaurantInfoMap) {
@@ -33,7 +33,7 @@ public class RestaurantService {
             String restaurantId = entry.getValue();
 
             Restaurant restaurant = new Restaurant();
-            restaurant.setName(restaurantName);
+            restaurant.setRestaurantName(restaurantName);
             restaurant.setRestaurantId(restaurantId);
             restaurantRepository.save(restaurant);
         }

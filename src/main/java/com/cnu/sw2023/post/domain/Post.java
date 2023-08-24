@@ -24,8 +24,8 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Long id;
+    @Column(name = "postId")
+    private Long postId;
 
     @NotNull @Size(min = 2,max = 30)
     private String title;
@@ -33,9 +33,8 @@ public class Post {
     @NotNull @Size(min = 1,max = 2000)
     private String content;
 
-
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id",referencedColumnName = "restaurant_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurantName",referencedColumnName = "restaurantName")
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)

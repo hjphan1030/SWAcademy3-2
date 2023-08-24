@@ -14,8 +14,9 @@ public class Restaurant implements Serializable { // Serializable 는 entity의 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(name = "restaurantName")
+    private String restaurantName;
 
-    @Column(name = "restaurant_id")
+    @Column(name = "restaurantId")
     private String restaurantId;
 }

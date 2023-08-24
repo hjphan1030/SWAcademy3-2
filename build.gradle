@@ -28,7 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    compileOnly 'org.projectlombok:lombok'
+//    compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -36,8 +36,8 @@ dependencies {
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5' // string - > json 파싱 라이브러리
 
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'// swagger 라이브러리
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0' // swagger
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //서버 재시작 안해도 코드기능업데이트 가능
 

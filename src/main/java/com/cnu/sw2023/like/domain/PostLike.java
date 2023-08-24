@@ -15,7 +15,7 @@ public class PostLike {
     private Long id;
 
     @Column(name = "post_like_count")
-    private int postLikeCount; // 좋아요 개수를 나타내는 열
+    private Long postLikeCount; // 좋아요 개수를 나타내는 열
 
     @ManyToOne
     @JoinColumn(name = "post_id")
