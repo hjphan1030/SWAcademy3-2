@@ -13,9 +13,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findPostByRestaurant (Restaurant restaurant);
     Page<Post> findByRestaurant(Restaurant restaurant, Pageable pageable);
-
     void deleteByPostId (Long postId);
-
-    @Override
-    List<Post> findAllById(Iterable<Long> longs);
 }
