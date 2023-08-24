@@ -65,7 +65,7 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
-//    @DeleteMapping("/")
+//    @DeleteMapping("/")...
 //    public ResponseEntity<Map<Object, Object>> deletePost(@RequestParam("postId") Long postId){
 //        // 로그인 아직 없어서 권한확인 pass
 //        postService.deletePost(postId);
