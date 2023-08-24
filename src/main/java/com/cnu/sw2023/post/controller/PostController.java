@@ -63,7 +63,6 @@ public class PostController {
         response.put("posts", dtoStream.collect(Collectors.toList())); // 스트림을 리스트로 변환하여 맵에 넣음
         response.put("lastPage", lastPage);
         return ResponseEntity.ok().body(response);
-
     }
 
 //    @DeleteMapping("/")
