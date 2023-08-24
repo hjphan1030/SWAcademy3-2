@@ -32,8 +32,8 @@ public class PostController {
 //        return ResponseEntity.ok(posts);
 //    }
 
-    @PostMapping("/{restaurant_id}")
-    public ResponseEntity<Map<String, Object>> doPost(@RequestBody PostForm postForm, @PathVariable("restaurant_id") String restaurantName) {
+    @PostMapping("/{restaurantName}")
+    public ResponseEntity<Map<String, Object>> doPost(@RequestBody PostForm postForm, @PathVariable("restaurantName") String restaurantName) {
 
         Map<String , Object> response = new HashMap<>();
         if ( ! restaurantService.findRestaurantByRestaurantName(restaurantName)) {
