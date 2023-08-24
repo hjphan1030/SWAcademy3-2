@@ -21,12 +21,12 @@ public class PostService {
     private final PostRepository postRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public List<Post> getPostByRestaurantId(String restaurant_id) {
-        return postRepository.findPostByRestaurant(restaurantRepository.findByRestaurantId(restaurant_id));
+    public List<Post> getPostByRestaurantName(String restaurant_name) {
+        return postRepository.findPostByRestaurant(restaurantRepository.findByRestaurantName(restaurant_name));
     }
     public Long doPost(String restaurant_id, PostForm postForm) {
         // restaurant_id로 음식점 정보 조회
-        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurant_id);
+        Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurant_id);
         if (restaurant == null) {
             throw new EntityNotFoundException("음식점을 찾을 수 없습니다.");
         }

@@ -33,7 +33,6 @@ public class Post {
     @NotNull @Size(min = 1,max = 2000)
     private String content;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurantName",referencedColumnName = "restaurant_name")
     private Restaurant restaurant;

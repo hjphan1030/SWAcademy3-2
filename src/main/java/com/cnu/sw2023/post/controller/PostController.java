@@ -33,15 +33,15 @@ public class PostController {
 //    }
 
     @PostMapping("/{restaurant_id}")
-    public ResponseEntity<Map<String, Object>> doPost(@RequestBody PostForm postForm, @PathVariable("restaurant_id") String restaurant_id) {
+    public ResponseEntity<Map<String, Object>> doPost(@RequestBody PostForm postForm, @PathVariable("restaurant_id") String restaurantName) {
 
         Map<String , Object> response = new HashMap<>();
-        if ( ! restaurantService.findRestaurantByRestaurantId(restaurant_id)) {
+        if ( ! restaurantService.findRestaurantByRestaurantName(restaurantName)) {
                 response.put("success",false);
                 response.put("location","");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        Long post_id = postService.doPost(restaurant_id, postForm);
+        Long post_id = postService.doPost(restaurantName, postForm);
         URI locationUri = URI.create("/boards/posts/" +String.valueOf(post_id));
 
         response.put("success",true);
