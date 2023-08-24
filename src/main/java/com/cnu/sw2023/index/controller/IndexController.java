@@ -26,8 +26,12 @@ public class Controller {
     @GetMapping("/slide")
     public ResponseEntity<Map<String, Object>> getSlide(){
         Map<String, Object> response = new HashMap<>();
-        List<Restaurant> restaurantList = restaurantService.findRestaurantsSortedByLikesDescending();
-        response.put("slide", restaurantList);
+        List<String> restaurantList = restaurantService
+                    .findRestaurantsSortedByLikesDescending()
+                    .stream()
+                    .map(Restaurant::getRestaurantName)
+                    .collect(Collectors.toList());
+        response.put("slide", restaurantList);  // restaurant name 리스트를 리턴
         return ResponseEntity.ok().body(response);
     }
 
