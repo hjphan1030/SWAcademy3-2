@@ -8,15 +8,15 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 public class PostPageDto {
-        private Long post_id;
+        private Long postId;
         private String title;
         private String content;
         private LocalDateTime createdAt;
         private int postLikeCount;
         private int commentCount;
 
-        public PostPageDto(Long post_id, String title, String content, LocalDateTime createdAt, int postLikeCount, int commentCount) {
-                this.post_id = post_id;
+        public PostPageDto(Long postId, String title, String content, LocalDateTime createdAt, int postLikeCount, int commentCount) {
+                this.postId = postId;
                 this.title = title;
                 this.content = content;
                 this.createdAt = createdAt;
@@ -25,7 +25,7 @@ public class PostPageDto {
         }
 
         public PostPageDto(Post post) {
-                this.post_id = post.getPostId();
+                this.postId = post.getPostId();
                 this.title = post.getTitle();
                 this.content = post.getContent();
                 this.createdAt = post.getCreatedAt();

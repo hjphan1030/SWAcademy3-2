@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,8 +22,8 @@ public class PostService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantService restaurantService;
 
-    public List<Post> getPostByRestaurantName(String restaurantName) {
-        return postRepository.findPostByRestaurant(restaurantRepository.findByRestaurantName(restaurantName));
+    public Optional<Post> getPostByPostId(Long postID) {
+        return postRepository.findByPostId(postID);
     }
     public Long doPost(String restaurantId, PostForm postForm) {
         // restaurant_id로 음식점 정보 조회
