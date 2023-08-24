@@ -15,4 +15,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Page<Post> findByRestaurant(Restaurant restaurant, Pageable pageable);
 
     void deleteByPostId (Long postId);
+
+    @Override
+    List<Post> findAllById(Iterable<Long> longs);
 }
