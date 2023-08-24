@@ -23,7 +23,6 @@ public class KakaoApiUtil {
     private static String restApiKey = "d22e8ce6be697663484467839c3dbcb7";
 
     public Map<String,String> getRestaurantInfo(){
-        logger.info("hihi");
         Map<String,String> info = new HashMap<String, String>();
         for (int pageNum=1; pageNum<5;pageNum++) {
             String url = String.format("https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=127.35171762597&y=36.363894675137&radius=2500&page=%d", pageNum);

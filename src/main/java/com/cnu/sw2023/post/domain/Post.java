@@ -34,8 +34,8 @@ public class Post {
     private String content;
 
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id",referencedColumnName = "restaurant_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurantName",referencedColumnName = "restaurant_name")
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
