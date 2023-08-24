@@ -38,7 +38,7 @@ public class RestaurantService {
             String restaurantId = entry.getValue();
 
             Restaurant restaurant = new Restaurant();
-            restaurant.setName(restaurantName);
+            restaurant.setRestaurantName(restaurantName);
             restaurant.setRestaurantId(restaurantId);
             restaurantRepository.save(restaurant);
         }

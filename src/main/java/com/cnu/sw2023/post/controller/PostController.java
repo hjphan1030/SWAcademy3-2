@@ -41,6 +41,7 @@ public class PostController {
                 response.put("location","");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
+
         Long post_id = postService.doPost(restaurantName, postForm);
         URI locationUri = URI.create("/boards/posts/" +String.valueOf(post_id));
 
@@ -56,12 +57,22 @@ public class PostController {
         Pageable pageable = PageRequest.of(page_num, size);
         Page<Post> page = postService.getPostsByRestaurantName(restaurantName, pageable);
         boolean lastPage = page.isLast();
-        Stream<PostPageDto> dtoStream = page.stream().map(post -> new PostPageDto(post));
+        Stream<PostPageDto> dtoStream = page.stream().map(PostPageDto::new);
 
         Map<String, Object> response = new HashMap<>();
         response.put("posts", dtoStream.collect(Collectors.toList())); // 스트림을 리스트로 변환하여 맵에 넣음
         response.put("lastPage", lastPage);
         return ResponseEntity.ok().body(response);
 
+    }
+
+    @DeleteMapping("/")
+    public ResponseEntity<Map<Object, Object>> deletePost(@RequestParam("postId") Long postId){
+        // 로그인 아직 없어서 권한확인 pass
+        postService.deletePost(postId);
+        Map<Object, Object> response = new HashMap<>();
+        response.put("success",true);
+        response.put("message","삭제 완료");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 }
