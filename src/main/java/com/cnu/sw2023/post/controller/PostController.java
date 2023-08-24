@@ -1,6 +1,8 @@
 package com.cnu.sw2023.post.controller;
 
+import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.post.domain.Post;
+import com.cnu.sw2023.post.form.DetailPostForm;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.dto.PostPageDto;
 import com.cnu.sw2023.post.service.PostService;
@@ -42,8 +44,8 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        Long post_id = postService.doPost(restaurantName, postForm);
-        URI locationUri = URI.create("/boards/posts/" +String.valueOf(post_id));
+        Long postId = postService.doPost(restaurantName, postForm);
+        URI locationUri = URI.create("/boards/posts/" + postId);
 
         response.put("success",true);
         response.put("location",locationUri);
@@ -64,6 +66,30 @@ public class PostController {
         response.put("lastPage", lastPage);
         return ResponseEntity.ok().body(response);
 
+    }
+
+
+    @GetMapping("/")
+    public ResponseEntity<Map<String,Object>> getDetailPost(@RequestParam("postId") Long postId){
+        Map<String,Object> res = new HashMap<>();
+        Optional<Post> targetPost = postService.getPostByPostId(postId);
+        if (targetPost.isEmpty()) { res.put("success",false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+        }
+        Post post = targetPost.get();
+        List<Comment> comments = post.getComments();
+        List<Comment.CommentProperty> collect = comments.stream().map(comment -> new Comment.CommentProperty(comment)).collect(Collectors.toList()); // 자동완성으로 람다식으로 바꾸지말아주세요 ㅠㅠ
+
+        DetailPostForm detailPostForm = DetailPostForm.builder()
+                .postId(post.getPostId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdAt(post.getCreatedAt())
+                .postLikeCount(post.getPostLikes().size())
+                .comment(collect)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(detailPostForm.toMap());
     }
 
     @DeleteMapping("/")
