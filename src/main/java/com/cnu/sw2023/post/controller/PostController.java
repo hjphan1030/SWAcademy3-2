@@ -52,11 +52,11 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{restaurantName}")
-    public ResponseEntity<Map<String ,Object>> getPostsByRestaurantName(@PathVariable String restaurantName, @RequestParam(defaultValue = "0") int page_num){
+    @GetMapping("/{restaurantName}/")
+    public ResponseEntity<Map<String ,Object>> getPostsByRestaurantName(@PathVariable String restaurantName, @RequestParam(defaultValue = "0") int pageNum){
         final int size = 10;
 
-        Pageable pageable = PageRequest.of(page_num, size);
+        Pageable pageable = PageRequest.of(pageNum, size);
         Page<Post> page = postService.getPostsByRestaurantName(restaurantName, pageable);
         boolean lastPage = page.isLast();
         Stream<PostPageDto> dtoStream = page.stream().map(PostPageDto::new);
