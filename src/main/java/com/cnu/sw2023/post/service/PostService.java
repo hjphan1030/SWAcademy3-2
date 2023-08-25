@@ -23,21 +23,17 @@ public class PostService {
     private final RestaurantService restaurantService;
 
     public Optional<Post> getPostByPostId(Long postID) {
-        return postRepository.findByPostId(postID);
+        return postRepository.findById(postID);
     }
-    public Long doPost(String restaurantId, PostForm postForm) {
+    public Long addPost(String restaurantName, PostForm postForm) {
         // restaurant_id로 음식점 정보 조회
-        Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurantId);
+        Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurantName);
         if (restaurant == null) {
             throw new EntityNotFoundException("음식점을 찾을 수 없습니다.");
         }
-        Post post = new Post();
-        post.setTitle(postForm.getTitle());
-        post.setContent(postForm.getContent());
-        post.setRestaurant(restaurant);
-
-        postRepository.save(post);
-        return post.getPostId();
+        Post post = Post.builder().title(postForm.getTitle()).content(postForm.getContent()).restaurant(restaurant).build();
+        Post saved = postRepository.save(post);
+        return saved.getId();
     }
 
     public Page<Post> getPostsByRestaurantName(String restaurantName, Pageable pageable) {

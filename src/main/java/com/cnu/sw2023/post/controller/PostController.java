@@ -40,8 +40,8 @@ public class PostController {
 //    }
 
     @ApiOperation("특정 음식점 게시판에 글쓰기")
-    @PostMapping("/{restaurantName}")
-    public ResponseEntity<Map<String, Object>> doPost(@RequestBody PostForm postForm, @PathVariable("restaurantName") String restaurantName) {
+    @PostMapping("/{restaurantName}/post")
+    public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostForm postForm, @PathVariable("restaurantName") String restaurantName) {
 
         Map<String , Object> response = new HashMap<>();
         if ( ! restaurantService.findRestaurantByRestaurantName(restaurantName)) {
@@ -50,11 +50,11 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        Long postId = postService.doPost(restaurantName, postForm);
+        Long postId = postService.addPost(restaurantName, postForm);
         URI locationUri = URI.create("/boards/posts/" + postId);
-
         response.put("success",true);
         response.put("location",locationUri);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -83,18 +83,9 @@ public class PostController {
         if (targetPost.isEmpty()) { res.put("success",false);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
         }
-        Post post = targetPost.get();
-        List<Comment> comments = post.getComments();
-        List<Comment.CommentProperty> collect = comments.stream().map(comment -> new Comment.CommentProperty(comment)).collect(Collectors.toList()); // 자동완성으로 람다식으로 바꾸지말아주세요 ㅠㅠ
 
-        DetailPostForm detailPostForm = DetailPostForm.builder()
-                .postId(post.getPostId())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .createdAt(post.getCreatedAt())
-                .postLikeCount(post.getPostLikes().size())
-                .comment(collect)
-                .build();
+        Post post = targetPost.get();
+        DetailPostForm detailPostForm = new DetailPostForm(post);
 
         return ResponseEntity.status(HttpStatus.OK).body(detailPostForm.toMap());
     }

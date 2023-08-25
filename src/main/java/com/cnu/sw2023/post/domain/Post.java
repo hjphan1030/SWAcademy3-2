@@ -5,6 +5,7 @@ import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,13 +26,15 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "postId")
-    private Long postId;
+    private Long id;
 
     @NotNull @Size(min = 2,max = 30)
     private String title;
 
     @NotNull @Size(min = 1,max = 2000)
     private String content;
+
+    private int likeCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurantName",referencedColumnName = "restaurantName")
@@ -45,5 +48,15 @@ public class Post {
 
     @CreatedDate
     private LocalDateTime createdAt;
+    @Builder
+    public Post(String title, String content, Restaurant restaurant, List<Comment> comments, List<PostLike> postLikes) {
+        this.title = title;
+        this.content = content;
+        this.restaurant = restaurant;
+        this.comments = comments;
+        this.postLikes = postLikes;
+    }
 
+    public Post() {
+    }
 }

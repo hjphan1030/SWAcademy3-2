@@ -17,51 +17,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Getter @Setter @Entity @Builder
+@Getter @Entity @Setter
 @EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentId")
-    private Long commentId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "postId")
     private Post post;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentLike> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     @NotNull
     private String content;
+
+    private int likeCount;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
     @Builder
-    public Comment(Long commentId, Post post, List<CommentLike> likes, String content, LocalDateTime createdAt) {
-        this.commentId = commentId;
+    public Comment(Post post, String content, LocalDateTime createdAt) {
         this.post = post;
-        this.likes = likes;
         this.content = content;
         this.createdAt = createdAt;
     }
 
     public Comment() {
-
-    }
-
-    @Getter
-    public static class CommentProperty {
-        private String content;
-        private int commentLikeCount;
-        private Timestamp createdAt;
-
-        public CommentProperty(Comment comment) {
-            content = comment.getContent();
-            commentLikeCount = comment.getLikes().size();
-            createdAt = Timestamp.valueOf(comment.getCreatedAt());
-        }
     }
 }

@@ -25,7 +25,7 @@ public class PostPageDto {
         }
 
         public PostPageDto(Post post) {
-                this.postId = post.getPostId();
+                this.postId = post.getId();
                 this.title = post.getTitle();
                 this.content = post.getContent();
                 this.createdAt = post.getCreatedAt();

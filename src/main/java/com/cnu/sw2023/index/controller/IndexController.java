@@ -31,7 +31,7 @@ public class IndexController {
         Stream<String> titleStream = indexService
                     .findPostLikesSortedByLikesDescending().stream().map(postLike -> postLike.getPost().getTitle());
         Stream<Long> postIdStream = indexService
-                .findPostLikesSortedByLikesDescending().stream().map(postLike -> postLike.getPost().getPostId());
+                .findPostLikesSortedByLikesDescending().stream().map(postLike -> postLike.getPost().getId());
         List<String> titleList = titleStream.collect(Collectors.toList());
         List<Long> postIdList = postIdStream.collect(Collectors.toList());
         for(int i = 0; i < titleList.size(); i++){
