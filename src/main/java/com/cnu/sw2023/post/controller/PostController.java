@@ -8,6 +8,8 @@ import com.cnu.sw2023.post.dto.PostPageDto;
 import com.cnu.sw2023.post.service.PostService;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,7 @@ import java.util.stream.Stream;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/boards")
+@Api(tags = "게시판&음식점 컨트롤러", description = "")
 public class PostController {
     private final PostService postService;
     private final RestaurantService restaurantService;
@@ -36,6 +39,7 @@ public class PostController {
 //        return ResponseEntity.ok(posts);
 //    }
 
+    @ApiOperation("특정 음식점 게시판에 글쓰기")
     @PostMapping("/{restaurantName}")
     public ResponseEntity<Map<String, Object>> doPost(@RequestBody PostForm postForm, @PathVariable("restaurantName") String restaurantName) {
 
@@ -54,7 +58,8 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{restaurantName}")
+    @ApiOperation("특정 음식점 게시판 리스트 조회")
+    @GetMapping("/{restaurantName}/")
     public ResponseEntity<Map<String ,Object>> getPostsByRestaurantName(@PathVariable String restaurantName, @RequestParam(defaultValue = "0") int pageNum){
         final int size = 10;
 
@@ -70,7 +75,7 @@ public class PostController {
 
     }
 
-
+    @ApiOperation("특정 게시글 상세 보기")
     @GetMapping("/")
     public ResponseEntity<Map<String,Object>> getDetailPost(@RequestParam("postId") Long postId){
         Map<String,Object> res = new HashMap<>();
@@ -94,6 +99,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(detailPostForm.toMap());
     }
 
+    @ApiOperation("특정 게시글 삭제")
     @DeleteMapping("/")
     public ResponseEntity<Map<Object, Object>> deletePost(@RequestParam("postId") Long postId){
         // 로그인 아직 없어서 권한확인 pass
@@ -104,6 +110,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
+    @ApiOperation("음식점 오름차순 정렬 리스트")
     @GetMapping("/restaurantList")
     public ResponseEntity<Map<String, Object>> getRestaurantList(){
         List<Restaurant> restaurants = restaurantService.findRestaurants();
@@ -116,6 +123,7 @@ public class PostController {
         return ResponseEntity.ok().body(res);
     }
 
+    @ApiOperation("특정 음식점에 대한 정보 보기")
     @GetMapping("/restaurantInfo/{restaurantName}")
     public Map<String,String> getRestaurantInfo(@PathVariable("restaurantName") String restaurantName){
         Map<String,String> res = restaurantService.getRestaurantInfo(restaurantName);

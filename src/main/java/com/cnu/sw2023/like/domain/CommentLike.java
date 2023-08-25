@@ -18,6 +18,6 @@ public class CommentLike {
     private Long commentLikeCount; // 좋아요 개수를 나타내는 열
 
     @ManyToOne
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "commentId",referencedColumnName = "commentId")
     private Comment comment;
 }

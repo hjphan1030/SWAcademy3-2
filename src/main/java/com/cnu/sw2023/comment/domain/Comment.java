@@ -4,9 +4,11 @@ package com.cnu.sw2023.comment.domain;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.like.domain.CommentLike;
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,15 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Getter @Setter @Entity
+@Getter @Setter @Entity @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
-    @Column(name = "comment_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commentId")
+    private Long commentId;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,6 +38,19 @@ public class Comment {
 
     @CreatedDate
     private LocalDateTime createdAt;
+
+    @Builder
+    public Comment(Long commentId, Post post, List<CommentLike> likes, String content, LocalDateTime createdAt) {
+        this.commentId = commentId;
+        this.post = post;
+        this.likes = likes;
+        this.content = content;
+        this.createdAt = createdAt;
+    }
+
+    public Comment() {
+
+    }
 
     @Getter
     public static class CommentProperty {
