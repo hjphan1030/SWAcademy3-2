@@ -18,16 +18,6 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-<<<<<<< HEAD
-
-    @Autowired
-    public RestaurantService(KakaoApiUtil kakaoApiUtil, RestaurantRepository restaurantRepository) {
-        this.kakaoApiUtil = kakaoApiUtil;
-        this.restaurantRepository = restaurantRepository;
-    }
-=======
->>>>>>> f5c2d527f845fe93347472f81c66cac21e3d29aa
-
 
     public boolean findRestaurantByRestaurantName(String restaurantName){
         return restaurantRepository.existsRestaurantByRestaurantName(restaurantName);
@@ -44,13 +34,6 @@ public class RestaurantService {
             restaurantRepository.save(restaurant);
         }
     }
-<<<<<<< HEAD
-    @Autowired
-    public void processRestaurantInfo() {
-        Map<String, String> restaurantInfo = kakaoApiUtil.getRestaurantInfo();
-        saveRestaurantInfo(restaurantInfo);
-    }
-=======
 
 //    private final KakaoApiUtil kakaoApiUtil;
 //    @Autowired
@@ -58,5 +41,4 @@ public class RestaurantService {
 //        Map<String, String> restaurantInfo = kakaoApiUtil.getRestaurantInfo();
 //        saveRestaurantInfo(restaurantInfo);
 //    }
->>>>>>> f5c2d527f845fe93347472f81c66cac21e3d29aa
 }
