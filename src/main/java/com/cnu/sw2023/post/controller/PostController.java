@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +58,7 @@ public class PostController {
     public ResponseEntity<Map<String ,Object>> getPostsByRestaurantName(@PathVariable String restaurantName, @RequestParam(defaultValue = "0") int pageNum){
         final int size = 10;
 
-        Pageable pageable = PageRequest.of(pageNum, size);
+        Pageable pageable = PageRequest.of(pageNum, size, Sort.by("createdAt").descending());
         Page<Post> page = postService.getPostsByRestaurantName(restaurantName, pageable);
         boolean lastPage = page.isLast();
         Stream<PostPageDto> dtoStream = page.stream().map(PostPageDto::new);

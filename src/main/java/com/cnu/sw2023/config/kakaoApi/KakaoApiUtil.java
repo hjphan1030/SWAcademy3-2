@@ -48,7 +48,7 @@ public class KakaoApiUtil {
                 for (JsonNode document : documentsNode) {
                     String addressName = document.path("road_address_name").asText();
 
-                    if (addressName.contains("유성구")) {
+                    if (addressName.contains("유성구")) { // 작성자 말고는 이해할수없게 되있어요 양해점,,
                         String placeName = document.path("place_name").asText();
                         String id = document.path("id").asText();
                         String phone = document.path("phone").asText();
