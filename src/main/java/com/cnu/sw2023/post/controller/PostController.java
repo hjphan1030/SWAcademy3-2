@@ -6,6 +6,7 @@ import com.cnu.sw2023.post.form.DetailPostForm;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.dto.PostPageDto;
 import com.cnu.sw2023.post.service.PostService;
+import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -52,7 +53,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{restaurantName}/")
+    @GetMapping("/{restaurantName}")
     public ResponseEntity<Map<String ,Object>> getPostsByRestaurantName(@PathVariable String restaurantName, @RequestParam(defaultValue = "0") int pageNum){
         final int size = 10;
 
@@ -100,5 +101,23 @@ public class PostController {
         response.put("success",true);
         response.put("message","삭제 완료");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+
+    @GetMapping("/restaurantList")
+    public ResponseEntity<Map<String, Object>> getRestaurantList(){
+        List<Restaurant> restaurants = restaurantService.findRestaurants();
+        Map<String,Object> res = new HashMap<>();
+
+        List<String> restaurantList = restaurants.stream().map(restaurant -> restaurant.getRestaurantName()).collect(Collectors.toList());
+        Collections.sort(restaurantList);
+        res.put("restaurantList",restaurantList);
+
+        return ResponseEntity.ok().body(res);
+    }
+
+    @GetMapping("/restaurantInfo/{restaurantName}")
+    public Map<String,String> getRestaurantInfo(@PathVariable("restaurantName") String restaurantName){
+        Map<String,String> res = restaurantService.getRestaurantInfo(restaurantName);
+        return res;
     }
 }
