@@ -22,7 +22,7 @@ public class FreeboardController {
     private final FreeboardService freeboardService;
 //    private final PostService postService;
 
-    // 자유게시판 최신글 4개
+    // 자유게시판 최신글 5개
     @GetMapping("/freeboard")
     public ResponseEntity<Map<String, Object>> getFreeBoardTop4List() {
 
@@ -31,12 +31,12 @@ public class FreeboardController {
 
         // title, createdAt 전체 리스트 Map에 담기
         List<String> titleList = freeboardService
-                .findTop4ByOrderByCreatedAtDesc()
+                .findTop5ByOrderByCreatedAtDesc()
                 .stream()
                 .map(post -> post.getTitle())
                 .collect(Collectors.toList());
         List<LocalDateTime> createdAtList = freeboardService
-                .findTop4ByOrderByCreatedAtDesc()
+                .findTop5ByOrderByCreatedAtDesc()
                 .stream()
                 .map(post -> post.getCreatedAt())
                 .collect(Collectors.toList());
@@ -44,11 +44,11 @@ public class FreeboardController {
             map.put(titleList.get(i), createdAtList.get(i));
         }
 
-        // value값으로 전체 리스트 내림차순 정렬 후 4개만 담기
+        // value값으로 전체 리스트 내림차순 정렬 후 5개만 담기
         List<Map.Entry<String, LocalDateTime>> sortedEntries = map.entrySet()
                 .stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                .limit(4)
+                .limit(5)
                 .collect(Collectors.toList());
 
         LinkedHashMap<String, LocalDateTime> res = new LinkedHashMap<>();

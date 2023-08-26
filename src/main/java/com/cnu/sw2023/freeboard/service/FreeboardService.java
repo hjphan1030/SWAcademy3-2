@@ -12,8 +12,8 @@ import java.util.List;
 public class FreeboardService {
     private final PostRepository postRepository;
 
-    public List<Post> findTop4ByOrderByCreatedAtDesc() {
-        List<Post> titleList = postRepository.findTop4ByOrderByCreatedAtDesc();
+    public List<Post> findTop5ByOrderByCreatedAtDesc() {
+        List<Post> titleList = postRepository.findTop5ByOrderByCreatedAtDesc();
         return titleList;
     }
 
