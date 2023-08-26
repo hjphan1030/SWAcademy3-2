@@ -19,7 +19,7 @@ public class LikeController {
         likeService.postLike(postId);
         return ResponseEntity.ok().build();
     }
-    @PutMapping("/post/{commentId}/like")
+    @PutMapping("/comment/{commentId}/like")
     public ResponseEntity<Map<String,Object>> commentLike(@PathVariable Long commentId){
         likeService.commentLike(commentId);
         return ResponseEntity.ok().build();

@@ -1,4 +1,5 @@
 package com.cnu.sw2023.index.service;
+import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.like.repository.PostLikeRepository;
 import com.cnu.sw2023.post.domain.Post;
@@ -21,5 +22,13 @@ public class IndexService {
     public List<PostLike> findPostLikesSortedByLikesDescending() {
         List<PostLike> postLikes = postLikeRepository.findAllByOrderByPostLikeCountDesc();
         return postLikes;
+    }
+
+    public List<MainPostDto> getPopularPosts() {
+        List<Post> popularPosts = postRepository.findTop5ByOrderByLikeCountDesc();
+
+        return popularPosts.stream()
+                .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getLikeCount(), post.getCreatedAt()))
+                .collect(Collectors.toList());
     }
 }

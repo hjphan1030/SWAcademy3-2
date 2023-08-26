@@ -17,9 +17,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class LikeService {
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final PostLikeRepository postLikeRepository;
-    private final CommentRepository commentRepository;
     public void postLike(Long postId) throws EntityNotFoundException {
             Optional<Post> postOptional = postRepository.findById(postId);
             if (postOptional.isPresent()) {
@@ -32,7 +32,6 @@ public class LikeService {
             }
     }
 
-
     public void commentLike(Long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         if (optionalComment.isPresent()) {
@@ -43,6 +42,5 @@ public class LikeService {
         } else {
             throw new EntityNotFoundException("게시글이 존재 하지 않습니다");
         }
-
     }
 }

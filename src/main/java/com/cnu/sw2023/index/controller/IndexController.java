@@ -1,6 +1,8 @@
 package com.cnu.sw2023.index.controller;
 
+import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.like.domain.PostLike;
+import com.cnu.sw2023.post.service.PostService;
 import org.springframework.http.ResponseEntity;
 import com.cnu.sw2023.index.service.IndexService;
 import com.cnu.sw2023.post.domain.Post;
@@ -39,6 +41,12 @@ public class IndexController {
         }
         response.put("slide", res);
         return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<List<MainPostDto>> getPopularPosts() {
+        List<MainPostDto> popularPosts = indexService.getPopularPosts();
+        return ResponseEntity.ok(popularPosts);
     }
 
 }

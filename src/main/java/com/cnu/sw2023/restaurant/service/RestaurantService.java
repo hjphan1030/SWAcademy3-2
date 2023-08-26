@@ -52,7 +52,7 @@ public class RestaurantService {
     }
 
     private final KakaoApiUtil kakaoApiUtil;
-    @Autowired
+//    @Autowired
     public void processRestaurantInfo() {
         Map<String, List<Object>> restaurantInfo = kakaoApiUtil.getRestaurantInfo();
         saveRestaurantInfo(restaurantInfo);

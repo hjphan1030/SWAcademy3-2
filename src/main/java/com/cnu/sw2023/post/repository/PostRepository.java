@@ -16,4 +16,5 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Page<Post> findByRestaurant(Restaurant restaurant, Pageable pageable);
     Optional<Post> findById (Long postId);
     void deleteById (Long postId);
+    List<Post> findTop5ByOrderByLikeCountDesc();
 }
