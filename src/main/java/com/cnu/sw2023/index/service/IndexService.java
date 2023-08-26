@@ -10,7 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,8 +40,17 @@ public class IndexService {
                 .collect(Collectors.toList());
     }
 
-    public List<Post> findTop5ByOrderByCreatedAtDesc() {
-        List<Post> titleList = postRepository.findTop5ByOrderByCreatedAtDesc();
-        return titleList;
+//    public List<Post> findTop5ByOrderByCreatedAtDesc() {
+//        List<Post> titleList = postRepository.findTop5ByOrderByCreatedAtDesc();
+//        return titleList;
+//    }
+
+    public List<MainPostDto> findTop5ByOrderByCreatedAtDesc() {
+        List<Post> top5TitleList = postRepository.findTop5ByOrderByCreatedAtDesc();
+        return top5TitleList.stream()
+                .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getLikeCount(), post.getCreatedAt()))
+                .sorted(Comparator.comparing(MainPostDto::getCreatedAt).reversed())
+                .limit(5)
+                .collect(Collectors.toList());
     }
 }
