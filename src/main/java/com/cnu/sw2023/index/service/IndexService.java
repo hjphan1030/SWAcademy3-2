@@ -19,8 +19,10 @@ import java.util.stream.Stream;
 public class IndexService {
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
+
     public List<PostLike> findPostLikesSortedByLikesDescending() {
         List<PostLike> postLikes = postLikeRepository.findAllByOrderByPostLikeCountDesc();
         return postLikes;
     }
+
 }
