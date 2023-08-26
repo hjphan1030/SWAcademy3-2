@@ -40,11 +40,6 @@ public class IndexService {
                 .collect(Collectors.toList());
     }
 
-//    public List<Post> findTop5ByOrderByCreatedAtDesc() {
-//        List<Post> titleList = postRepository.findTop5ByOrderByCreatedAtDesc();
-//        return titleList;
-//    }
-
     public List<MainPostDto> findTop5ByOrderByCreatedAtDesc() {
         List<Post> top5TitleList = postRepository.findTop5ByOrderByCreatedAtDesc();
         return top5TitleList.stream()
