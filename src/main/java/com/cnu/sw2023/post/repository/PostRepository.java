@@ -17,5 +17,5 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Optional<Post> findByPostId (Long postId);
     void deleteById (Long postId);
 
-    List<Post> findPostsByTitleOrderByCreatedAtDesc();
+    List<Post> findTop4ByOrderByCreatedAtDesc();
 }

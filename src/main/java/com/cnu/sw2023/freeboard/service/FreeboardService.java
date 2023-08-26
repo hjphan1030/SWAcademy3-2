@@ -10,11 +10,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FreeboardService {
-    PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    public List<Post> findPostSortedByDateDescending() {
-        List<Post> freeboardList = postRepository.findPostsByTitleOrderByCreatedAtDesc();
-        return freeboardList;
+    public List<Post> findTop4ByOrderByCreatedAtDesc() {
+        List<Post> titleList = postRepository.findTop4ByOrderByCreatedAtDesc();
+        return titleList;
     }
 
 }
