@@ -4,9 +4,11 @@ package com.cnu.sw2023.comment.domain;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.like.domain.CommentLike;
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,36 +17,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Getter @Setter @Entity
+@Getter @Entity @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
-    @Column(name = "comment_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "commentId")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentLike> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     @NotNull
     private String content;
 
+    private int likeCount;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Getter
-    public static class CommentProperty {
-        private String content;
-        private int commentLikeCount;
-        private Timestamp createdAt;
+    @Builder
+    public Comment(Post post, String content, LocalDateTime createdAt) {
+        this.post = post;
+        this.content = content;
+        this.createdAt = createdAt;
+    }
 
-        public CommentProperty(Comment comment) {
-            content = comment.getContent();
-            commentLikeCount = comment.getLikes().size();
-            createdAt = Timestamp.valueOf(comment.getCreatedAt());
-        }
+    public Comment() {
     }
 }

@@ -24,7 +24,7 @@ public class FreeboardController {
 
     // 자유게시판 최신글 5개
     @GetMapping("/freeboard")
-    public ResponseEntity<Map<String, Object>> getFreeBoardTop4List() {
+    public ResponseEntity<Map<String, Object>> getFreeBoardTop5List() {
 
         Map<String, Object> response = new HashMap<>();
         Map<String, LocalDateTime> map = new HashMap<>();
