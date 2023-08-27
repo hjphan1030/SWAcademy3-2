@@ -38,3 +38,6 @@ logging:
     org:
       hibernate:
         type: info
+
+jwt:
+  secret: asd123

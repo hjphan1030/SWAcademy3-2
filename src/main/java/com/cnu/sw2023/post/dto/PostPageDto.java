@@ -29,7 +29,7 @@ public class PostPageDto {
                 this.title = post.getTitle();
                 this.content = post.getContent();
                 this.createdAt = post.getCreatedAt();
-                this.postLikeCount = post.getPostLikes().size();
+                this.postLikeCount = post.getLikeCount();
                 this.commentCount = post.getComments().size();
         }
 }

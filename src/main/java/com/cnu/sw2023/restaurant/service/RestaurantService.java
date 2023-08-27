@@ -1,13 +1,12 @@
 package com.cnu.sw2023.restaurant.service;
 
 
-import com.cnu.sw2023.config.kakaoApi.KakaoApiUtil;
+import com.cnu.sw2023.config.KakaoApiUtil;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
