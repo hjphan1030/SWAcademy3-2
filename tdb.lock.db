@@ -1,6 +1,6 @@
 #FileLock
-#Sat Aug 26 23:02:58 KST 2023
-server=192.168.56.1\:6594
+#Sun Aug 27 21:03:26 KST 2023
+server=192.168.56.1\:10616
 hostName=DESKTOP-B0UE3PE
 method=file
-id=18a3227a1af5dfefb38b5d427ceb6ec50169051a596
+id=18a36e0916cf729ddacaf9a8b61cb0fd32ae5012cdd

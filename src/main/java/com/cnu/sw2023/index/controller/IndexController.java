@@ -1,5 +1,6 @@
 package com.cnu.sw2023.index.controller;
 
+import com.cnu.sw2023.index.dto.MainDTO;
 import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.post.service.PostService;
@@ -55,7 +56,7 @@ public class IndexController {
     @GetMapping("/freeboard")
     public ResponseEntity<Map<String,Object>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
-        List<MainPostDto> top5Titles = indexService.findTop5ByOrderByCreatedAtDesc();
+        List<MainDTO> top5Titles = indexService.findTop5ByOrderByCreatedAtDesc();
         response.put("freeboardList", top5Titles);
         return ResponseEntity.ok().body(response);
     }
