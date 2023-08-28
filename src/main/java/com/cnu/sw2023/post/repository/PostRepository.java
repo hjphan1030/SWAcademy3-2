@@ -14,6 +14,9 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findPostByRestaurant (Restaurant restaurant);
     Page<Post> findByRestaurant(Restaurant restaurant, Pageable pageable);
-    Optional<Post> findByPostId (Long postId);
+    Optional<Post> findById (Long postId);
     void deleteById (Long postId);
+    List<Post> findTop5ByOrderByLikeCountDesc();
+
+    List<Post> findTop5ByOrderByCreatedAtDesc();
 }

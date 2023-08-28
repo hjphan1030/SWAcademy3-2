@@ -6,18 +6,16 @@ import lombok.Getter;
 import javax.persistence.*;
 
 @Getter
-@Entity(name = "post_likes")
+@Entity(name = "postLikes")
 public class PostLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_likes_id")
+    @Column(name = "postLikesId")
     private Long id;
 
-    @Column(name = "post_like_count")
-    private Long postLikeCount; // 좋아요 개수를 나타내는 열
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 }
