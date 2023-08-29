@@ -21,6 +21,9 @@ import com.cnu.sw2023.post.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Service
@@ -44,13 +47,19 @@ public class IndexService {
     }
 
     // 자유게시판 최신순으로 정렬한 게시글 5개
-    public List<MainDTO> findTop5ByOrderByCreatedAtDesc() {
-        List<Post> top5TitleList = postRepository.findTop5ByOrderByCreatedAtDesc();
-        return top5TitleList.stream()
-                .map(post -> new MainDTO(post.getRestaurant().getRestaurantName(), post.getTitle(), post.getCreatedAt(), post.getLikeCount(), post.getComments().size()))
-                .filter(mainDTO -> mainDTO.getRestaurantName().equals("자유게시판")) // 이 메소드를 사용해서 테스트를 하면 데이터가 1개만 추출됨.
-                .sorted(Comparator.comparing(MainDTO::getCreatedAt).reversed())
-                .limit(5)
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<MainDTO> getLatestPostsForRestaurant() {
+        TypedQuery<Post> query = entityManager.createQuery(
+                "SELECT p FROM Post p WHERE p.restaurant.restaurantId = :restaurantId ORDER BY p.createdAt DESC",
+                Post.class
+        );
+        query.setParameter("restaurantId", "1");
+        query.setMaxResults(5);
+
+        return query.getResultList()
+                .stream().map(m -> new MainDTO(m.getRestaurant().getRestaurantId(), m.getTitle(), m.getCreatedAt(), m.getLikeCount(), m.getComments().size()))
                 .collect(Collectors.toList());
     }
 }
