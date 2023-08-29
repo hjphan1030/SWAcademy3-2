@@ -117,7 +117,6 @@ public class PostController {
     @ApiOperation("특정 음식점에 대한 정보 보기")
     @GetMapping("/restaurantInfo/{restaurantName}")
     public Map<String,String> getRestaurantInfo(@PathVariable("restaurantName") String restaurantName){
-        Map<String,String> res = restaurantService.getRestaurantInfo(restaurantName);
-        return res;
+        return restaurantService.getRestaurantInfo(restaurantName);
     }
 }
