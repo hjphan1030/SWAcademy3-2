@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Restaurant Test Page</title>
+  <style>
+    #restaurant-list {
+      float: left;
+      width: 30%;
+    }
+
+    #posts-container {
+      float: left;
+      width: 70%;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+
+      $(".restaurant-item").click(function () {
+        var restaurantName = $(this).data("restaurant-name");
+        loadPostsForRestaurant(restaurantName);
+      });
+
+      function loadPostsForRestaurant(restaurantName) {
+        $.get("/test/" + restaurantName + "/", function (data) {
+          $("#posts-container").html(data);
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+<div id="restaurant-list">
+  <h2>음식점 리스트</h2>
+  <ul>
+    <li class="restaurant-item" th:each="restaurant : ${restaurantList}" th:data-restaurant-name="${restaurant}">
+      <a href="javascript:void(0)" th:text="${restaurant}"></a>
+    </li>
+  </ul>
+</div>
+<div id="button-container">
+  <form action="/" method="get">
+    <button type="submit">Go back</button>
+  </form>
+</div>
+
+<div id="posts-container">
+  <h2>음식점 게시글</h2>
+  <p>선택한 음식점: <span id="selected-restaurant" th:text="${selectedRestaurantName}"></span></p>
+  <ul th:if="${posts}">
+    <li th:each="post : ${posts}">
+      <p><strong>게시글 ID:</strong>
+        <a th:href="@{/boards/?postId={postId}(postId=${post.getPostId()})}">
+          <span th:text="${post.getPostId()}"></span>
+        </a>
+      </p>
+      <p><strong>제목:</strong> <span th:text="${post.title}"></span></p>
+      <p><strong>본문 내용:</strong> <span th:text="${post.content}"></span></p>
+      <p><strong>게시글 좋아요 수:</strong> <span th:text="${post.postLikeCount}"></span></p>
+      <p><strong>댓글 수:</strong> <span th:text="${post.commentCount}"></span></p>
+      <p><strong>작성 시각:</strong> <span th:text="${post.createdAt}"></span></p>
+    </li>
+  </ul>
+  <p th:unless="${posts}">게시글이 없습니다.</p>
+</div>
+</body>
+</html>

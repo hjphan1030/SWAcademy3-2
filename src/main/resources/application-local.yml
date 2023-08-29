@@ -25,7 +25,10 @@ spring:
   sql:
     init:
       mode: always
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
 
 
 server:
