@@ -22,8 +22,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RestaurantService {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final RestaurantRepository restaurantRepository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
 
 
 
@@ -69,9 +73,6 @@ public class RestaurantService {
         res.put("phone",restaurant.getPhone());
         return res;
     }
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public List<Restaurant> getRankingByCategoryAndCollege(String category, String college) {
         String jpql = "select p.restaurant, COUNT(p) " +
