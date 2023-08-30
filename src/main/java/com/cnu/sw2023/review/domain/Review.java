@@ -38,6 +38,8 @@ public class Review {
     private String content;
 
     @NotNull
+    @Positive
+    @Max(value = 5)
     private int rating;
 
     @Column(name = "reviewLikes")
