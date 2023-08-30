@@ -1,5 +1,6 @@
 package com.cnu.sw2023.index.controller;
 
+import com.cnu.sw2023.index.dto.MainDTO;
 import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.post.service.PostService;
@@ -22,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @AllArgsConstructor
@@ -34,13 +38,21 @@ public class IndexController {
         List<MainPostDto> popularPosts = indexService.getPopularPosts();
         return ResponseEntity.ok(popularPosts);
     }
+
     @GetMapping("/slide/recent")
-    public HashMap<String, String> getRecentRestaurant(){
+    public HashMap<String, String> getRecentRestaurant() {
         ArrayList<String> restaurantsNames = indexService.getRecentRestaurant();
         HashMap<String, String> map = new HashMap<>();
-        for(String name : restaurantsNames){
-            map.put(name, "boards/" + name +"/");
+        for (String name : restaurantsNames) {
+            map.put(name, "boards/" + name + "/");
         }
         return map;
+    }
+    @GetMapping("/freeboard")
+    public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
+        Map<String, Object> response = new HashMap<>();
+        List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
+        return ResponseEntity.ok().body(top5Titles);
+
     }
 }

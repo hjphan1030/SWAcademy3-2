@@ -1,18 +1,22 @@
 package com.cnu.sw2023.restaurant.service;
 
 
-import com.cnu.sw2023.config.kakaoApi.KakaoApiUtil;
+import com.cnu.sw2023.config.KakaoApiUtil;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -64,5 +68,38 @@ public class RestaurantService {
         res.put("address",restaurant.getAddressName());
         res.put("phone",restaurant.getPhone());
         return res;
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<Restaurant> getRankingByCategoryAndCollege(String category, String college) {
+        String jpql = "select p.restaurant, COUNT(p) " +
+                "from Post p " +
+                "where p.restaurant.category LIKE :category " +
+                "and p.title = :college " +
+                "GROUP BY p.restaurant " +
+                "ORDER BY COUNT(p) DESC";
+
+        TypedQuery<Object[]> query = entityManager.createQuery(jpql, Object[].class);
+        query.setParameter("category", "%" + category + "%");
+
+        query.setParameter("college", college);
+
+
+        List<Object[]> results = query.getResultList();
+
+        Map<Restaurant, Integer> restaurantPostCountMap = new HashMap<>();
+        for (Object[] result : results) {
+            Restaurant restaurant = (Restaurant) result[0];
+            Long postCount = (Long) result[1];
+            restaurantPostCountMap.put(restaurant, postCount.intValue());
+        }
+
+        return restaurantPostCountMap.entrySet()
+                .stream()
+                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 }

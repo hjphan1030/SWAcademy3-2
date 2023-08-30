@@ -8,6 +8,8 @@ import com.cnu.sw2023.post.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service @AllArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
@@ -19,8 +21,9 @@ public class CommentService {
         String content = commentForm.getContent();
 
         Comment comment = Comment.builder()
-                .post(postRepository.getReferenceById(postId))
+                .post(postRepository.findById(postId).get())
                 .content(content)
+                .createdAt(LocalDateTime.now())
                 .build();
         commentRepository.save(comment);
     }
