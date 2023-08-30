@@ -1,4 +1,4 @@
-package com.cnu.sw2023.config.kakaoApi;
+package com.cnu.sw2023.config;
 
 
 import com.fasterxml.jackson.databind.JsonNode;

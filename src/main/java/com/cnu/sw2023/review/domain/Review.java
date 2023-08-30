@@ -25,8 +25,8 @@ public class Review {
     @Column(name = "reviewId")
     private Long id;
 
-    @NotNull
-    private String writer;
+//    @NotNull
+//    private String writer;
 
     @Column(name = "reviewContent")
     @NotNull @Size(min = 1,max = 2000)
@@ -35,8 +35,8 @@ public class Review {
     @NotNull
     private int rating;
 
-//    @Column(name = "reviewLikes")
-//    private int reviewLikeCount;
+    @Column(name = "reviewLikes")
+    private int reviewLikeCount;
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ReviewLike> reviewLikes = new ArrayList<>();

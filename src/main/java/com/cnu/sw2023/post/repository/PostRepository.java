@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
 
     @Query("SELECT p.title, p.postLikes.size, p.comments.size FROM Post p WHERE p.restaurant.id = 1 ORDER BY p.createdAt DESC")
     List<Post> findTop5PostsByRestaurantIdOrderByCreatedAtDesc();
+
+    List<Post> findTop5ByOrderByCreatedAtDesc();
 }

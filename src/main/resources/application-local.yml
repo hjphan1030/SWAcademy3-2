@@ -25,7 +25,10 @@ spring:
   sql:
     init:
       mode: always
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
 
 
 server:
@@ -38,3 +41,6 @@ logging:
     org:
       hibernate:
         type: info
+
+jwt:
+  secret: asd123
