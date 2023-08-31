@@ -5,6 +5,7 @@ import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.post.service.PostService;
 import com.cnu.sw2023.restaurant.dto.RestaurantDTO;
+import com.cnu.sw2023.review.domain.Review;
 import org.springframework.http.ResponseEntity;
 import com.cnu.sw2023.index.service.IndexService;
 import com.cnu.sw2023.post.domain.Post;
@@ -22,7 +23,6 @@ import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -38,8 +38,7 @@ public class IndexController {
         List<MainPostDto> popularPosts = indexService.getPopularPosts();
         return ResponseEntity.ok(popularPosts);
     }
-
-    @GetMapping("/slide/recent")
+    @GetMapping("/slide/recent")                    //최신순으로 등록된 식당 이름, 주소 3개 전달
     public HashMap<String, String> getRecentRestaurant() {
         ArrayList<String> restaurantsNames = indexService.getRecentRestaurant();
         HashMap<String, String> map = new HashMap<>();
@@ -48,11 +47,15 @@ public class IndexController {
         }
         return map;
     }
+    @GetMapping("/slide/bestReview")                    //좋아요 많은 순으로 리뷰 3개 전달
+    public List<Review> getTop3BestRestaurant() {
+        return indexService.getTop3BestReview();
+}
+
     @GetMapping("/freeboard")
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
         List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
         return ResponseEntity.ok().body(top5Titles);
-
     }
 }

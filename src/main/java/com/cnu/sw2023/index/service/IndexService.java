@@ -8,6 +8,8 @@ import com.cnu.sw2023.post.repository.PostRepository;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.dto.RestaurantDTO;
 import com.cnu.sw2023.restaurant.repository.RestaurantRepository;
+import com.cnu.sw2023.review.domain.Review;
+import com.cnu.sw2023.review.repository.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -36,6 +38,7 @@ public class IndexService {
     private final RestaurantRepository restaurantRepository;
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
+    private final ReviewRepository reviewRepository;
 
     public List<PostLike> findPostLikesSortedByLikesDescending() {
         List<PostLike> postLikes = postLikeRepository.findAllByOrderByPostLikeCountDesc();
@@ -50,7 +53,12 @@ public class IndexService {
                 .collect(Collectors.toList());
     }
 
-
+    // 베스트 리뷰
+    public List<Review> getTop3BestReview(){
+        List<Review> reviewList = reviewRepository.findAllByOrderByReviewLikesDesc();
+        return reviewList.stream().limit(3).collect(Collectors.toList());  // 앞에서 3개만 뽑아서 반환
+    }
+    // 최신등록순으로 상위 3개 식당이름 리스트 반환해주는 메소드
     public ArrayList<String> getRecentRestaurant() {
         List<Restaurant> restaurantsList = restaurantRepository.findTop3ByOrderByIdDesc();
         ArrayList<String> restaurantNames = new ArrayList<>();
@@ -76,4 +84,5 @@ public class IndexService {
                 .collect(Collectors.toList());
 
     }
+
 }

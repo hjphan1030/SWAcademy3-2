@@ -58,6 +58,11 @@ public class KakaoApiUtil {
                         list.add(id);
                         list.add(phone);
                         list.add(placeName);
+                        if(category.contains("한식")){category = "한식";}
+                        else if(category.contains("일식")){category = "일식";}
+                        else if(category.contains("중식")){category = "중식";}
+                        else if(category.contains("양식")){category = "양식";}
+                        else{category = "기타";}
                         list.add(category);
                         info.put(id,list);
                     }
