@@ -6,9 +6,14 @@ import com.cnu.sw2023.post.service.PostSearchService;
 import com.cnu.sw2023.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,29 +31,39 @@ public class PostSearchController {
     private final PostService postService;
     private final PostSearchService postSearchService;
 
-    @GetMapping("/search/title")
-    public ResponseEntity<Map<String ,Object>> searchPostsByTitle(@RequestParam String keyword) {
-        List<Post> posts = postSearchService.searchPostByTitle(keyword);
-        Stream<PostPageDto> dtoStream = posts.stream().map(PostPageDto::new);
-        Map<String, Object> response = new HashMap<>();
-        response.put("posts", dtoStream.collect(Collectors.toList()));
-        return ResponseEntity.ok().body(response);
+    @GetMapping("/{restaurantName}/search/title")
+    public List<PostPageDto> searchRestaurantPostsByTitle(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @PathVariable String restaurantName) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Post> pages = postSearchService.searchRestaurantPostByTitle(keyword, restaurantName, pageable);
+        Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
+        return dtoStream.collect(Collectors.toList());
     }
 
-    @GetMapping("/search/content")
-    public ResponseEntity<Map<String ,Object>> searchPostsByContent(@RequestParam String keyword) {
-        List<Post> posts = postSearchService.searchPostByContent(keyword);
-        Stream<PostPageDto> dtoStream = posts.stream().map(PostPageDto::new);
-        Map<String, Object> response = new HashMap<>();
-        response.put("posts", dtoStream.collect(Collectors.toList()));
-        return ResponseEntity.ok().body(response);
+    @GetMapping("/{restaurantName}/search/content")
+    public List<PostPageDto> searchRestaurantPostsByContent(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @PathVariable String restaurantName) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Post> pages = postSearchService.searchRestaurantPostByContent(keyword, restaurantName, pageable);
+        Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
+        return dtoStream.collect(Collectors.toList());
     }
-    @GetMapping("/search")
-    public ResponseEntity<Map<String ,Object>> searchPostsByTitleOrContent(@RequestParam String keyword) {
-        List<Post> posts = postSearchService.searchPostByTitleOrContent(keyword);
-        Stream<PostPageDto> dtoStream = posts.stream().map(PostPageDto::new);
-        Map<String, Object> response = new HashMap<>();
-        response.put("posts", dtoStream.collect(Collectors.toList()));
-        return ResponseEntity.ok().body(response);
+
+    @GetMapping("/{restaurantName}/search")
+    public List<PostPageDto> searchRestaurantPosts(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @PathVariable String restaurantName) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Post> pages = postSearchService.searchRestaurantPost(keyword, restaurantName, pageable);
+        Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
+        return dtoStream.collect(Collectors.toList());
     }
 }

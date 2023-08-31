@@ -3,6 +3,8 @@ package com.cnu.sw2023.post.service;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -12,9 +14,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -66,5 +65,16 @@ public class PostSearchService {
                OR content LIKE CONCAT('%', :keyword, '%')
             ORDER BY createdAt DESC;
          */
+    }
+
+    public Page<Post> searchRestaurantPostByTitle(String keyword, String restaurantName, Pageable pageable) {
+        return postRepository.findByTitleContainingAndRestaurantRestaurantName(keyword, restaurantName, pageable);
+    }
+
+    public Page<Post> searchRestaurantPostByContent(String keyword, String restaurantName, Pageable pageable) {
+        return postRepository.findByContentContainingAndRestaurantRestaurantName(keyword, restaurantName, pageable);
+    }
+    public Page<Post> searchRestaurantPost(String keyword, String restaurantName, Pageable pageable) {
+        return postRepository.findByContentContainingOrTitleContainingAndRestaurantRestaurantName(keyword, restaurantName, pageable);
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -41,7 +42,9 @@ public class PostController {
 
     @ApiOperation("특정 음식점 게시판에 글쓰기")
     @PostMapping("/{restaurantName}/post")
-    public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostForm postForm, @PathVariable("restaurantName") String restaurantName) {
+    public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostForm postForm
+                                                        , @PathVariable("restaurantName") String restaurantName
+                                                        , Authentication authentication) {
 
         Map<String , Object> response = new HashMap<>();
         if ( ! restaurantService.findRestaurantByRestaurantName(restaurantName)) {

@@ -41,13 +41,12 @@ dependencies {
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools' //서버 재시작 안해도 코드기능업데이트 가능
 
-
-    implementation 'io.jsonwebtoken:jjwt:0.9.1' // Json Web Token 라이브러리
-
     implementation 'org.springframework.boot:spring-boot-starter-websocket' // 웹 소캣
 
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
 }
 
