@@ -55,6 +55,7 @@ public class IndexController {
 
     @GetMapping("/freeboard")
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
+        Map<String, Object> response = new HashMap<>();
         List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
         return ResponseEntity.ok().body(top5Titles);
     }
