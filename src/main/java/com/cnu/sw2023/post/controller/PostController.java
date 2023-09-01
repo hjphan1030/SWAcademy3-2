@@ -32,8 +32,7 @@ public class PostController {
     private final PostService postService;
     private final RestaurantService restaurantService;
 
-
-//    @GetMapping("/{restaurant_id}")
+    //    @GetMapping("/{restaurant_id}")
 //    public ResponseEntity<List<Post>> getPost(@PathVariable String restaurant_id){
 //        List<Post> posts = postService.getPostByRestaurantId(restaurant_id);
 //        return ResponseEntity.ok(posts);

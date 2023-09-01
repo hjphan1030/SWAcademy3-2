@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -30,5 +31,9 @@ public class ReviewService {
         Review review = Review.builder().content(reviewForm.getContent()).rating(reviewForm.getRating()).restaurant(restaurant).build();
         Review saved = reviewRepository.save(review);
         return saved.getId();
+    }
+
+    public List<Review> findReviews(){
+        return reviewRepository.findAll();
     }
 }
