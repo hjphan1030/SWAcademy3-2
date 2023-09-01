@@ -3,6 +3,8 @@ package com.cnu.sw2023.review.controller;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import com.cnu.sw2023.review.domain.Review;
 import com.cnu.sw2023.review.dto.ReviewDTO;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import com.cnu.sw2023.review.form.ReviewForm;
 import com.cnu.sw2023.review.repository.ReviewRepository;
 import com.cnu.sw2023.review.service.ReviewService;
