@@ -9,6 +9,7 @@ import com.cnu.sw2023.restaurant.service.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,13 +26,18 @@ public class PostService {
     public Optional<Post> getPostByPostId(Long postID) {
         return postRepository.findById(postID);
     }
-    public Long addPost(String restaurantName, PostForm postForm) {
+    public Long addPost(String restaurantName, PostForm postForm, Authentication authentication) {
         // restaurant_id로 음식점 정보 조회
         Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurantName);
         if (restaurant == null) {
             throw new EntityNotFoundException("음식점을 찾을 수 없습니다.");
         }
-        Post post = Post.builder().title(postForm.getTitle()).content(postForm.getContent()).restaurant(restaurant).build();
+        Post post = Post.builder()
+                .email(authentication.getName())
+                .title(postForm.getTitle())
+                .content(postForm.getContent())
+                .restaurant(restaurant)
+                .build();
         Post saved = postRepository.save(post);
         return saved.getId();
     }
@@ -43,5 +49,20 @@ public class PostService {
 
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
+    }
+
+    public boolean checkAuth(Long id, String email) {
+        Optional<Post> post = postRepository.findById(id);
+        if (post.get().getEmail().equals(email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void updatePost(Long postId, String content) {
+        Post post = postRepository.findById(postId).get();
+        post.setContent(content);
+        postRepository.save(post);
     }
 }

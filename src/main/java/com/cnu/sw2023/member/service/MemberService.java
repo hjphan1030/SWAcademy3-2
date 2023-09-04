@@ -6,9 +6,15 @@ import com.cnu.sw2023.member.JwtConfig.JwtUtil;
 import com.cnu.sw2023.member.domain.Member;
 import com.cnu.sw2023.member.exception.NotFoundException;
 import com.cnu.sw2023.member.repository.MemberRepository;
+import com.cnu.sw2023.post.domain.Post;
+import com.cnu.sw2023.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PostRepository postRepository;
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -40,5 +47,18 @@ public class MemberService {
             throw new NotFoundException("비밀번호가 틀렸습니다");
         }
         return JwtUtil.createJwt(email,secretKey,expiredMS);
+    }
+
+    public String temp(){
+        return JwtUtil.createJwt("temp" , secretKey , expiredMS);
+    }
+
+
+
+    public Page<Post> findMyPosts(String email,int page) {
+        int size = 10;
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        return postRepository.findPostsByEmail(email,pageable);
+
     }
 }

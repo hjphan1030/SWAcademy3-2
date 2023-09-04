@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter @Setter @AllArgsConstructor @ToString
 public class MainPostDto {
-    private Long id;
+    private Long postId;
     private String title;
     private int postLikeCount;
     private LocalDateTime createdAt;

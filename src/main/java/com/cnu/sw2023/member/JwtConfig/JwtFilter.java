@@ -46,7 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String email = JwtUtil.getUserName(token,secretKey);
         log.info("email : {}",email);
-
+        log.info("토큰 확인 완료 {}",token);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(email , null , List.of(new SimpleGrantedAuthority("USER")));
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -59,7 +59,7 @@ public class IndexService {
         query.setMaxResults(5);
 
         return query.getResultList()
-                .stream().map(m -> new MainDTO(m.getRestaurant().getRestaurantId(), m.getTitle(), m.getCreatedAt(), m.getLikeCount(), m.getComments().size()))
+                .stream().map(m -> new MainDTO(m.getId(), m.getTitle(), m.getCreatedAt(), m.getLikeCount(), m.getComments().size()))
                 .collect(Collectors.toList());
     }
 }

@@ -38,4 +38,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             @Param("restaurantName") String restaurantName,
             Pageable pageable);
 
+    Page<Post> findPostsByEmail (String email,Pageable pageable);
+
 }
