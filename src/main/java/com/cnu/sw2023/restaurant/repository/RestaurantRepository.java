@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
 
+     List<Restaurant> findTop3ByOrderByIdDesc();
+
      Restaurant findByRestaurantName (String restaurant_name);
      boolean existsRestaurantByRestaurantName (String restaurant_name);
 

@@ -7,6 +7,7 @@ import com.cnu.sw2023.restaurant.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -51,7 +52,6 @@ public class RestaurantService {
             restaurant.setPhone(phone);
             restaurant.setAddressName(addressName);
             restaurant.setCategory(category);
-
             restaurantRepository.save(restaurant);
         }
     }
@@ -60,7 +60,7 @@ public class RestaurantService {
     }
 
     private final KakaoApiUtil kakaoApiUtil;
-//    @Autowired
+    //@Autowired
     public void processRestaurantInfo() {
         Map<String, List<Object>> restaurantInfo = kakaoApiUtil.getRestaurantInfo();
         saveRestaurantInfo(restaurantInfo);
