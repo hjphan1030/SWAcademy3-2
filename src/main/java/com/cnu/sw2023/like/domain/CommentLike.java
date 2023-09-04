@@ -3,10 +3,11 @@ package com.cnu.sw2023.like.domain;
 import com.cnu.sw2023.comment.domain.Comment;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
+@Getter @Setter
 @Entity(name = "commentLikes")
 public class CommentLike {
 
@@ -20,10 +21,8 @@ public class CommentLike {
     @JoinColumn(name = "commentId")
     private Comment comment;
 
+    private String email;
+
     public CommentLike(){
-    }
-    @Builder
-    private CommentLike(Comment comment){
-        this.comment = comment;
     }
 }

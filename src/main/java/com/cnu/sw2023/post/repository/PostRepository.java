@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManagerFactory;
@@ -25,4 +26,18 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findTop5PostsByRestaurantIdOrderByCreatedAtDesc();
 
     List<Post> findTop5ByOrderByCreatedAtDesc();
+
+    Page<Post> findByTitleContainingAndRestaurantRestaurantName(String keyword, String restaurantName, Pageable pageable);
+    Page<Post> findByContentContainingAndRestaurantRestaurantName(String keyword, String restaurantName, Pageable pageable);
+
+    @Query("SELECT p FROM Post p " +
+            "WHERE (p.content LIKE %:keyword% OR p.title LIKE %:keyword%) " +
+            "AND p.restaurant.restaurantName = :restaurantName")
+    Page<Post> findByContentContainingOrTitleContainingAndRestaurantRestaurantName(
+            @Param("keyword") String keyword,
+            @Param("restaurantName") String restaurantName,
+            Pageable pageable);
+
+    Page<Post> findPostsByEmail (String email,Pageable pageable);
+
 }

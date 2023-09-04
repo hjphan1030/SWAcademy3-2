@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service @AllArgsConstructor
 public class CommentService {
@@ -25,6 +26,21 @@ public class CommentService {
                 .content(content)
                 .createdAt(LocalDateTime.now())
                 .build();
+        commentRepository.save(comment);
+    }
+
+    public boolean checkAuth(Long id, String email) {
+        Comment comment = commentRepository.findById(id).get();
+        if (comment.getEmail().equals(email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void updateComment(Long commentId, String content) {
+        Comment comment = commentRepository.findById(commentId).get();
+        comment.setContent(content);
         commentRepository.save(comment);
     }
 }

@@ -34,6 +34,8 @@ public class Post {
     @NotNull @Size(min = 1,max = 2000)
     private String content;
 
+    private String email;
+
     private int likeCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,12 +51,13 @@ public class Post {
     @CreatedDate
     private LocalDateTime createdAt;
     @Builder
-    public Post(String title, String content, Restaurant restaurant, List<Comment> comments, List<PostLike> postLikes) {
+    public Post(String title,String email ,String content, Restaurant restaurant, List<Comment> comments, List<PostLike> postLikes) {
         this.title = title;
         this.content = content;
         this.restaurant = restaurant;
         this.comments = comments;
         this.postLikes = postLikes;
+        this.email = email;
     }
 
     public Post() {

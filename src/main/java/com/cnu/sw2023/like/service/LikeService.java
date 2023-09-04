@@ -2,6 +2,7 @@ package com.cnu.sw2023.like.service;
 
 import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.comment.repository.CommentRepository;
+import com.cnu.sw2023.like.domain.CommentLike;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.like.repository.CommentLikeRepository;
 import com.cnu.sw2023.like.repository.PostLikeRepository;
@@ -20,27 +21,41 @@ public class LikeService {
     private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final PostLikeRepository postLikeRepository;
-    public void postLike(Long postId) throws EntityNotFoundException {
-            Optional<Post> postOptional = postRepository.findById(postId);
-            if (postOptional.isPresent()) {
-                Post post = postOptional.get();
-                int currentLikeCount = post.getLikeCount();
-                post.setLikeCount(currentLikeCount + 1);
-                postRepository.save(post);
-            } else {
-                throw new EntityNotFoundException("게시글이 존재 하지 않습니다");
-            }
+    public void postLike(Long postId,String email) throws EntityNotFoundException {
+        Optional<PostLike> existingLike = postLikeRepository.findByPostIdAndEmail(postId, email);
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        Post post = optionalPost.orElseThrow(EntityNotFoundException::new);
+        if (existingLike.isEmpty()) {
+            post.setLikeCount(post.getLikeCount() + 1);
+            postRepository.save(post);
+            PostLike newLike = new PostLike();
+            newLike.setPost(post);
+            newLike.setEmail(email);
+            postLikeRepository.save(newLike);
+        } else {
+            post.setLikeCount(post.getLikeCount() - 1);
+            postRepository.save(post);
+            PostLike postLike = existingLike.get();
+            postLikeRepository.delete(postLike);
+        }
     }
 
-    public void commentLike(Long commentId) {
+    public void commentLike(Long commentId,String email) {
+        Optional<CommentLike> existingCommentLike = commentLikeRepository.findByCommentIdAndEmail(commentId, email);
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        if (optionalComment.isPresent()) {
-            Comment comment =  optionalComment.get();
-            int currentLikeCount = comment.getLikeCount();
-            comment.setLikeCount(currentLikeCount + 1);
+        Comment comment = optionalComment.orElseThrow(EntityNotFoundException::new);
+        if (existingCommentLike.isEmpty()) {
+            comment.setLikeCount(comment.getLikeCount() + 1);
             commentRepository.save(comment);
+            CommentLike commentLike = new CommentLike();
+            commentLike.setComment(comment);
+            commentLike.setEmail(email);
+            commentLikeRepository.save(commentLike);
         } else {
-            throw new EntityNotFoundException("게시글이 존재 하지 않습니다");
+            comment.setLikeCount(comment.getLikeCount() - 1);
+            commentRepository.save(comment);
+            CommentLike commentLike = existingCommentLike.get();
+            commentLikeRepository.delete(commentLike);
         }
     }
 }
