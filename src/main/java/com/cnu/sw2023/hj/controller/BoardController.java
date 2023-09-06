@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+// 연습용 컨트롤러 입니다.
 @Controller
 @RequiredArgsConstructor
 public class BoardController {

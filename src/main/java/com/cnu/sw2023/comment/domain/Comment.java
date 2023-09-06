@@ -36,6 +36,8 @@ public class Comment {
     @NotNull
     private String content;
 
+    private String email;
+
     private int likeCount;
 
     @CreatedDate

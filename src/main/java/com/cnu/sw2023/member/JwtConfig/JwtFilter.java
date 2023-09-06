@@ -1,4 +1,4 @@
-package com.cnu.sw2023.config;
+package com.cnu.sw2023.member.JwtConfig;
 
 import com.cnu.sw2023.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -28,29 +28,29 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("authorization {}",authorization);
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.error("authorization 을 잘못 보냈습니다");
+            log.error("authorization 을 잘못보냈습니다");
             filterChain.doFilter(request,response);
-            return;
+            return ;
         }
 
         String token = authorization.split(" ")[1];
 
         if (JwtUtil.isExpired(token,secretKey)) {
-            log.error("Token이 만료 되었습니다");
+            log.error("Token이 만료되었습니다");
             filterChain.doFilter(request,response);
-            return;
+            return ;
         }
 
-        String email = JwtUtil.getMemberEmail(token,secretKey);
 
+        String email = JwtUtil.getUserName(token,secretKey);
+        log.info("email : {}",email);
+        log.info("토큰 확인 완료 {}",token);
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(email, null , List.of(new SimpleGrantedAuthority("USER")));
+                new UsernamePasswordAuthenticationToken(email , null , List.of(new SimpleGrantedAuthority("USER")));
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request,response);
-
     }
 }

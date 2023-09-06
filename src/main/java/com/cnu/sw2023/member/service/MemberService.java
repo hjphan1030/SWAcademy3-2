@@ -1,55 +1,64 @@
 package com.cnu.sw2023.member.service;
 
-import com.cnu.sw2023.member.DTO.MemberJoinDto;
-import com.cnu.sw2023.member.DTO.MemberLoginDto;
+
+import com.cnu.sw2023.member.DTO.JoinReqDto;
+import com.cnu.sw2023.member.JwtConfig.JwtUtil;
 import com.cnu.sw2023.member.domain.Member;
+import com.cnu.sw2023.member.exception.NotFoundException;
 import com.cnu.sw2023.member.repository.MemberRepository;
-import com.cnu.sw2023.config.JwtUtil;
+import com.cnu.sw2023.post.domain.Post;
+import com.cnu.sw2023.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    @Value("%{jwt.secret}")
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final PostRepository postRepository;
+    @Value("${jwt.secret}")
     private String secretKey;
 
-    private Long expireMs = 1000 * 60 * 60l;
-    public void createMember(MemberJoinDto memberJoinDto) {
+    private Long expiredMS = 1000 * 60 * 60L;
 
-        if (!memberJoinDto.getPassword1().equals(memberJoinDto.getPassword2())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+
+    public String join(JoinReqDto joinReqDto){
+        String email = joinReqDto.getEmail();
+        String password = joinReqDto.getPassword();
+        if (memberRepository.existsByEmail(email)) {
+            return "이미 존재하는 회원입니다";
         }
-        if (memberRepository.existsMemberByEmail(memberJoinDto.getEmail())) {
-            throw new RuntimeException("이미 존재하는 계정입니다");
+        Member member = Member.builder().email(email).password(passwordEncoder.encode(password)).build();
+        memberRepository.save(member);
+        return "회원가입 성공";
+    }
+    public String login(String email,String password){
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 아이디입니다"));
+        if (!passwordEncoder.matches(password,member.getPassword())) {
+            throw new NotFoundException("비밀번호가 틀렸습니다");
         }
-        Member newMember = Member.builder()
-                .email(memberJoinDto.getEmail())
-                .password(passwordEncoder.encode(memberJoinDto.getPassword1()))
-                .college(memberJoinDto.getCollege())
-                .department(memberJoinDto.getDepartment())
-                .university(memberJoinDto.getUniversity())
-                .studentNum(memberJoinDto.getStudentNum())
-                .build();
-        memberRepository.save(newMember);
+        return JwtUtil.createJwt(email,secretKey,expiredMS);
     }
 
-    public String login(MemberLoginDto memberLoginDto) {
-        String email = memberLoginDto.getEmail();
-        String password = memberLoginDto.getPassword();
-
-        Member member = memberRepository.findByEmail(email).orElseThrow(()-> new RuntimeException(email+" 은 존재하지 않는 계정입니다"));
-
-        if (!passwordEncoder.matches(password , member.getPassword())) {
-            throw new IllegalArgumentException("잘못된 패스워드입니다");
-        }
+    public String temp(){
+        return JwtUtil.createJwt("temp@google.com" , secretKey , expiredMS);
+    }
 
 
-        return JwtUtil.createJwt(email,secretKey,expireMs);
+
+    public Page<Post> findMyPosts(String email,int page) {
+        int size = 10;
+        Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
+        return postRepository.findPostsByEmail(email,pageable);
+
     }
 }

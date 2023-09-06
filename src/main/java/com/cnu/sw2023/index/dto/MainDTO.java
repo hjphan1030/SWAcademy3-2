@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter @Setter @AllArgsConstructor
 public class MainDTO {
-    private String restaurantId;
+    private Long postId;
     private String title;
     private LocalDateTime createdAt;
     private int postLikeCount;

@@ -2,6 +2,7 @@ package com.cnu.sw2023.post.controller;
 
 import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.post.domain.Post;
+import com.cnu.sw2023.post.dto.PostUpdateForm;
 import com.cnu.sw2023.post.form.DetailPostForm;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.dto.PostPageDto;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -41,16 +43,19 @@ public class PostController {
 
     @ApiOperation("특정 음식점 게시판에 글쓰기")
     @PostMapping("/{restaurantName}/post")
-    public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostForm postForm, @PathVariable("restaurantName") String restaurantName) {
+    public ResponseEntity<Map<String, Object>> addPost(@RequestBody PostForm postForm
+                                                        , @PathVariable("restaurantName") String restaurantName
+                                                        , Authentication authentication) {
 
         Map<String , Object> response = new HashMap<>();
+        System.out.println(authentication.getName());
         if ( ! restaurantService.findRestaurantByRestaurantName(restaurantName)) {
                 response.put("success",false);
                 response.put("location","");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        Long postId = postService.addPost(restaurantName, postForm);
+        Long postId = postService.addPost(restaurantName, postForm,authentication);
         URI locationUri = URI.create("/boards/posts/" + postId);
         response.put("success",true);
         response.put("location",locationUri);
@@ -118,5 +123,28 @@ public class PostController {
     @GetMapping("/restaurantInfo/{restaurantName}")
     public Map<String,String> getRestaurantInfo(@PathVariable("restaurantName") String restaurantName){
         return restaurantService.getRestaurantInfo(restaurantName);
+    }
+
+
+    @GetMapping("/checkPostAuth")
+    public ResponseEntity<Map<String,String>> checkUpdateAuth(@RequestParam Long id,Authentication authentication){
+        String email = authentication.getName();
+        Map<String,String> res = new HashMap<>();
+        if (postService.checkAuth(id, email)) {
+            res.put("message","게시글 수정 권한 있음");
+            return ResponseEntity.ok().body(res);
+        } else {
+            res.put("message","게시글 수정 권한 없음");
+            return ResponseEntity.ok().body(res);
+        }
+    }
+
+    @PostMapping("/{postId}/update")
+    public ResponseEntity<Map<String,String>> updatePost(@PathVariable Long postId, @RequestBody PostUpdateForm postUpdateForm){
+        String content = postUpdateForm.getContent();
+        postService.updatePost(postId,content);
+        Map<String, String> res = new HashMap<>();
+        res.put("message","수정 완료");
+        return ResponseEntity.ok().body(res);
     }
 }

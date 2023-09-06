@@ -4,6 +4,8 @@ import com.cnu.sw2023.index.dto.MainDTO;
 import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.post.service.PostService;
+import lombok.extern.slf4j.Slf4j;
+
 import com.cnu.sw2023.restaurant.dto.RestaurantDTO;
 import com.cnu.sw2023.review.domain.Review;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +32,15 @@ import java.util.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/main")
+@Slf4j
 public class IndexController {
     private final IndexService indexService;
 
     @GetMapping("/popular")
     public ResponseEntity<List<MainPostDto>> getPopularPosts() {
         List<MainPostDto> popularPosts = indexService.getPopularPosts();
-        return ResponseEntity.ok(popularPosts);
+        log.info("popular : {}", Arrays.toString(popularPosts.toArray()));
+        return ResponseEntity.ok().body(popularPosts);
     }
     @GetMapping("/slide/recent")                    //최신순으로 등록된 식당 이름, 주소 3개 전달
     public HashMap<String, String> getRecentRestaurant() {
@@ -56,6 +60,7 @@ public class IndexController {
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
         List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
+        log.info("top5 free: {}", Arrays.toString(top5Titles.toArray()));
         return ResponseEntity.ok().body(top5Titles);
     }
 }
