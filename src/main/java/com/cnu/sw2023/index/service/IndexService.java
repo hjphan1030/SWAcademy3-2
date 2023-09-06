@@ -84,5 +84,8 @@ public class IndexService {
                 .collect(Collectors.toList());
 
     }
+    public List<Restaurant> getAllRestaurantList(){
+        return restaurantRepository.findAll();
+    }
 
 }

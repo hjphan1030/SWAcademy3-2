@@ -1,4 +1,4 @@
-INSERT INTO restaurant (ID, ADDRESS_NAME, CATEGORY, PHONE, RESTAURANT_ID, RESTAURANT_NAME)
+/*INSERT INTO restaurant (ID, ADDRESS_NAME, CATEGORY, PHONE, RESTAURANT_ID, RESTAURANT_NAME)
 VALUES
 (1, '자유게시판', '자유게시판', '자유게시판', 1, '자유게시판'),
 (2, '대전 유성구 문화원로 77', '기타', '042-825-5466', 27529721, '잇마이타이 봉명점'),
@@ -1937,4 +1937,4 @@ INSERT INTO COMMENT (COMMENT_ID,POST_ID, CREATED_AT, LIKE_COUNT,CONTENT) VALUES
 (2880, 1538, '2023-04-01 00:00:00', 24, 'test Context of CommentId 1538'),
 (2881, 1538, '2023-03-21 00:00:00', 21, 'test Context of CommentId 1538'),
 (2882, 1538, '2023-03-21 00:00:00', 46, 'test Context of CommentId 1538'),
-(2883, 1540, '2023-04-01 00:00:00', 46, 'test Context of CommentId 1540');
+(2883, 1540, '2023-04-01 00:00:00', 46, 'test Context of CommentId 1540');*/
