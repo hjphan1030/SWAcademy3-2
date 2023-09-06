@@ -1,34 +1,43 @@
 package com.cnu.sw2023.member.controller;
 
-import com.cnu.sw2023.member.DTO.MemberJoinDto;
-import com.cnu.sw2023.member.DTO.MemberLoginDto;
+import com.cnu.sw2023.member.DTO.JoinReqDto;
+import com.cnu.sw2023.member.DTO.LoginRequestDto;
 import com.cnu.sw2023.member.service.MemberService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import com.cnu.sw2023.post.domain.Post;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
+@RequestMapping("/member")
 public class MemberController {
+
     private final MemberService memberService;
+
     @PostMapping("/join")
-    public ResponseEntity<String> createMember(@RequestBody MemberJoinDto memberJoinDto){
-        memberService.createMember(memberJoinDto);
-        return ResponseEntity.ok().body("회원 가입이 성공 했습니다");
+    public ResponseEntity<String> join(@RequestBody JoinReqDto joinReqDto){
+
+        return ResponseEntity.ok().body(memberService.join(joinReqDto));
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto){
+        return ResponseEntity.ok().body(memberService.login(loginRequestDto.getEmail(),loginRequestDto.getPassword()));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login (@RequestBody MemberLoginDto memberLoginDto){
-        String token = memberService.login(memberLoginDto);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization","Bearer "+token);
-
-        return ResponseEntity.ok().headers(headers).body("로그인 성공");
+    @GetMapping("/temp")
+    public ResponseEntity<String> temp(){ // front 임시 토큰 발급용 api
+        HashMap<String, String> res = new HashMap<>();
+        return ResponseEntity.ok().body(memberService.temp());
+    }
+    @GetMapping("/myPosts")
+    public Page<Post> getMyPosts(@RequestParam int page,Authentication authentication) {
+        String email = authentication.getName();
+        return memberService.findMyPosts(email,page);
     }
 }

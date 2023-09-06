@@ -42,5 +42,6 @@ logging:
       hibernate:
         type: info
 
-jwt:
-  secret: asd123
+jwt: # HS256 알고리즘으로 복호화 하기 위해 256비트 이상의 키 가 필요
+  secret: asdf1zxcvp,qwefqwe21;3lm12;rasdf
+  expiredMs: 50000
