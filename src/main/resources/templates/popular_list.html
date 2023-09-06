@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>핫 게시판</title>
+  <style>
+    /* 스타일링을 위한 CSS 코드 */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>핫 게시판</h1>
+  <div th:each="member" : "${pop}">
+    <div class="id" th:text="${member.id}"></div>
+    <div class="email" th:text="${member.email}"></div>
+    <div class="name" th:text="${member.name}"></div>
+    <div class="refer">
+      <a th:href="@{|/member/${member.id}|}">조회</a>
+    </div>
+    <div class="delete">
+      <a th:href="@{|/delete/warning|}">삭제</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
