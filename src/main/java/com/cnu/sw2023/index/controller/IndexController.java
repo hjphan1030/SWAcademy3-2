@@ -54,7 +54,7 @@ public class IndexController {
     @GetMapping("/slide/bestReview")                    //좋아요 많은 순으로 리뷰 3개 전달
     public List<Review> getTop3BestRestaurant() {
         return indexService.getTop3BestReview();
-}
+    }
 
     @GetMapping("/freeboard")
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {

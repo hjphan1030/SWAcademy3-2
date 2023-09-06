@@ -45,6 +45,7 @@ public class RestaurantService {
             String phone = (String) list.get(2);
             String placeName = (String) list.get(3);
             String category = (String) list.get(4);
+            String region = (String) list.get(5);
 
             Restaurant restaurant = new Restaurant();
             restaurant.setRestaurantId(id);
@@ -52,7 +53,9 @@ public class RestaurantService {
             restaurant.setPhone(phone);
             restaurant.setAddressName(addressName);
             restaurant.setCategory(category);
+            restaurant.setRegion(region);
             restaurantRepository.save(restaurant);
+
         }
     }
     public List<Restaurant> findRestaurants(){
@@ -60,7 +63,7 @@ public class RestaurantService {
     }
 
     private final KakaoApiUtil kakaoApiUtil;
-    //@Autowired
+    @Autowired
     public void processRestaurantInfo() {
         Map<String, List<Object>> restaurantInfo = kakaoApiUtil.getRestaurantInfo();
         saveRestaurantInfo(restaurantInfo);
@@ -96,7 +99,6 @@ public class RestaurantService {
             Long postCount = (Long) result[1];
             restaurantPostCountMap.put(restaurant, postCount.intValue());
         }
-
         return restaurantPostCountMap.entrySet()
                 .stream()
                 .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))

@@ -53,7 +53,7 @@ public class MemberService {
     }
 
     public String temp(){
-        return JwtUtil.createJwt("temp" , secretKey , expiredMS);
+        return JwtUtil.createJwt("temp@google.com" , secretKey , expiredMS);
     }
 
 
