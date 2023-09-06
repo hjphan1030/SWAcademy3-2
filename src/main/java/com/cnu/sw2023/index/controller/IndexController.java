@@ -7,7 +7,6 @@ import com.cnu.sw2023.post.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 
 import com.cnu.sw2023.restaurant.dto.RestaurantDTO;
-import com.cnu.sw2023.restaurant.dto.RestaurantSearchDTO;
 import com.cnu.sw2023.review.domain.Review;
 import org.springframework.http.ResponseEntity;
 import com.cnu.sw2023.index.service.IndexService;
@@ -16,8 +15,9 @@ import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +43,19 @@ public class IndexController {
         return ResponseEntity.ok().body(popularPosts);
     }
     @GetMapping("/slide/recent")                    //최신순으로 등록된 식당 이름, 주소 3개 전달
-    public ResponseEntity<HashMap<String, String>> getRecentRestaurant() {
+    public HashMap<String, String> getRecentRestaurant() {
         ArrayList<String> restaurantsNames = indexService.getRecentRestaurant();
         HashMap<String, String> map = new HashMap<>();
         for (String name : restaurantsNames) {
             map.put(name, "boards/" + name + "/");
         }
-        return ResponseEntity.status(204).body(map);
+        return map;
     }
     @GetMapping("/slide/bestReview")                    //좋아요 많은 순으로 리뷰 3개 전달
     public List<Review> getTop3BestRestaurant() {
         return indexService.getTop3BestReview();
-}
+    }
+
     @GetMapping("/freeboard")
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
