@@ -36,7 +36,7 @@ import java.util.*;
 public class IndexController {
     private final IndexService indexService;
 
-    @GetMapping("/popular")
+    @GetMapping("/popular")  // 핫게
     public ResponseEntity<List<MainPostDto>> getPopularPosts() {
         List<MainPostDto> popularPosts = indexService.getPopularPosts();
         log.info("popular : {}", Arrays.toString(popularPosts.toArray()));
