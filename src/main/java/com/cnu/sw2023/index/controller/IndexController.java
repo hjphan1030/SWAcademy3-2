@@ -40,14 +40,13 @@ import java.util.*;
 public class IndexController {
     private final IndexService indexService;
 
-    @ResponseBody
-    @GetMapping("/popular")  // 핫게
+    @GetMapping("/popular") @ResponseBody  // 핫게
     public ResponseEntity<List<MainPostDto>> getTop5PopularPosts() {
         List<MainPostDto> popularPosts = indexService.getTop5PopularPosts();
         log.info("popular : {}", Arrays.toString(popularPosts.toArray()));
         return ResponseEntity.ok().body(popularPosts);
     }
-    @GetMapping("/slide/recent")                    //최신순으로 등록된 식당 이름, 주소 3개 전달
+    @GetMapping("/slide/recent") @ResponseBody                 //최신순으로 등록된 식당 이름, 주소 3개 전달
     public HashMap<String, String> getRecentRestaurant() {
         ArrayList<String> restaurantsNames = indexService.getRecentRestaurant();
         HashMap<String, String> map = new HashMap<>();
@@ -56,12 +55,12 @@ public class IndexController {
         }
         return map;
     }
-    @GetMapping("/slide/bestReview")                    //좋아요 많은 순으로 리뷰 3개 전달
+    @GetMapping("/slide/bestReview") @ResponseBody//좋아요 많은 순으로 리뷰 3개 전달
     public List<Review> getTop3BestRestaurant() {
         return indexService.getTop3BestReview();
     }
 
-    @GetMapping("/freeboard")
+    @GetMapping("/freeboard") @ResponseBody
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
         List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
