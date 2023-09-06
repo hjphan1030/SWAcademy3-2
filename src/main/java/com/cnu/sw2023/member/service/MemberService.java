@@ -1,6 +1,8 @@
 package com.cnu.sw2023.member.service;
 
 
+import com.cnu.sw2023.comment.domain.Comment;
+import com.cnu.sw2023.comment.repository.CommentRepository;
 import com.cnu.sw2023.member.DTO.JoinReqDto;
 import com.cnu.sw2023.member.JwtConfig.JwtUtil;
 import com.cnu.sw2023.member.domain.Member;
@@ -24,6 +26,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -60,5 +63,11 @@ public class MemberService {
         Pageable pageable = PageRequest.of(page,size, Sort.by("createdAt"));
         return postRepository.findPostsByEmail(email,pageable);
 
+    }
+
+    public Page<Comment> findMyComments(String email, int page) {
+        int size = 10;
+        Pageable pageable = PageRequest.of(page,size,Sort.by("createdAt"));
+        return commentRepository.findByEmail(email,pageable);
     }
 }

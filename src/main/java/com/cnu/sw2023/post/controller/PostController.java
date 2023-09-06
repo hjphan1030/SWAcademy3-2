@@ -1,6 +1,8 @@
 package com.cnu.sw2023.post.controller;
 
 import com.cnu.sw2023.comment.domain.Comment;
+import com.cnu.sw2023.exception.PostNotFoundException;
+import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.dto.PostUpdateForm;
 import com.cnu.sw2023.post.form.DetailPostForm;
@@ -48,7 +50,6 @@ public class PostController {
                                                         , Authentication authentication) {
 
         Map<String , Object> response = new HashMap<>();
-        System.out.println(authentication.getName());
         if ( ! restaurantService.findRestaurantByRestaurantName(restaurantName)) {
                 response.put("success",false);
                 response.put("location","");
@@ -64,7 +65,7 @@ public class PostController {
     }
 
     @ApiOperation("특정 음식점 게시판 리스트 조회")
-    @GetMapping("/{restaurantName}/")
+    @GetMapping("/{restaurantName}")
     public ResponseEntity<Map<String ,Object>> getPostsByRestaurantName(@PathVariable String restaurantName, @RequestParam(defaultValue = "0") int pageNum){
         final int size = 10;
 
@@ -74,14 +75,14 @@ public class PostController {
         Stream<PostPageDto> dtoStream = page.stream().map(PostPageDto::new);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("posts", dtoStream.collect(Collectors.toList())); // 스트림을 리스트로 변환하여 맵에 넣음
+        response.put("posts", dtoStream.collect(Collectors.toList()));
         response.put("lastPage", lastPage);
         return ResponseEntity.ok().body(response);
 
     }
 
     @ApiOperation("특정 게시글 상세 보기")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Map<String,Object>> getDetailPost(@RequestParam("postId") Long postId){
         Map<String,Object> res = new HashMap<>();
         Optional<Post> targetPost = postService.getPostByPostId(postId);
@@ -96,14 +97,26 @@ public class PostController {
     }
 
     @ApiOperation("특정 게시글 삭제")
-    @DeleteMapping("/")
-    public ResponseEntity<Map<Object, Object>> deletePost(@RequestParam("postId") Long postId){
-        // 로그인 아직 없어서 권한확인 pass
-        postService.deletePost(postId);
-        Map<Object, Object> response = new HashMap<>();
-        response.put("success",true);
-        response.put("message","삭제 완료");
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    @DeleteMapping("")
+    public ResponseEntity<Map<String, Object>> deletePost(
+            @RequestParam("postId") Long postId
+            ,Authentication authentication){
+        String email = authentication.getName();
+        Map<String, Object> res = new HashMap<>();
+        try {
+            postService.deletePost(postId,email);
+            res.put("success",true);
+            res.put("message","삭제 완료");
+            return ResponseEntity.ok().body(res);
+        } catch (PostNotFoundException e){
+            res.put("success",false);
+            res.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+        }catch (UnauthorizedAccessException e){
+            res.put("success",false);
+            res.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
+        }
     }
 
     @ApiOperation("음식점 오름차순 정렬 리스트")
@@ -135,7 +148,7 @@ public class PostController {
             return ResponseEntity.ok().body(res);
         } else {
             res.put("message","게시글 수정 권한 없음");
-            return ResponseEntity.ok().body(res);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
         }
     }
 
