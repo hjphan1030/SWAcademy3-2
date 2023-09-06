@@ -30,7 +30,6 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-//                .antMatchers("/boards/{restaurantName}/post", "/boards/{restaurantName}/post1").permitAll()
                 .antMatchers("/member/login","/member/join","/member/temp","/member/temp1","/tempToken").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/swagger-ui/**",
