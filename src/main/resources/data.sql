@@ -46,10 +46,10 @@ VALUES
 (44, '대전 유성구 대학로145번길 21', '한식', '042-353-3392', 23610064, '초원돌구이'),
 (45, '대전 유성구 대학로 56', '한식', '042-822-6022', 26314467, '크래버대게나라 대전유성점'),
 (46, '대전 유성구 문화원로 118', '한식', '042-823-5808', 742362757, '징기스 유성점');
+*/
 
 
-
-
+/*
 INSERT INTO POST (POST_ID, CONTENT, CREATED_AT, LIKE_COUNT, TITLE, RESTAURANT_NAME) VALUES
 (1000, 'test Context of PostId 1000', '2022-08-15 00:00:00', 35, 'test Title of PostId 1000', '자유게시판'),
 (1001, 'test Context of PostId 1001', '2023-01-18 00:00:00', 0, 'test Title of PostId 1001', '자유게시판'),
@@ -1937,4 +1937,5 @@ INSERT INTO COMMENT (COMMENT_ID,POST_ID, CREATED_AT, LIKE_COUNT,CONTENT) VALUES
 (2880, 1538, '2023-04-01 00:00:00', 24, 'test Context of CommentId 1538'),
 (2881, 1538, '2023-03-21 00:00:00', 21, 'test Context of CommentId 1538'),
 (2882, 1538, '2023-03-21 00:00:00', 46, 'test Context of CommentId 1538'),
-(2883, 1540, '2023-04-01 00:00:00', 46, 'test Context of CommentId 1540');*/
+(2883, 1540, '2023-04-01 00:00:00', 46, 'test Context of CommentId 1540');
+*/

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,16 +36,11 @@
 <body>
 <div class="container">
   <h1>핫 게시판</h1>
-  <div th:each="member" : "${pop}">
-    <div class="id" th:text="${member.id}"></div>
-    <div class="email" th:text="${member.email}"></div>
-    <div class="name" th:text="${member.name}"></div>
-    <div class="refer">
-      <a th:href="@{|/member/${member.id}|}">조회</a>
-    </div>
-    <div class="delete">
-      <a th:href="@{|/delete/warning|}">삭제</a>
-    </div>
+  <div class="list">
+    <div class="postTitle">제목</div>
+  </div>
+  <div th:each="post : ${popularPosts}">
+    <div class="postTitle" th:text="${post.getTitle()}"></div>
   </div>
 </div>
 </body>

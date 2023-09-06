@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.cnu.sw2023.restaurant.dto.RestaurantDTO;
 import com.cnu.sw2023.review.domain.Review;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import com.cnu.sw2023.index.service.IndexService;
 import com.cnu.sw2023.post.domain.Post;
@@ -15,8 +16,11 @@ import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -29,16 +33,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping("/main")
 @Slf4j
 public class IndexController {
     private final IndexService indexService;
 
+    @ResponseBody
     @GetMapping("/popular")  // 핫게
-    public ResponseEntity<List<MainPostDto>> getPopularPosts() {
-        List<MainPostDto> popularPosts = indexService.getPopularPosts();
+    public ResponseEntity<List<MainPostDto>> getTop5PopularPosts() {
+        List<MainPostDto> popularPosts = indexService.getTop5PopularPosts();
         log.info("popular : {}", Arrays.toString(popularPosts.toArray()));
         return ResponseEntity.ok().body(popularPosts);
     }
@@ -62,5 +67,12 @@ public class IndexController {
         List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
         log.info("top5 free: {}", Arrays.toString(top5Titles.toArray()));
         return ResponseEntity.ok().body(top5Titles);
+    }
+
+    @GetMapping("/popular_list")
+    public String getHotList(Model model){
+        List<MainPostDto> popularPosts = indexService.getAllPopularPosts();
+        model.addAttribute("popularPosts", popularPosts);
+        return "popular_list";
     }
 }

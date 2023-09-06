@@ -45,9 +45,15 @@ public class IndexService {
         return postLikes;
     }
 
-    public List<MainPostDto> getPopularPosts() {
+    public List<MainPostDto> getTop5PopularPosts() {
         List<Post> popularPosts = postRepository.findTop5ByOrderByLikeCountDesc();
 
+        return popularPosts.stream()
+                .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getLikeCount(), post.getCreatedAt()))
+                .collect(Collectors.toList());
+    }
+    public List<MainPostDto> getAllPopularPosts(){
+        List<Post> popularPosts = postRepository.findAllByOrderByLikeCountDesc();
         return popularPosts.stream()
                 .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getLikeCount(), post.getCreatedAt()))
                 .collect(Collectors.toList());

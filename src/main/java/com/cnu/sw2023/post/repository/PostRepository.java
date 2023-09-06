@@ -21,7 +21,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Optional<Post> findById (Long postId);
     void deleteById (Long postId);
     List<Post> findTop5ByOrderByLikeCountDesc();
-
+    List<Post> findAllByOrderByLikeCountDesc();
     @Query("SELECT p.title, p.postLikes.size, p.comments.size FROM Post p WHERE p.restaurant.id = 1 ORDER BY p.createdAt DESC")
     List<Post> findTop5PostsByRestaurantIdOrderByCreatedAtDesc();
 
