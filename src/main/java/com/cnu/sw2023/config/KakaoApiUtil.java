@@ -35,8 +35,8 @@ public class KakaoApiUtil {
     }
     public HashMap<String, List<Object>> saveRestaurantInfoByCoordinate(String x, String y){
         HashMap<String, List<Object>> info = new HashMap<>();
-        for (int pageNum=1; pageNum<45;pageNum++) {
-            String responseJasonString1 = requestToKakaoApi(String.format("https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=%s&y=%s&radius=6000&page=%s",x,y, pageNum), 5);
+        for (int pageNum=1; pageNum<5;pageNum++) {
+            String responseJasonString1 = requestToKakaoApi(String.format("https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&x=%s&y=%s&radius=1500&page=%s",x,y, pageNum), 5);
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode1 = objectMapper.readTree(responseJasonString1);

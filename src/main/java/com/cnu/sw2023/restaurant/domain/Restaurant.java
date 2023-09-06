@@ -33,6 +33,7 @@ public class Restaurant implements Serializable { // Serializable 는 entity의 
     @Column(name = "category")
     private String category;
 
+    @Column(name = "region")
     private String region;
 
     public Restaurant() {

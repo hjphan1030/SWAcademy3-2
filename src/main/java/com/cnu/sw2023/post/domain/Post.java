@@ -5,6 +5,7 @@ import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
+@Entity @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Post {
 
@@ -63,3 +64,4 @@ public class Post {
     public Post() {
     }
 }
+
