@@ -44,10 +44,11 @@ public class Comment {
     private LocalDateTime createdAt;
 
     @Builder
-    public Comment(Post post, String content, LocalDateTime createdAt) {
+    public Comment(Post post, String content, LocalDateTime createdAt,String email) {
         this.post = post;
         this.content = content;
         this.createdAt = createdAt;
+        this.email = email;
     }
 
     public Comment() {

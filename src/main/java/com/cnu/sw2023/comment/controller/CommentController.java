@@ -2,10 +2,11 @@ package com.cnu.sw2023.comment.controller;
 
 import com.cnu.sw2023.comment.Form.CommentForm;
 import com.cnu.sw2023.comment.domain.CommentUpdateForm;
+import com.cnu.sw2023.exception.CommentNotFoundException;
+import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.comment.service.CommentService;
-import com.cnu.sw2023.post.dto.PostUpdateForm;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
@@ -21,14 +22,17 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/boards/comment")
-    public Map<String, Object> postComment (@RequestBody @Valid CommentForm commentForm , BindingResult bindingResult){
-         Map<String, Object> res = new HashMap<>();
+    public Map<String, Object> postComment (@RequestBody @Valid CommentForm commentForm
+            , BindingResult bindingResult
+            ,Authentication authentication){
+        String email = authentication.getName();
+        Map<String, Object> res = new HashMap<>();
         if (bindingResult.hasErrors()) {
             res.put("success",false);
             res.put("message","내용은 1자 이상");
             return res;
         }
-        commentService.postComment(commentForm);
+        commentService.postComment(commentForm,email);
         res.put("success",true);
         res.put("message","작성완료");
         return res;
@@ -56,6 +60,25 @@ public class CommentController {
         return ResponseEntity.ok().body(res);
     }
 
-//    @GetMapping("/getMyComment")
-//    public Page<>
+    @DeleteMapping("/deleteComment")
+    public ResponseEntity<Map<String, String>> deleteComment(
+            @RequestParam("commentId") Long commentId,
+            Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            commentService.deleteComment(commentId, email);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "댓글 삭제 성공");
+            return ResponseEntity.ok(response);
+        } catch (CommentNotFoundException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (UnauthorizedAccessException e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        }
+    }
+
 }

@@ -1,9 +1,12 @@
 package com.cnu.sw2023.member.controller;
 
+import com.cnu.sw2023.comment.Form.CommentPageForm;
+import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.member.DTO.JoinReqDto;
 import com.cnu.sw2023.member.DTO.LoginRequestDto;
 import com.cnu.sw2023.member.service.MemberService;
 import com.cnu.sw2023.post.domain.Post;
+import com.cnu.sw2023.post.dto.PostPageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +41,17 @@ public class MemberController {
         return ResponseEntity.ok().body(memberService.temp());
     }
     @GetMapping("/myPosts")
-    public Page<Post> getMyPosts(@RequestParam int page,Authentication authentication) {
+    public List<PostPageDto> getMyPosts(@RequestParam int page, Authentication authentication) {
         String email = authentication.getName();
-        return memberService.findMyPosts(email,page);
+        Page<Post> pages = memberService.findMyPosts(email, page);
+        Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
+        return dtoStream.collect(Collectors.toList());
+    }
+
+    @GetMapping("/myComments")
+    public List<CommentPageForm> getMyComments(@RequestParam int page,Authentication authentication){
+        String email = authentication.getName();
+        Page<Comment> pages = memberService.findMyComments(email, page);
+        return pages.stream().map(CommentPageForm::new).collect(Collectors.toList());
     }
 }

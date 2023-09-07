@@ -1,5 +1,7 @@
 package com.cnu.sw2023.post.service;
 
+import com.cnu.sw2023.exception.PostNotFoundException;
+import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.repository.PostRepository;
@@ -47,7 +49,15 @@ public class PostService {
         return postRepository.findByRestaurant(restaurant, pageable);
     }
 
-    public void deletePost(Long postId) {
+    public void deletePost(Long postId,String email) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if (optionalPost.isEmpty()) {
+            throw new PostNotFoundException("게시글을 찾지 못했습니다");
+        }
+        Post post = optionalPost.get();
+        if (post.getEmail() != email) {
+            throw new UnauthorizedAccessException("게시글 작성자만 삭제할 수 있습니다");
+        }
         postRepository.deleteById(postId);
     }
 

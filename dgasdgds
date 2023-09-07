@@ -1,0 +1,281 @@
+[33mcommit 4850d6bd11e8ae776013a73926cdad61775f5bc0[m[33m ([m[1;36mHEAD -> [m[1;32mSY[m[33m, [m[1;31morigin/SY[m[33m)[m
+Merge: 0977865 7b3a66f
+Author: tangba484 <tangba484@naver.com>
+Date:   Wed Sep 6 18:45:06 2023 +0900
+
+    충돌해결
+
+[33mcommit 0977865e64af779be357f06694264fcf5a27372e[m
+Author: tangba484 <tangba484@naver.com>
+Date:   Wed Sep 6 18:38:58 2023 +0900
+
+    api인가체크,게시글,댓글 수정, 본인 작성글 , 댓글 조회api 구현
+
+[33mcommit 7b3a66f31d91215385d831ff46b7a56dcc90f4d2[m[33m ([m[1;31morigin/develop[m[33m)[m
+Merge: d72f2a0 1d3b206
+Author: seongmuk Lim <72372492+zero2top@users.noreply.github.com>
+Date:   Wed Sep 6 16:21:57 2023 +0900
+
+    Merge pull request #16 from hjphan1030/HJ
+    
+    Hj
+
+[33mcommit 1d3b20670400e8ea389625a7e3eb7deb460653ac[m
+Merge: 869901c d72f2a0
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Sep 6 16:21:04 2023 +0900
+
+    d
+
+[33mcommit 869901c91753ff98e8b445c7cde0bdcc1d4cb871[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Sep 6 16:19:06 2023 +0900
+
+    해결
+
+[33mcommit fef06a2fa893e97ce7ab59ed5e71b997489fd83d[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Sep 6 16:10:48 2023 +0900
+
+    글쓰기 페이지 추가(태그 기능)
+
+[33mcommit d4e1ddf2db972ac9209fe6bd31f9e73d2dbe3714[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Sep 6 16:07:52 2023 +0900
+
+    글쓰기 페이지 추가(태그 기능)
+
+[33mcommit 8230c68bc2b7e74fa6f8d9c37a80305ee03581c9[m
+Merge: f5bdc56 830ffd9
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Sep 6 16:03:14 2023 +0900
+
+    글쓰기 페이지 추가(태그 기능)
+
+[33mcommit d72f2a052992940dd32f5b5c629d89063098ddb6[m
+Merge: 830ffd9 9416ad9
+Author: seongmuk Lim <72372492+zero2top@users.noreply.github.com>
+Date:   Wed Sep 6 15:31:56 2023 +0900
+
+    Merge pull request #15 from hjphan1030/lsm_dev
+    
+    Lsm dev
+
+[33mcommit 9416ad91cbb08bce0184d19b2f41757459192697[m
+Author: seongmuk Lim <tjdanr@gmail.com>
+Date:   Wed Sep 6 15:29:10 2023 +0900
+
+    충돌
+
+[33mcommit 7f55ddb4a9d10ceaaa6d7d216a45d361826ede70[m
+Merge: aae1f95 830ffd9
+Author: seongmuk Lim <tjdanr@gmail.com>
+Date:   Wed Sep 6 15:25:52 2023 +0900
+
+    충돌해결
+
+[33mcommit aae1f957728ebc85d834a1060382b907b0407c90[m
+Author: seongmuk Lim <tjdanr@gmail.com>
+Date:   Wed Sep 6 14:02:27 2023 +0900
+
+    동단위로 주소 변환
+
+[33mcommit f5bdc56029b2b1f622fd32ea23d5027f384ef0b0[m
+Merge: 6de08ba 8a3e4b7
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Mon Sep 4 16:10:30 2023 +0900
+
+    충돌해결
+
+[33mcommit 6de08ba0bbdb7d48cdad6f45e3180b3d28ecd464[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Mon Sep 4 16:09:36 2023 +0900
+
+    충돌해결
+
+[33mcommit 830ffd9757b7cbcea667a7203dd75dd49c8b8cfc[m
+Merge: 70f7dd7 78a1843
+Author: tangba484 <122421329+tangba484@users.noreply.github.com>
+Date:   Mon Sep 4 15:57:27 2023 +0900
+
+    Merge pull request #14 from hjphan1030/SY
+    
+    Sy
+
+[33mcommit 78a18437260268ed539c0d8a1428830671387c96[m
+Merge: 2a93238 70f7dd7
+Author: tangba484 <tangba484@naver.com>
+Date:   Mon Sep 4 15:53:21 2023 +0900
+
+    충동해결
+
+[33mcommit 2a93238c2023057b6ee1b7aef663178dd000b46f[m
+Author: tangba484 <tangba484@naver.com>
+Date:   Mon Sep 4 15:39:24 2023 +0900
+
+    liveChat 완료
+
+[33mcommit 70f7dd7e5a7b5679712214d99473efcf02e0e889[m
+Merge: c577d55 8a3e4b7
+Author: JinHyunji <131237930+JinHyunji@users.noreply.github.com>
+Date:   Sat Sep 2 00:29:12 2023 +0900
+
+    Merge pull request #13 from hjphan1030/HJ
+    
+    Hj
+
+[33mcommit 8a3e4b7d961939876c4bab0ca077a26536d40cbe[m
+Merge: f549fb0 c577d55
+Author: JinHyunji <131237930+JinHyunji@users.noreply.github.com>
+Date:   Sat Sep 2 00:29:01 2023 +0900
+
+    Merge branch 'develop' into HJ
+
+[33mcommit f549fb0c5f34ebbce3caf6a2612728e220115434[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Sat Sep 2 00:25:47 2023 +0900
+
+    리뷰 작성 & 리뷰 최신순 정렬
+
+[33mcommit 21fbf8efe79e41a4c96f2d7fcfdb8fdf9b676ff1[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Sat Sep 2 00:23:57 2023 +0900
+
+    리뷰 작성 & 리뷰 최신순 정렬
+
+[33mcommit 7cba8ca1c25c611f64dc89d2f7906f7b3ba346c6[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Sat Sep 2 00:19:03 2023 +0900
+
+    리뷰 작성 & 리뷰 최신순 정렬
+
+[33mcommit 3de30284d80d9964053101363e6814fd4851d761[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Sat Sep 2 00:10:44 2023 +0900
+
+    리뷰 작성 & 리뷰 최신순 정렬
+
+[33mcommit 7027c5b3f9bc4ae7a2d8cee4ae9ce0d37f49b372[m
+Author: tangba484 <tangba484@naver.com>
+Date:   Fri Sep 1 04:31:04 2023 +0900
+
+    시큐리티 회원가입설정 완료 ..
+
+[33mcommit c577d5543e1f7e37197c19a8cf0cdc7d9798cb8b[m
+Merge: 5bef863 5112788
+Author: seongmuk Lim <72372492+zero2top@users.noreply.github.com>
+Date:   Thu Aug 31 14:32:47 2023 +0900
+
+    Merge pull request #12 from hjphan1030/lsm_dev
+    
+    식당 카테고리 필터링해서 다시 삽입
+
+[33mcommit c5770ea97a5ff178784849c77bb3c7502411c79b[m
+Merge: 5112788 5bef863
+Author: seongmuk Lim <tjdanr@gmail.com>
+Date:   Thu Aug 31 14:30:27 2023 +0900
+
+    Merge branch 'develop' of https://github.com/hjphan1030/SWAcademy3-2 into lsm_dev
+
+[33mcommit 5112788e704bcdcecddb94104fb70d7828215b25[m
+Author: seongmuk Lim <tjdanr@gmail.com>
+Date:   Thu Aug 31 14:29:20 2023 +0900
+
+    식당 카테고리 필터링해서 다시 삽입
+
+[33mcommit 88f7e1afe151aae56cb56844456e6e9b27a17707[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Aug 30 16:39:20 2023 +0900
+
+    리뷰 작성하기
+
+[33mcommit ac6ec5fe3a01723083a095dde1eccc91398c9e2c[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Aug 30 16:30:53 2023 +0900
+
+    리뷰 작성하기
+
+[33mcommit 5bef863df2c6b506af770b85686696941c238184[m
+Merge: 6523228 c1ca0bc
+Author: seongmuk Lim <72372492+zero2top@users.noreply.github.com>
+Date:   Wed Aug 30 15:10:23 2023 +0900
+
+    Merge pull request #11 from hjphan1030/lsm_dev
+    
+    Lsm dev
+
+[33mcommit c1ca0bc9c0dcb7162270308d171f86c970b72920[m
+Merge: 4597f74 6523228
+Author: seongmuk Lim <tjdanr@gmail.com>
+Date:   Wed Aug 30 15:09:00 2023 +0900
+
+    충돌 해결~
+
+[33mcommit 4597f74e94ea3a79325d3da317dd9929633f2f40[m
+Author: seongmuk Lim <tjdanr@gmail.com>
+Date:   Wed Aug 30 15:04:40 2023 +0900
+
+    최신순 슬라이드 코드 추가
+
+[33mcommit 441ab233e4730549a2533fbfed7a196056fc9a48[m
+Merge: 255638b 6523228
+Author: tangba484 <tangba484@naver.com>
+Date:   Wed Aug 30 12:04:45 2023 +0900
+
+    Merge branch 'develop' of https://github.com/hjphan1030/SWAcademy3-2 into SY
+
+[33mcommit 255638b2f55ab12d8a8555087df6fe2c08638557[m
+Author: tangba484 <tangba484@naver.com>
+Date:   Wed Aug 30 12:02:15 2023 +0900
+
+    게시글검색
+
+[33mcommit 6523228afb650b159dccdfc548e0781c23744a9a[m
+Merge: 9578389 c1adb2a
+Author: JinHyunji <131237930+JinHyunji@users.noreply.github.com>
+Date:   Wed Aug 30 11:44:39 2023 +0900
+
+    Merge pull request #9 from hjphan1030/HJ
+    
+    Hj
+
+[33mcommit c1adb2a1db391bf2b4b85821bd7fe4338d9447a7[m
+Merge: 04d8ba2 9578389
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Wed Aug 30 11:40:27 2023 +0900
+
+    top5MainList
+
+[33mcommit 91cf93184b94a00f5fb46643808112499b697859[m
+Author: tangba484 <tangba484@naver.com>
+Date:   Tue Aug 29 23:02:35 2023 +0900
+
+    serachQuery
+
+[33mcommit 04d8ba20aed2e4ad540983393239a75ab8c6638a[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Tue Aug 29 19:28:18 2023 +0900
+
+    리뷰게시판 생성 중...
+
+[33mcommit 957838962e61c94af879de74e650f0b761758673[m[33m ([m[1;32mnoteSy[m[33m)[m
+Merge: 0031971 f3e67cc
+Author: tangba484 <122421329+tangba484@users.noreply.github.com>
+Date:   Tue Aug 29 19:11:03 2023 +0900
+
+    Merge pull request #10 from hjphan1030/SY
+    
+    테스트데이터 (댓글포함)생성
+
+[33mcommit f3e67cce41201cb20a04c56b74349790e7323ac8[m
+Author: tangba484 <tangba484@naver.com>
+Date:   Tue Aug 29 19:09:37 2023 +0900
+
+    테스트데이터 (댓글포함)생성
+
+[33mcommit 85325c62e5d647c9b70c929c4687d8f21359eef0[m
+Author: Hyunji Jin <jinhyunji520@gmail.com>
+Date:   Tue Aug 29 19:06:20 2023 +0900
+
+    리뷰게시판 생성 중...
+

@@ -63,11 +63,11 @@ public class RestaurantService {
     }
 
     private final KakaoApiUtil kakaoApiUtil;
-    @Autowired
-    public void processRestaurantInfo() {
-        Map<String, List<Object>> restaurantInfo = kakaoApiUtil.getRestaurantInfo();
-        saveRestaurantInfo(restaurantInfo);
-    }
+//    @Autowired
+//    public void processRestaurantInfo() {
+//        Map<String, List<Object>> restaurantInfo = kakaoApiUtil.getRestaurantInfo();
+//        saveRestaurantInfo(restaurantInfo);
+//    }
 
     public Map<String,String > getRestaurantInfo(String restaurantName) {
         Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurantName);
