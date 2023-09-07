@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -35,5 +36,18 @@ public class ReviewService {
 
     public List<Review> findReviews(){
         return reviewRepository.findAll();
+    }
+
+    public Optional<Review> getReviewByReviewId(Long ReviewId) {
+        return reviewRepository.findById(ReviewId);
+    }
+
+    public void deleteReview(Long reviewId) { reviewRepository.deleteById(reviewId);}
+
+    public void updateReview(Long reviewId, int rating, String content) {
+        Review review = reviewRepository.findById(reviewId).get();
+        review.setRating(rating);
+        review.setContent(content);
+        reviewRepository.save(review);
     }
 }
