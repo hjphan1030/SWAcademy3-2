@@ -30,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            log.error("authorization 을 잘못보냈습니다");
+//            log.error("authorization 을 잘못보냈습니다");
             filterChain.doFilter(request,response);
             return ;
         }
