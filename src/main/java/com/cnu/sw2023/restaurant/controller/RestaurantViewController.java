@@ -1,4 +1,4 @@
-package com.cnu.sw2023.restaurant;
+package com.cnu.sw2023.restaurant.controller;
 
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.dto.PostPageDto;
