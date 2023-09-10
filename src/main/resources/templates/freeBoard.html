@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자유 게시판</title>
+  <style>
+    /* 스타일링을 위한 CSS 코드 */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+    .post {
+      display: flex; /* flexbox 사용 */
+      align-items: flex-start; /* 제목을 위로 정렬 */
+      justify-content: space-between; /* 좌우 정렬 */
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd; /* 네모 모양의 테두리 추가 */
+      border-radius: 5px; /* 테두리 둥글게 만들기 */
+      height: 4em; /* 세로 길이를 조절 */
+    }
+    .postTitle {
+      float: left; /* 제목을 왼쪽으로 이동 */
+    }
+    .postInfo {
+      display: flex; /* 아이콘들을 가로로 나란히 정렬하기 위해 flexbox 사용 */
+      align-items: flex-end; /* 아이콘 아래로 정렬 */
+      justify-content: flex-end; /* 오른쪽으로 정렬 */
+      margin-top: 50px;
+    }
+    .postInfo i {
+      margin-left: 10px; /* 아이콘 사이에 간격 추가 */
+    }
+    .like {
+      color: crimson;
+    }
+    .chat {
+      color: aqua;
+    }
+    .button-container {
+      text-align: center; /* 버튼을 가운데로 정렬 */
+      margin-top: 20px; /* 버튼 위 간격 추가 */
+    }
+    .button-container button {
+      margin: 0 10px; /* 버튼 사이 간격 추가 */
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>자유 게시판</h1>
+  <div th:each="post : ${posts}">
+    <div class="post">
+      <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
+      <div class="postInfo">
+        <span class="like">
+          <i class="fas fa-thumbs-up"></i>
+          <span th:text="${post.getPostLikeCount()}"></span>
+        </span>
+        <span class="chat">
+          <i class="fas fa-comment"></i>
+          <span th:text="${post.getCommentCount()}"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <li class="page-item">
+      <a th:disabled="${paging.getNumber()==0}" th:href="@{|?page=${paging.number-1}|}">이전</a>
+    </li>
+    <select
+            th:disabled="${paging.getNumber()==1}"
+            name="partnerCode"
+            id="partnerCode">
+    </select>
+    <span th:text="${page}"></span>
+    <!--<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+      <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+        <span>다음</span>
+      </a>
+    </li>-->
+    <!--<form id="myForm" action="/freeBoard/move" method="GET">
+      &lt;!&ndash;<button type="button"  onclick="previousPage()">이전</button>&ndash;&gt;
+      <span th:text="${page}"></span>
+      <div th:if="${}">
+      <a class = "button" th:href="@{|?page=${page+1}|}"><span>이전</span></a>
+      <span th:text="${page+1}"></span>
+      &lt;!&ndash;<button type="button" onclick="nextPage()">다음</button>&ndash;&gt;
+    </form>-->
+  </div>
+</div>
+</body>
+</html>

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @AllArgsConstructor
-public class ReviewDTO {
+public class reviewDto {
     private Long id;
     private String content;
     private int reviewLikeCount;

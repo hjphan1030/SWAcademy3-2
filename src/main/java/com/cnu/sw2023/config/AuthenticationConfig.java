@@ -37,7 +37,7 @@ public class AuthenticationConfig {
                         "/swagger-resources",
                         "/swagger-resources/configuration/ui",
                         "/swagger-resources/configuration/security").permitAll()
-//                .anyRequest().authenticated()
+                //.anyRequest().authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement()
