@@ -34,7 +34,7 @@ public class PostWriteController {
     private final MemberService memberService;
 
     @GetMapping("/boards/post")
-    public String showPostForm(Model model) {
+    public String showPostForm() {
 //        String token = memberService.temp();
 //        System.out.println(token);
 //        request.setAttribute("Authorization", "Bearer " + token);
@@ -45,12 +45,20 @@ public class PostWriteController {
     }
 
     @ApiOperation("게시글 작성하기")
-        @PostMapping("/boards/post")
-        public String postWrite(String title, String content, String restaurantName, Model model) {
-    //        postWriteService.write(title, content);
+    @PostMapping("/boards/post")
+    public String postWrite(String title, String content, String restaurantName, Model model) {
 
-//        if ( ! restaurantService.findRestaurantByRestaurantName(restaurantName))
-//            return "pageFault";
+        if (title == null) {
+            return "pageFault";
+        }
+        if (content == null) {
+            return "pageFault";
+        }
+        if (restaurantName == null) {
+            return "pageFault";
+        }
+        if (!restaurantService.findRestaurantByRestaurantName(restaurantName))
+            return "pageFault";
 
         PostForm postForm = new PostForm();
         postForm.setTitle(title);

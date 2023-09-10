@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>냠냠 :: 페이지를 찾을 수 없습니다.</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/err_170424.css" />
+    <script type=text/javascript>
+        var defaultCharset = document.charset ;
+        function isIE(){ return /msie/i.test(navigator.userAgent) && !/opera/i.test(navigator.userAgent); }
+        function setDefaultCharset() { document.charset = defaultCharset ; }
+        function emulAcceptCharset(form) { if (isIE) { var defCharset = document.charset ; document.charset = form.acceptCharset ; window.onbeforeunload = setDefaultCharset ; } return true; }
+    </script>
 </head>
+
 <body>
+<style>
+    a {
+        cursor: pointer;
+    }
+    #wrap {
+        display: flex;
+        flex-direction: column;
+        margin: 0px auto;
+        padding: 0px 16px;
+        width: 100%;
+        max-width: 600px;
+        min-height: 100vh;
+    }
+</style>
+<div id="wrap">
+    <div id="header">
+        <h1><a href="https://www.naver.com/"><img src="https://cdn-icons-png.flaticon.com/512/5159/5159840.png" width="200" height="200"/></a></h1>
+        <p class="menu"><a href="https://www.naver.com/">냠냠홈</a>
+    </div>
+    <div id="container">
+        <h2>죄송합니다.<br />요청하신 페이지를 찾을 수 없습니다.</h2>
+        <div class="content">
+            <p>방문하시려는 페이지의 주소가 잘못 입력되었거나,<br />페이지의 주소가 변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다.</p>
+            <p>입력하신 주소가 정확한지 다시 한번 확인해 주시기 바랍니다.</p>
+        </div>
+    </div>
+</div>
 
 </body>
+
 </html>
