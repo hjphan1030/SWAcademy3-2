@@ -2,7 +2,7 @@ package com.cnu.sw2023.review.controller;
 
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import com.cnu.sw2023.review.domain.Review;
-import com.cnu.sw2023.review.dto.ReviewDTO;
+import com.cnu.sw2023.review.dto.reviewDto;
 import com.cnu.sw2023.review.form.ReviewForm;
 import com.cnu.sw2023.review.repository.ReviewRepository;
 import com.cnu.sw2023.review.service.ReviewService;
@@ -47,12 +47,12 @@ public class ReviewController {
 
     @ApiOperation("리뷰 최신순 정렬 리스트")
     @GetMapping("/reviewList")
-    public ResponseEntity<List<ReviewDTO>> getReviewList(){
+    public ResponseEntity<List<reviewDto>> getReviewList(){
         List<Review> reviews = reviewService.findReviews();
 
-        List<ReviewDTO> reviewList = reviews.stream()
-                .map(review -> new ReviewDTO(review.getId(), review.getContent(), review.getReviewLikeCount(),review.getRating(),review.getCreatedAt()))
-                .sorted(Comparator.comparing(ReviewDTO::getCreatedAt).reversed())
+        List<reviewDto> reviewList = reviews.stream()
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getReviewLikeCount(),review.getRating(),review.getCreatedAt()))
+                .sorted(Comparator.comparing(reviewDto::getCreatedAt).reversed())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(reviewList);

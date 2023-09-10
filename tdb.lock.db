@@ -1,6 +1,6 @@
 #FileLock
-#Wed Sep 06 11:51:21 UTC 2023
-hostName=host.docker.internal
-id=18a6a20879e911727fe9803667838140c2029382413
+#Sun Sep 10 22:42:05 KST 2023
+server=192.168.29.117\:61471
+hostName=LAPTOP-B5PADVIK.T-mobile.com
 method=file
-server=10.4.52.107\:51951
+id=18a7f53fb9d82a388bbd6886e0e6d662eba95103ea2
