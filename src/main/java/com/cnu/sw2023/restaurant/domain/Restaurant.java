@@ -36,9 +36,6 @@ public class Restaurant implements Serializable { // Serializable 는 entity의 
     @Column(name = "region")
     private String region;
 
-    @Column(name = "rating")
-    private double rating;
-
     public Restaurant() {
     }
 
