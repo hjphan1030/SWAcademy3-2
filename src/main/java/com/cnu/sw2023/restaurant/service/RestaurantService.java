@@ -74,7 +74,6 @@ public class RestaurantService {
         Map<String, String> res = new HashMap<>();
         res.put("address",restaurant.getAddressName());
         res.put("phone",restaurant.getPhone());
-        res.put("rating",Double.toString(restaurant.getRating()));
         return res;
     }
 

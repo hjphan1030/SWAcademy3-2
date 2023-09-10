@@ -1,4 +1,4 @@
-package com.cnu.sw2023.restaurant.controller;
+package com.cnu.sw2023.restaurant;
 
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
