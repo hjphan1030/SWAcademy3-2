@@ -1,23 +1,54 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
-<div class="my-3 border-bottom">
-        <div>
-            <h4>회원가입</h4>
+<head>
+    <style>
+        .title{
+            position: absolute;
+            width: 530px;
+            height: 75px;
+            left: 870px;
+            top: 50px;
+            color: #FFB3B3;
+        }
+        .log_join{
+            position: absolute;
+            width: 530px;
+            height: 75px;
+            left: 650px;
+            top: 150px;
+        }
+        .log_join input {
+            box-sizing: border-box;
+            width: 100%;
+            height: 53px;
+            padding: 10px 15px;
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            outline: none;
+        }
+        .submit_btn {
+            position: absolute;
+            width: 530px;
+            height: 54px;
+            background: #FFB3B3;
+            border: none;
+            color: #FFFFFF;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<div class="whole">
+        <div class="title">
+            <h2>회원가입</h2>
         </div>
 </div>
-    <form th:action="@{/user/join}" th:object="${joinReqDto}" method="post">
+    <form class="log_join" th:action="@{/user/join}" th:object="${joinReqDto}" method="post">
         <div th:replace="~{errorForm :: formErrorsFragment}"></div>
-        <div class="mb-3">
-            <label for="email" class="form-label">이메일</label>
-            <input type="email" th:field="*{email}" class="form-control">
+        <div class="log_form">
+            <input placeholder="아이디 입력" type="email" name="email" id="email" th:field="*{email}">
+            <input placeholder="비밀번호 입력" type="password" name="password" id="password" th:field="*{password}">
+            <input placeholder="비밀번호 확인" type="password" name="password2" id="password2" th:field="*{password2}">
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">비밀번호</label>
-            <input type="password" th:field="*{password}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="password2" class="form-label">비밀번호 확인</label>
-            <input type="password" th:field="*{password2}" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">회원가입</button>
+        <button type="submit" class="submit_btn">회원가입</button>
     </form>
 </html>

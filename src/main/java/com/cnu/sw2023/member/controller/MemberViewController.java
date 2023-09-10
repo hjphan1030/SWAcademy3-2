@@ -8,6 +8,7 @@ import com.cnu.sw2023.member.exception.UnMatchedPasswordException;
 import com.cnu.sw2023.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,18 +57,16 @@ public class MemberViewController {
         return "loginForm";
     }
     @PostMapping("/login")
-    public String processLoginForm(LoginRequestDto loginRequestDto, HttpServletRequest request
-            , HttpSession session
+    public String processLoginForm(LoginRequestDto loginRequestDto, HttpServletRequest request,Model model
             ,BindingResult bindingResult) {
         String email = loginRequestDto.getEmail();
         String password = loginRequestDto.getPassword();
         try {
             String token = memberService.login(email, password);
             if (token != null) {
-                session.setAttribute("token", token);
+                model.addAttribute("Authorization","Bearer "+token);
             }
-            log.info("토큰이 발급되었습니다 : {}",token);
-            return "redirect:/user/index";
+            return "index";
         } catch (UnMatchedPasswordException e) {
             String errorMessage = e.getMessage();
             bindingResult.rejectValue("password","passwordInCorrect","비밀번호가 일치하지 않습니다");

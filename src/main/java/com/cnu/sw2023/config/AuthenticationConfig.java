@@ -1,9 +1,12 @@
 package com.cnu.sw2023.config;
 
 import com.cnu.sw2023.member.JwtConfig.JwtFilter;
+import com.cnu.sw2023.member.JwtConfig.JwtTokenInterceptor;
 import com.cnu.sw2023.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +15,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.Filter;
 
 @Configuration
 @EnableWebSecurity
@@ -46,5 +52,4 @@ public class AuthenticationConfig {
                 .addFilterBefore(new JwtFilter(memberService,secretKey), UsernamePasswordAuthenticationFilter.class)
                 .headers().frameOptions().disable().and().build();
     }
-
 }

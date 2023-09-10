@@ -1,3 +1,4 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>마라탕 맛있음 ?</title>
@@ -93,7 +94,7 @@
             <form th:action="@{/user/login}" th:object="${loginRequestDto}" method="post">
                 <ul class="input_box">
                     <div class="log_id">
-                        <input placeholder="아이디 입력" type="text" name="email" id="email" th:field="${loginRequestDto.email}"><div class="square1"></div>
+                        <input placeholder="아이디 입력" type="text" name="email" id="email" th:field="${loginRequestDto.email}">
                     </div>
                     <div class="log_pass">
                         <input placeholder="비밀번호 입력" type="password" name="password" id="password" th:field="${loginRequestDto.password}">
@@ -112,3 +113,4 @@
         </ul>
 </div>
 </body>
+</html>
