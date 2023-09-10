@@ -48,8 +48,6 @@ VALUES
 (46, '대전 유성구 문화원로 118', '한식', '042-823-5808', 742362757, '징기스 유성점');
 
 
-
-
 INSERT INTO POST (POST_ID, CONTENT, CREATED_AT, LIKE_COUNT, TITLE, RESTAURANT_NAME,EMAIL) VALUES
                                                                                               (1000, 'test Context of PostId 1000', '2022-09-20 00:00:00', 22, 'test Title of PostId 1000', '자유게시판', 'temp'),
                                                                                               (1001, 'test Context of PostId 1001', '2022-12-18 00:00:00', 49, 'test Title of PostId 1001', '자유게시판', 'temp'),

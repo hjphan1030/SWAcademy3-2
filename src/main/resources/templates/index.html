@@ -1,40 +1,23 @@
-<!-- index.html -->
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
   <title>WebSocket test</title>
 </head>
 <body>
-<h1>WebSocket Chat Test</h1>
-<div id="chat"></div>
-<input type="text" id="nickname" placeholder="Enter your nickname">
-<input type="text" id="message" placeholder="Type your message">
-<button id="send">Send</button>
-
 <div id="button-container">
-  <form action="/test/restaurantList" method="get">
+  <form id="restaurantListForm" method="get">
     <button type="submit">Go restaurantList</button>
   </form>
+  <span th:text="${Authorization}" ></span>
 </div>
-
-<script>
-  var socket = new WebSocket("ws://43.201.204.106:8080/chat");
-  var chatWindow = document.getElementById("chat");
-  var nicknameInput = document.getElementById("nickname");
-  var messageInput = document.getElementById("message");
-  var sendButton = document.getElementById("send");
-
-  socket.onmessage = function(event) {
-    var message = event.data;
-    chatWindow.innerHTML += "<p>" + message + "</p>";
-  };
-
-  sendButton.onclick = function() {
-    var nickname = nicknameInput.value;
-    var message = messageInput.value;
-    socket.send(nickname + ": " + message);
-    messageInput.value = "";
-  };
+<script type="text/javascript">
+  var authorizationValue = document.querySelector("span").textContent; // span 요소의 텍스트 값을 가져옴
+  document.getElementById('restaurantListForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/boards/restaurantList', true);
+    xhr.setRequestHeader('Authorization', authorizationValue);
+    xhr.send();
+  });
 </script>
 </body>
 </html>

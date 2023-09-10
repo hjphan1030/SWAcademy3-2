@@ -1,0 +1,116 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>마라탕 맛있음 ?</title>
+    <style>
+        .whole_login{
+            position: absolute;
+            width: 614px;
+            height: 350px;
+            left: 21px;
+            top: 213px;
+        }
+        .log_id{
+            position: absolute;
+            width: 530px;
+            height: 75px;
+            left: 650px;
+            top: 150px;
+        }
+        .log_id input {
+            box-sizing: border-box;
+            width: 100%;
+            height: 53px;
+            padding: 10px 15px;
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            outline: none;
+        }
+        .log_pass{
+            position: absolute;
+            width: 530px;
+            height: 75px;
+            left: 650px;
+            top: 220px;
+        }
+        .log_pass input {
+            box-sizing: border-box;
+            width: 100%;
+            height: 53px;
+            padding: 10px 15px;
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            outline: none;
+        }
+        .log_btn_02{
+            position: absolute;
+            width: 495px;
+            height: 49px;
+            left: 61px;
+            top: 100px;
+        }
+        .find_text{
+            position: absolute;
+            width: 512px;
+            height: 47px;
+            left:640px;
+            top: 276px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 22px;
+            line-height: 27px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #000000;
+        }
+        .log_btn {
+            position: absolute;
+            width: 530px;
+            height: 54px;
+            left: 650px;
+            top: 300px;
+            background: #FFB3B3;
+            border: none;
+            color: #FFFFFF;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .find_text .pipe {
+            margin: 25px;
+        }
+        .alert.alert-danger {
+            position: absolute;
+            top: 278px;
+            left: 650px;
+            white-space: nowrap;  /* 한 줄에 출력되게*/
+        }
+    </style>
+</head>
+<body>
+<div class="whole_login">
+        <ul class="login_box">
+            <form th:action="@{/user/login}" th:object="${loginRequestDto}" method="post">
+                <ul class="input_box">
+                    <div class="log_id">
+                        <input placeholder="아이디 입력" type="text" name="email" id="email" th:field="${loginRequestDto.email}">
+                    </div>
+                    <div class="log_pass">
+                        <input placeholder="비밀번호 입력" type="password" name="password" id="password" th:field="${loginRequestDto.password}">
+                    </div>
+                    <button type="submit" class="log_btn">로그인</button>
+                    <div th:replace="~{errorForm :: formErrorsFragment}"></div>
+                </ul>
+            </form>
+            <div class="log_btn_02">
+                <span class="find_text">
+                    <a href="/user/join">회원가입</a>   <span class="pipe">|</span>
+                    <a href="">아이디 찾기</a>   <span class="pipe">|</span>
+                    <a href="">비밀번호 찾기</a>
+                </span>
+            </div>
+        </ul>
+</div>
+</body>
+</html>
