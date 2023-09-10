@@ -5,10 +5,7 @@ import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.like.domain.PostLike;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

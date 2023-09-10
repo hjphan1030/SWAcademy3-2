@@ -2,6 +2,7 @@ package com.cnu.sw2023.post.service;
 
 import com.cnu.sw2023.exception.PostNotFoundException;
 import com.cnu.sw2023.exception.UnauthorizedAccessException;
+import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.repository.PostRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -74,5 +76,11 @@ public class PostService {
         Post post = postRepository.findById(postId).get();
         post.setContent(content);
         postRepository.save(post);
+    }
+    public Page<Post> getFreePost( Pageable pageable) {
+        return postRepository.findByOrderByCreatedAtDesc(pageable);
+    }
+    public Page<Post> getAllPopularPosts(Pageable pageable){
+        return postRepository.findWithLikeCountGreaterThanEqualOrderByLikeCountDesc(pageable);
     }
 }
