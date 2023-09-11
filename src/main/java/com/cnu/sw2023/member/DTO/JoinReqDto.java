@@ -22,4 +22,6 @@ public class JoinReqDto {
     @NotEmpty(message = "비밀번호 확인은 필수항목입니다.")
     private String password2;
 
+    private String college;
+
 }

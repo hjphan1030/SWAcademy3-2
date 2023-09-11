@@ -5,6 +5,7 @@ import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.comment.repository.CommentRepository;
 import com.cnu.sw2023.member.DTO.JoinReqDto;
 import com.cnu.sw2023.member.JwtConfig.JwtUtil;
+import com.cnu.sw2023.member.domain.College;
 import com.cnu.sw2023.member.domain.Member;
 import com.cnu.sw2023.member.exception.NotFoundException;
 import com.cnu.sw2023.member.exception.UnMatchedPasswordException;
@@ -42,10 +43,11 @@ public class MemberService {
     public String join(JoinReqDto joinReqDto){
         String email = joinReqDto.getEmail();
         String password = joinReqDto.getPassword();
+        College college = College.fromString(joinReqDto.getCollege());
         if (memberRepository.existsByEmail(email)) {
             return "emailDuplicated";
         }
-        Member member = Member.builder().email(email).password(passwordEncoder.encode(password)).build();
+        Member member = Member.builder().email(email).password(passwordEncoder.encode(password)).college(college).build();
         memberRepository.save(member);
         return "회원가입 성공";
     }
@@ -88,7 +90,7 @@ public class MemberService {
         if (memberRepository.existsByEmail(email)) {
             return "emailDuplicated";
         }
-        Member member = Member.builder().email(email).password(passwordEncoder.encode(password)).build();
+        Member member = Member.builder().email(email).password(passwordEncoder.encode(password)).college(College.fromString("예술대학")).build();
         memberRepository.save(member);
         log.info("아이디 : {} 비밀번호 : {} 으로 계정이 등록되었습니다",email,password);
         return "회원가입 성공";

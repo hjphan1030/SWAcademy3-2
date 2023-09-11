@@ -34,8 +34,6 @@ public class PostViewController {
         model.addAttribute("paging", pages);
         model.addAttribute("posts", allPosts);
         model.addAttribute("page", page);
-        System.out.println("hasPrevious"+pages.hasPrevious());
-        System.out.println(allPosts.toArray().toString());
         return "freeBoard";
     }
     @GetMapping("/popularBoard")   // 핫게 더보기

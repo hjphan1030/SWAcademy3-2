@@ -52,4 +52,12 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("SELECT p FROM Post p WHERE p.likeCount >= 5 ORDER BY p.createdAt DESC")
     List<Post> findPopularPostsOrderByCreatedAtDesc(Pageable pageable);
 
+    Page<Post> findByTitleContaining(String keyword, Pageable pageable);
+    Page<Post> findByContentContaining(String keyword, Pageable pageable);
+
+    @Query("SELECT p FROM Post p " +
+            "WHERE (p.content LIKE %:keyword% OR p.title LIKE %:keyword%) ")
+    Page<Post> findByContentContainingOrTitleContaining(
+            @Param("keyword") String keyword,
+            Pageable pageable);
 }

@@ -27,4 +27,11 @@ public class LikeController {
         likeService.commentLike(commentId,email);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/review/{reviewId}/like")
+    public ResponseEntity<Map<String,Object>> reviewLike(@PathVariable Long reviewId,Authentication authentication) {
+        String email = authentication.getName();
+        likeService.reviewLike(reviewId, email);
+        return ResponseEntity.ok().build();
+    }
 }

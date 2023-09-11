@@ -77,4 +77,15 @@ public class PostSearchService {
     public Page<Post> searchRestaurantPost(String keyword, String restaurantName, Pageable pageable) {
         return postRepository.findByContentContainingOrTitleContainingAndRestaurantRestaurantName(keyword, restaurantName, pageable);
     }
+
+    public Page<Post> searchWholePostByTitle(String keyword , Pageable pageable) {
+        return postRepository.findByTitleContaining(keyword, pageable);
+    }
+
+    public Page<Post> searchWholePostByContent(String keyword , Pageable pageable) {
+        return postRepository.findByContentContaining(keyword, pageable);
+    }
+    public Page<Post> searchWholePost(String keyword, Pageable pageable) {
+        return postRepository.findByContentContainingOrTitleContaining(keyword, pageable);
+    }
 }
