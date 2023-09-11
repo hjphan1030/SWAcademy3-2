@@ -52,12 +52,13 @@ public class MemberViewController {
     }
 
     @GetMapping("/login")
-    public String showLoginForm(LoginRequestDto loginRequestDto){
+    public String showLoginForm(LoginRequestDto loginRequestDto,HttpServletRequest request){
         log.info("로그인 페이지에 들어왔습니다");
         return "loginForm";
     }
     @PostMapping("/login")
-    public String processLoginForm(LoginRequestDto loginRequestDto, HttpServletRequest request,Model model
+    public String processLoginForm(LoginRequestDto loginRequestDto
+            , HttpServletRequest request,Model model
             ,BindingResult bindingResult) {
         String email = loginRequestDto.getEmail();
         String password = loginRequestDto.getPassword();
@@ -65,6 +66,7 @@ public class MemberViewController {
             String token = memberService.login(email, password);
             if (token != null) {
                 model.addAttribute("Authorization","Bearer "+token);
+                request.setAttribute("Authorization","Bearer "+token);
             }
             return "index";
         } catch (UnMatchedPasswordException e) {

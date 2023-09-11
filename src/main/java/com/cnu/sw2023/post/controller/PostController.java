@@ -128,7 +128,7 @@ public class PostController {
         List<Restaurant> restaurants = restaurantService.findRestaurants();
         Map<String,Object> res = new HashMap<>();
 
-        List<String> restaurantList = restaurants.stream().map(restaurant -> restaurant.getRestaurantName()).collect(Collectors.toList());
+        List<String> restaurantList = restaurants.stream().map(Restaurant::getRestaurantName).collect(Collectors.toList());
         Collections.sort(restaurantList);
         res.put("restaurantList",restaurantList);
 
