@@ -21,4 +21,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("SELECT r FROM Review r WHERE r.likeCount >= 5 ORDER BY r.createdAt DESC")
     List<Review> findPopularPostsOrderByCreatedAtDesc(Pageable pageable);
+
+    List<Review> findAllByRestaurantRestaurantName(String restaurantName);
 }

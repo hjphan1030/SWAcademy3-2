@@ -17,11 +17,14 @@ public class Member {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private College college;
 
     @Builder
-    public Member(String email, String password) {
+    public Member(String email, String password, College college) {
         this.email = email;
         this.password = password;
+        this.college = college;
     }
 
     public Member() {

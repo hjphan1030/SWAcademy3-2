@@ -3,10 +3,11 @@ package com.cnu.sw2023.like.domain;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.review.domain.Review;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
+@Getter @Setter
 @Entity(name = "reviewLikes")
 public class ReviewLike {
     @Id
@@ -14,6 +15,7 @@ public class ReviewLike {
     @Column(name = "reviewLikesId")
     private Long id;
 
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "reviewId")

@@ -50,4 +50,8 @@ public class ReviewService {
         review.setContent(content);
         reviewRepository.save(review);
     }
+
+    public List<Review> getRestaurantReview(String restaurantName){
+        return reviewRepository.findAllByRestaurantRestaurantName(restaurantName);
+    }
 }

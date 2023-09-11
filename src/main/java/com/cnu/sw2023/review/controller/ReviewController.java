@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 public class ReviewController {
 
     ReviewService reviewService;
-    ReviewRepository reviewRepository;
     RestaurantService restaurantService;
 
     @ApiOperation("특정 음식점에 리뷰 작성")
@@ -110,4 +109,13 @@ public class ReviewController {
         return ResponseEntity.ok().body(res);
     }
 
+    @GetMapping("/{restaurantName}")
+    public ResponseEntity<List<reviewDto>> getRestaurantReview(@PathVariable String restaurantName){
+        List<Review> result = reviewService.getRestaurantReview(restaurantName);
+        List<reviewDto> reviewList = result.stream()
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(),review.getRating(),review.getCreatedAt()))
+                .sorted(Comparator.comparing(reviewDto::getCreatedAt).reversed())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(reviewList);
+    }
 }

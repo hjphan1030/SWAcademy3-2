@@ -4,10 +4,14 @@ import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.comment.repository.CommentRepository;
 import com.cnu.sw2023.like.domain.CommentLike;
 import com.cnu.sw2023.like.domain.PostLike;
+import com.cnu.sw2023.like.domain.ReviewLike;
 import com.cnu.sw2023.like.repository.CommentLikeRepository;
 import com.cnu.sw2023.like.repository.PostLikeRepository;
+import com.cnu.sw2023.like.repository.ReviewLikeRepository;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.repository.PostRepository;
+import com.cnu.sw2023.review.domain.Review;
+import com.cnu.sw2023.review.repository.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +25,8 @@ public class LikeService {
     private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final PostLikeRepository postLikeRepository;
+    private final ReviewRepository reviewRepository;
+    private final ReviewLikeRepository reviewLikeRepository;
     public void postLike(Long postId,String email) throws EntityNotFoundException {
         Optional<PostLike> existingLike = postLikeRepository.findByPostIdAndEmail(postId, email);
         Optional<Post> optionalPost = postRepository.findById(postId);
@@ -56,6 +62,25 @@ public class LikeService {
             commentRepository.save(comment);
             CommentLike commentLike = existingCommentLike.get();
             commentLikeRepository.delete(commentLike);
+        }
+    }
+
+    public void reviewLike(Long reviewId,String email) {
+        Optional<ReviewLike> existingReviewLike = reviewLikeRepository.findByReviewIdAndEmail(reviewId,email);
+        Optional<Review> optionalReview = reviewRepository.findById(reviewId);
+        Review review = optionalReview.orElseThrow(EntityNotFoundException::new);
+        if (existingReviewLike.isEmpty()) {
+            review.setLikeCount(review.getLikeCount() + 1);
+            reviewRepository.save(review);
+            ReviewLike reviewLike = new ReviewLike();
+            reviewLike.setReview(review);
+            reviewLike.setEmail(email);
+            reviewLikeRepository.save(reviewLike);
+        } else {
+            review.setLikeCount(review.getLikeCount() - 1);
+            reviewRepository.save(review);
+            ReviewLike reviewLike = existingReviewLike.get();
+            reviewLikeRepository.delete(reviewLike);
         }
     }
 }

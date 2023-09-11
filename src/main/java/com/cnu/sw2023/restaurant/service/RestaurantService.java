@@ -2,12 +2,14 @@ package com.cnu.sw2023.restaurant.service;
 
 
 import com.cnu.sw2023.config.KakaoApiUtil;
+import com.cnu.sw2023.member.domain.College;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -28,10 +30,6 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
-
-
 
     public boolean findRestaurantByRestaurantName(String restaurantName){
         return restaurantRepository.existsRestaurantByRestaurantName(restaurantName);
@@ -104,5 +102,20 @@ public class RestaurantService {
                 .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+    }
+    public List<String> getRestaurantNamesByTitle(String keyword) {
+        List<Restaurant> restaurants = restaurantRepository.findByRestaurantNameContaining(keyword);
+        return restaurants.stream()
+                .map(Restaurant::getRestaurantName)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<Restaurant> findRestaurantsByCategoryAndRegion(String category, String region) {
+        return restaurantRepository.findRestaurantsByCategoryAndRegion(category, region);
+    }
+    public List<String> findRestaurantsByCollegeWithMostPosts(College college , List<String> restaurantNames){
+        return restaurantRepository.findRestaurantsByCollegeWithMostPosts(college,restaurantNames)
+                .stream().map(Restaurant::getRestaurantName).collect(Collectors.toList());
     }
 }
