@@ -89,14 +89,9 @@
     </div>
   </div>
   <div class="button-container">
-    <li class="page-item">
-      <a th:disabled="${paging.getNumber()==0}" th:href="@{|?page=${paging.number-1}|}">이전</a>
+    <li class="page-item" th:if="${paging.hasPrevious}">
+      <a th:href="@{|?page=${paging.number-1}|}">이전</a>
     </li>
-    <select
-            th:disabled="${paging.getNumber()==1}"
-            name="partnerCode"
-            id="partnerCode">
-    </select>
     <span th:text="${page}"></span>
     <!--<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
       <a class="page-link" th:href="@{|?page=${paging.number+1}|}">

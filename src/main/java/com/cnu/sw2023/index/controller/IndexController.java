@@ -56,7 +56,6 @@ public class IndexController {
     @GetMapping("/popular") @ResponseBody  // 핫게 프리뷰
     public ResponseEntity<List<MainPostDto>> getTop5PopularPosts() {
         List<MainPostDto> popularPosts = indexService.getTop5PopularPosts();
-        log.info("popular : {}", Arrays.toString(popularPosts.toArray()));
         return ResponseEntity.ok().body(popularPosts);
     }
 }
