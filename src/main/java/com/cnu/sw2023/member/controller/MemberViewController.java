@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -22,12 +23,17 @@ import javax.validation.Valid;
 public class MemberViewController {
     private final MemberService memberService;
     @GetMapping("/join")
-    public String joinForm(JoinReqDto joinReqDto) {
+    public String joinForm(JoinReqDto joinReqDto,Model model) {
+        List<String> collegeList = memberService.getCollegeList();
+        model.addAttribute("collegeList", collegeList);
         return "joinForm";
     }
     @PostMapping("/join")
     public String processJoinForm(@Valid JoinReqDto joinReqDto
-            ,BindingResult bindingResult) {
+            ,BindingResult bindingResult
+            ,Model model) {
+        List<String> collegeList = memberService.getCollegeList();
+        model.addAttribute("collegeList", collegeList);
         if (bindingResult.hasErrors()) {
             return "joinForm";
         }

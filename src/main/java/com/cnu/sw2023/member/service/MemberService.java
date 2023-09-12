@@ -24,6 +24,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -111,5 +113,12 @@ public class MemberService {
         memberRepository.save(member);
         log.info("아이디 : {} 비밀번호 : {} 으로 계정이 등록되었습니다",memberId,password);
         return "회원가입 성공";
+    }
+    public List<String> getCollegeList() {
+        List<String> collegeList = new ArrayList<>();
+        for (College college : College.values()) {
+            collegeList.add(college.getName());
+        }
+        return collegeList;
     }
 }
