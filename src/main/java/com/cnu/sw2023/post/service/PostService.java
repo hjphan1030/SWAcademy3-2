@@ -75,4 +75,8 @@ public class PostService {
         post.setContent(content);
         postRepository.save(post);
     }
+
+//    public Long getPostId() {
+//        return postRepository.findPostId();
+//    }
 }

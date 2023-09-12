@@ -40,4 +40,5 @@ public interface PostRepository extends JpaRepository<Post,Long> {
 
     Page<Post> findPostsByEmail (String email,Pageable pageable);
 
+//    Long findPostId();
 }

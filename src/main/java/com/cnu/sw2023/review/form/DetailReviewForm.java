@@ -32,6 +32,6 @@ public class DetailReviewForm {
         this.content = review.getContent();
         this.reviewLikeCount = review.getReviewLikeCount();
         this.createdAt = review.getCreatedAt();
-        this.rating = rating;
+        this.rating = review.getRating();
     }
 }

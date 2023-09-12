@@ -4,6 +4,8 @@ import com.cnu.sw2023.hj.service.PostWriteService;
 import com.cnu.sw2023.member.service.MemberService;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.form.PostForm;
+import com.cnu.sw2023.post.form.UpdatePostForm;
+import com.cnu.sw2023.post.repository.PostRepository;
 import com.cnu.sw2023.post.service.PostService;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +34,8 @@ public class PostWriteController {
     private final PostService postService;
     private final RestaurantService restaurantService;
     private final MemberService memberService;
+    private final PostRepository postRepository;
+
 
     @GetMapping("/boards/post")
     public String showPostForm() {
@@ -63,12 +67,34 @@ public class PostWriteController {
         PostForm postForm = new PostForm();
         postForm.setTitle(title);
         postForm.setContent(content);
-        postWriteService.writePost(postForm,restaurantName);
+        Long postId = postWriteService.writePost(postForm, restaurantName);
 //        postService.addPost(restaurantName, postForm1);
         model.addAttribute("title", postForm.getTitle());
         model.addAttribute("content", postForm.getContent());
         model.addAttribute("restaurantName", restaurantName);
+        model.addAttribute("postId", postId);
 //        model.addAttribute("userName", authentication.getName());
+
+        return "detailPost";
+    }
+
+    @GetMapping("/boards/{postId}/update")
+    public String showUpdatePostForm(@PathVariable Long postId, Model model) {
+        Post view = postWriteService.showPost(postId);
+        model.addAttribute("view", view);
+        model.addAttribute("postId", postId);
+        return "updatePost";
+    }
+
+    @PostMapping("/boards/{postId}/update")
+    public String updatePost(UpdatePostForm updatePostForm, @PathVariable Long postId, Model model) {
+        String title = updatePostForm.getTitle();
+        String content = updatePostForm.getContent();
+        String restaurantName = updatePostForm.getRestaurantName();
+        postWriteService.updatePost(postId, title, content, restaurantName);
+        model.addAttribute("title", title);
+        model.addAttribute("content", content);
+        model.addAttribute("restaurantName", restaurantName);
 
         return "detailPost";
     }

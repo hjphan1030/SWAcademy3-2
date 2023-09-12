@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 작성하기</title>
+  <style>
+    .layout {
+      display: flex;
+      flex-direction: column;
+      margin: 0px auto;
+      padding: 0px 16px;
+      width: 100%;
+      max-width: 600px;
+      min-height: 100vh;
+    }
+    .component {
+      display: flex;
+      margin: 0px auto;
+      max-width: 600px;
+      width: 100%;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    input {
+      border-radius: 5px;
+      border: 1px solid rgb(180, 180, 180);
+
+    }
+    textarea {
+      border-radius: 5px;
+      border: 1px solid rgb(180, 180, 180);
+      font-size: 15px;
+    }
+    .button {
+      position: fixed;
+      bottom: 0px;
+      left: 0px;
+      display: flex;
+      -webkit-box-pack: end;
+      justify-content: flex-end;
+      -webkit-box-align: center;
+      align-items: center;
+      padding: 16px 20px;
+      width: 100%;
+      border: 1px solid rgb(222, 226, 230);
+      background-color: rgb(255, 255, 255);
+      z-index: 100;
+    }
+    @media (min-width: 1025px) {
+      .button {
+        position: static;
+        padding: 16px 0px;
+        border: none;
+      }
+    }
+    .cancel {
+      padding: 0px 22px;
+      appearance: none;
+      text-align: left;
+      text-decoration: none;
+      box-sizing: border-box;
+      height: 42px;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      display: inline-block;
+      width: auto;
+      font-weight: 600;
+      position: relative;
+      line-height: 1;
+      font-size: 16px;
+      user-select: none;
+      cursor: pointer;
+      margin-right: 16px;
+      color: rgb(0, 0, 0);
+      background-color: rgb(255, 255, 255);
+      border: 1px solid rgb(206, 212, 218);
+      border-radius: 8px;
+    }
+    .complete {
+      padding: 0px 22px;
+      appearance: none;
+      text-align: left;
+      text-decoration: none;
+      box-sizing: border-box;
+      height: 42px;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      display: inline-block;
+      width: auto;
+      font-weight: 600;
+      position: relative;
+      line-height: 1;
+      font-size: 16px;
+      user-select: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      color: rgb(255, 255, 255);
+      background-color: pink;
+      border-radius: 8px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="layout">
+  <form class="component" th:action="@{'/boards/' + ${postId} + '/update'}" method="post">
+    <input type="hidden" name="postId" th:value="${postId}">
+    <input name="title" th:value="${view.getTitle()}" placeholder="제목" type="text" style="margin-top: 100px; margin-bottom: 30px; padding: 5px; min-height: 30px; font-size: 20px;">
+    <textarea name="content" th:field="${view.content}" placeholder="내용" style="margin-bottom: 30px; min-height: 300px; padding: 10px;"></textarea>
+    <input name="restaurantName" th:value="${view.restaurant.getRestaurantName()}" placeholder="태그" type="text" style="min-height: 20px; padding: 5px; font-size: 13px;">
+    <div class="button">
+      <button class="cancel" type="button">취소</button>  <!-- 뒤로가기 - javascript로 구현해야 됨 -->
+      <button class="complete" type="submit">완료</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

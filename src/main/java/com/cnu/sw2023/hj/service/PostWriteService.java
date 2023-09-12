@@ -21,7 +21,7 @@ public class PostWriteService {
 
     }
 
-    public void writePost(PostForm postForm, String restaurantName) {
+    public Long writePost(PostForm postForm, String restaurantName) {
         //restaurant_id로 음식점 정보 조회
         Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurantName);
         if (restaurant == null) {
@@ -30,8 +30,21 @@ public class PostWriteService {
 
         Post post = Post.builder().title(postForm.getTitle()).content(postForm.getContent()).restaurant(restaurant) .build();
         postRepository.save(post);
+        return post.getId();
     }
 
+    public void updatePost(Long postId, String title, String content, String restaurantName) {
+        Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurantName);
+        Post post = postRepository.findById(postId).get();
+        post.setTitle(title);
+        post.setContent(content);
+        post.setRestaurant(restaurant);
+        postRepository.save(post);
+    }
+
+    public Post showPost(Long postId) {
+        return postRepository.findById(postId).get();
+    }
 
 
 }

@@ -120,8 +120,9 @@
         <div class="content" th:text="${content}"></div>
         <div class="tag" th:text="${restaurantName}"></div>
         <div class="button">
-            <form action="/boards/post" method="get">
-                <button class="update" type="submit">수정</button> <!--버튼 클릭시 글쓰기 폼 다시 보여주기-->
+            <form th:action="@{'/boards/' + ${postId} + '/update'}" method="get">
+                <button class="update" type="submit">수정</button>
+                <input type="hidden" name="postId" th:value="${postId}">
             </form>
             <button class="goToList" type="submit">닫기</button> <!--버튼 클릭시 6-1로 돌아가기-->
         </div>
