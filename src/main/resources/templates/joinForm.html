@@ -45,9 +45,11 @@
     <form class="log_join" th:action="@{/user/join}" th:object="${joinReqDto}" method="post">
         <div th:replace="~{errorForm :: formErrorsFragment}"></div>
         <div class="log_form">
-            <input placeholder="아이디 입력" type="email" name="email" id="email" th:field="*{email}">
+            <input placeholder="이메일 입력" type="email" name="email" id="email" th:field="*{email}">
+            <input placeholder="아이디 입력" type="text" name="memberId" id="memberId" th:field="*{memberId}">
             <input placeholder="비밀번호 입력" type="password" name="password" id="password" th:field="*{password}">
             <input placeholder="비밀번호 확인" type="password" name="password2" id="password2" th:field="*{password2}">
+            <input placeholder="단과대학" type="text" name="college" id="college" th:field="*{college}">
         </div>
         <button type="submit" class="submit_btn">회원가입</button>
     </form>

@@ -94,7 +94,7 @@
             <form th:action="@{/user/login}" th:object="${loginRequestDto}" method="post">
                 <ul class="input_box">
                     <div class="log_id">
-                        <input placeholder="아이디 입력" type="text" name="email" id="email" th:field="${loginRequestDto.email}">
+                        <input placeholder="아이디 입력" type="text" name="memberId" id="memberId" th:field="${loginRequestDto.memberId}">
                     </div>
                     <div class="log_pass">
                         <input placeholder="비밀번호 입력" type="password" name="password" id="password" th:field="${loginRequestDto.password}">

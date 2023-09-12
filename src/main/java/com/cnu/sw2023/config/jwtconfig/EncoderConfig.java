@@ -1,4 +1,4 @@
-package com.cnu.sw2023.member.JwtConfig;
+package com.cnu.sw2023.config.jwtconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

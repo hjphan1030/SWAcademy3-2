@@ -2,24 +2,18 @@ package com.cnu.sw2023.member.controller;
 
 import com.cnu.sw2023.member.DTO.JoinReqDto;
 import com.cnu.sw2023.member.DTO.LoginRequestDto;
-import com.cnu.sw2023.member.domain.Member;
 import com.cnu.sw2023.member.exception.NotFoundException;
 import com.cnu.sw2023.member.exception.UnMatchedPasswordException;
 import com.cnu.sw2023.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -42,40 +36,37 @@ public class MemberViewController {
                     "2개의 패스워드가 일치하지 않습니다.");
             return "joinForm";
         }
-        String result = memberService.join(joinReqDto);
-        if (result.equals("회원가입 성공")) {
+        try {
+            String result = memberService.join(joinReqDto);
             return "redirect:/user/login";
-        } else {
-            bindingResult.rejectValue("email", "emailDuplicated", "이미 존재하는 이메일입니다");
+        }catch (Exception e){
+            bindingResult.reject("duplicatedError", e.getMessage());
             return "joinForm";
         }
     }
 
     @GetMapping("/login")
-    public String showLoginForm(LoginRequestDto loginRequestDto,HttpServletRequest request){
+    public String showLoginForm(LoginRequestDto loginRequestDto){
         log.info("로그인 페이지에 들어왔습니다");
         return "loginForm";
     }
     @PostMapping("/login")
     public String processLoginForm(LoginRequestDto loginRequestDto
-            , HttpServletRequest request,Model model
+            ,Model model
             ,BindingResult bindingResult) {
-        String email = loginRequestDto.getEmail();
+        String memberId = loginRequestDto.getMemberId();
         String password = loginRequestDto.getPassword();
         try {
-            String token = memberService.login(email, password);
+            String token = memberService.login(memberId, password);
             if (token != null) {
                 model.addAttribute("Authorization","Bearer "+token);
-                request.setAttribute("Authorization","Bearer "+token);
             }
             return "index";
         } catch (UnMatchedPasswordException e) {
-            String errorMessage = e.getMessage();
-            bindingResult.rejectValue("password","passwordInCorrect","비밀번호가 일치하지 않습니다");
+            bindingResult.rejectValue("password","passwordInCorrect",e.getMessage());
             return "loginForm";
         }catch (NotFoundException e){
-            String errorMessage = e.getMessage();
-            bindingResult.rejectValue("email","notFoundEmail","존재하지 않는 이메일입니다");
+            bindingResult.rejectValue("memberId","notFoundMemberId",e.getMessage());
             return "loginForm";
         }
     }
@@ -83,5 +74,10 @@ public class MemberViewController {
     @GetMapping("/index")
     public String successLogin(HttpServletRequest request){
         return "index";
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "passwordFindForm";
     }
 }

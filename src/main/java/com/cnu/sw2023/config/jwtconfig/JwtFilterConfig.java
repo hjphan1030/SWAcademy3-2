@@ -1,6 +1,5 @@
-package com.cnu.sw2023.member.JwtConfig;
+package com.cnu.sw2023.config.jwtconfig;
 
-import com.cnu.sw2023.member.JwtConfig.JwtFilter;
 import com.cnu.sw2023.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
