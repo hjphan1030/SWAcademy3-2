@@ -1,5 +1,7 @@
 package com.cnu.sw2023.hj.controller;
 
+import com.cnu.sw2023.exception.PostNotFoundException;
+import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.hj.service.PostWriteService;
 import com.cnu.sw2023.member.service.MemberService;
 import com.cnu.sw2023.post.domain.Post;
@@ -15,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,6 +44,7 @@ public class PostWriteController {
 
 //        if ( ! authentication.isAuthenticated())
 //            return "pageFault";
+
         return "postWrite";
     }
 
@@ -78,25 +78,49 @@ public class PostWriteController {
         return "detailPost";
     }
 
+    @ApiOperation("게시글 수정")
     @GetMapping("/boards/{postId}/update")
     public String showUpdatePostForm(@PathVariable Long postId, Model model) {
         Post view = postWriteService.showPost(postId);
         model.addAttribute("view", view);
         model.addAttribute("postId", postId);
+
         return "updatePost";
     }
 
+    @ApiOperation("게시글 수정")
     @PostMapping("/boards/{postId}/update")
     public String updatePost(UpdatePostForm updatePostForm, @PathVariable Long postId, Model model) {
+
         String title = updatePostForm.getTitle();
         String content = updatePostForm.getContent();
         String restaurantName = updatePostForm.getRestaurantName();
+
+        if (title == null) {
+            return "pageFault";
+        }
+        if (content == null) {
+            return "pageFault";
+        }
+        if (restaurantName == null) {
+            return "pageFault";
+        }
+        if (!restaurantService.findRestaurantByRestaurantName(restaurantName))
+            return "pageFault";
+
         postWriteService.updatePost(postId, title, content, restaurantName);
         model.addAttribute("title", title);
         model.addAttribute("content", content);
         model.addAttribute("restaurantName", restaurantName);
 
         return "detailPost";
+    }
+
+    @ApiOperation("게시글 삭제")
+    @GetMapping("/boards/{postId}/delete")
+    public String deletePost(@PathVariable Long postId) {
+        postWriteService.deletePost(postId);
+        return "postList";
     }
 }
 

@@ -120,6 +120,10 @@
         <div class="content" th:text="${content}"></div>
         <div class="tag" th:text="${restaurantName}"></div>
         <div class="button">
+            <form th:action="@{'/boards/' + ${postId} + '/delete'}" method="get">
+                <button class="update" type="submit">삭제</button>
+                <input type="hidden" name="postId" th:value="${postId}">
+            </form>
             <form th:action="@{'/boards/' + ${postId} + '/update'}" method="get">
                 <button class="update" type="submit">수정</button>
                 <input type="hidden" name="postId" th:value="${postId}">

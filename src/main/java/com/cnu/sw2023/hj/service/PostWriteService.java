@@ -1,5 +1,7 @@
 package com.cnu.sw2023.hj.service;
 
+import com.cnu.sw2023.exception.PostNotFoundException;
+import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.repository.PostRepository;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +49,13 @@ public class PostWriteService {
         return postRepository.findById(postId).get();
     }
 
+    public void deletePost(Long postId) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if (optionalPost.isEmpty()) {
+            throw new PostNotFoundException("게시글을 찾지 못했습니다");
+        }
+        Post post = optionalPost.get();
+        postRepository.deleteById(postId);
+    }
 
 }
