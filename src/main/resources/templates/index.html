@@ -7,9 +7,7 @@
   <span id="authorizationToken" th:text="${Authorization}"></span>
 </div>
 <script th:inline="javascript">
-  /*<![CDATA[*/
-
-  var token = /*[[${Authorization}]]*/
+  var token = [[${Authorization}]]
   console.log(token)
   console.log("@")
   // XMLHttpRequest를 사용하여 GET 요청 보내기
@@ -24,9 +22,7 @@
       console.log(response);
     }
   };
-
   xhr.send("GET", "http://localhost:8080/boards/restaurantList", true);
-  /*]]>*/
 </script>
 </body>
 </html>
