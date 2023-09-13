@@ -13,8 +13,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,16 +27,21 @@ import java.util.stream.Collectors;
 public class ReviewController {
 
     ReviewService reviewService;
-    ReviewRepository reviewRepository;
     RestaurantService restaurantService;
 
     @ApiOperation("특정 음식점에 리뷰 작성")
     @PostMapping("/{restaurantName}/post")
-    public ResponseEntity<Map<String, Object>> addReview(@RequestBody ReviewForm reviewForm, @PathVariable("restaurantName") String restaurantName) {
+    public ResponseEntity<Map<String, Object>> addReview(@RequestBody @Valid ReviewForm reviewForm
+            , @PathVariable("restaurantName") String restaurantName
+            , BindingResult bindingResult) {
 
         Map<String, Object> response = new HashMap<>();
-
-        if (!restaurantService.findRestaurantByRestaurantName(restaurantName)) {
+        if (bindingResult.hasErrors()) {
+            response.put("success", false);
+            response.put("location", "");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+        else if (!restaurantService.findRestaurantByRestaurantName(restaurantName)) {
             response.put("success", false);
             response.put("location", "");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -54,7 +61,7 @@ public class ReviewController {
         List<Review> reviews = reviewService.findReviews();
 
         List<reviewDto> reviewList = reviews.stream()
-                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getReviewLikeCount(),review.getRating(),review.getCreatedAt()))
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(),review.getRating(),review.getCreatedAt()))
                 .sorted(Comparator.comparing(reviewDto::getCreatedAt).reversed())
                 .collect(Collectors.toList());
 
@@ -102,4 +109,13 @@ public class ReviewController {
         return ResponseEntity.ok().body(res);
     }
 
+    @GetMapping("/{restaurantName}")
+    public ResponseEntity<List<reviewDto>> getRestaurantReview(@PathVariable String restaurantName){
+        List<Review> result = reviewService.getRestaurantReview(restaurantName);
+        List<reviewDto> reviewList = result.stream()
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(),review.getRating(),review.getCreatedAt()))
+                .sorted(Comparator.comparing(reviewDto::getCreatedAt).reversed())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(reviewList);
+    }
 }

@@ -1,6 +1,6 @@
 package com.cnu.sw2023.config;
 
-import com.cnu.sw2023.member.JwtConfig.JwtFilter;
+import com.cnu.sw2023.config.jwtconfig.JwtFilter;
 import com.cnu.sw2023.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -30,14 +29,14 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/member/login","/member/join","/member/temp","/member/temp1","/tempToken").permitAll()
+                .antMatchers("/member/login","/member/join","/member/temp","/member/temp1","/tempToken","/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/swagger-ui/**",
                         "/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/configuration/ui",
                         "/swagger-resources/configuration/security").permitAll()
-                //.anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement()
@@ -46,5 +45,4 @@ public class AuthenticationConfig {
                 .addFilterBefore(new JwtFilter(memberService,secretKey), UsernamePasswordAuthenticationFilter.class)
                 .headers().frameOptions().disable().and().build();
     }
-
 }

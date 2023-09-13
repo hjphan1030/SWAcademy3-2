@@ -1,6 +1,6 @@
 package com.cnu.sw2023.WebSocket;
 
-import com.cnu.sw2023.member.JwtConfig.JwtUtil;
+import com.cnu.sw2023.config.jwtconfig.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;

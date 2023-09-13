@@ -1,40 +1,32 @@
-<!-- index.html -->
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-  <title>WebSocket test</title>
+  <title>Test Page</title>
 </head>
 <body>
-<h1>WebSocket Chat Test</h1>
-<div id="chat"></div>
-<input type="text" id="nickname" placeholder="Enter your nickname">
-<input type="text" id="message" placeholder="Type your message">
-<button id="send">Send</button>
-
 <div id="button-container">
-  <form action="/test/restaurantList" method="get">
-    <button type="submit">Go restaurantList</button>
-  </form>
+  <span id="authorizationToken" th:text="${Authorization}"></span>
 </div>
+<script th:inline="javascript">
+  /*<![CDATA[*/
 
-<script>
-  var socket = new WebSocket("ws://43.201.204.106:8080/chat");
-  var chatWindow = document.getElementById("chat");
-  var nicknameInput = document.getElementById("nickname");
-  var messageInput = document.getElementById("message");
-  var sendButton = document.getElementById("send");
+  var token = /*[[${Authorization}]]*/
+  console.log(token)
+  console.log("@")
+  // XMLHttpRequest를 사용하여 GET 요청 보내기
+  var xhr = new XMLHttpRequest();
 
-  socket.onmessage = function(event) {
-    var message = event.data;
-    chatWindow.innerHTML += "<p>" + message + "</p>";
+  xhr.open("GET", "http://localhost:8080/boards/restaurantList", true);
+  xhr.setRequestHeader("Authorization", token);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // 요청이 완료되었을 때 처리할 코드
+      var response = xhr.responseText;
+      console.log(response);
+    }
   };
 
-  sendButton.onclick = function() {
-    var nickname = nicknameInput.value;
-    var message = messageInput.value;
-    socket.send(nickname + ": " + message);
-    messageInput.value = "";
-  };
+  xhr.send("GET", "http://localhost:8080/boards/restaurantList", true);
+  /*]]>*/
 </script>
 </body>
 </html>

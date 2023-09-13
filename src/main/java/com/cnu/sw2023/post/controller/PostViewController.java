@@ -10,10 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,7 +19,7 @@ import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Controller
-public class PostViewControlller {
+public class PostViewController {
     private final PostService postService;
     @GetMapping("/freeBoard")   // 자게 더보기
     public String getFreeBoard(Model model, @RequestParam(defaultValue = "0") int page){
@@ -36,8 +34,6 @@ public class PostViewControlller {
         model.addAttribute("paging", pages);
         model.addAttribute("posts", allPosts);
         model.addAttribute("page", page);
-        System.out.println("hasPrevious"+pages.hasPrevious());
-        System.out.println(allPosts.toArray().toString());
         return "freeBoard";
     }
     @GetMapping("/popularBoard")   // 핫게 더보기

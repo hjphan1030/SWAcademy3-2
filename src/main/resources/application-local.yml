@@ -29,6 +29,17 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     cache: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: cnustudent0@gmail.com
+    password: fwcd lfef ajcs utyu
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
 
 
 server:

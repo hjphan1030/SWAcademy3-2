@@ -49,4 +49,15 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("SELECT e FROM Post e WHERE e.likeCount >= 10 ORDER BY e.likeCount DESC")  //좋아요가 10 이상인 것들만 내림차순으로 가져오기
     Page<Post> findWithLikeCountGreaterThanEqualOrderByLikeCountDesc(Pageable pageable);
 
+    @Query("SELECT p FROM Post p WHERE p.likeCount >= 5 ORDER BY p.createdAt DESC")
+    List<Post> findPopularPostsOrderByCreatedAtDesc(Pageable pageable);
+
+    Page<Post> findByTitleContaining(String keyword, Pageable pageable);
+    Page<Post> findByContentContaining(String keyword, Pageable pageable);
+
+    @Query("SELECT p FROM Post p " +
+            "WHERE (p.content LIKE %:keyword% OR p.title LIKE %:keyword%) ")
+    Page<Post> findByContentContainingOrTitleContaining(
+            @Param("keyword") String keyword,
+            Pageable pageable);
 }

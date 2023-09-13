@@ -13,6 +13,8 @@ import com.cnu.sw2023.review.dto.reviewDto;
 import com.cnu.sw2023.review.repository.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,8 @@ public class IndexService {
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final ReviewRepository reviewRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<PostLike> findPostLikesSortedByLikesDescending() {
         List<PostLike> postLikes = postLikeRepository.findAllByOrderByPostLikeCountDesc();
@@ -47,7 +51,8 @@ public class IndexService {
     }
 
     public List<MainPostDto> getTop5PopularPosts() {
-        List<Post> popularPosts = postRepository.findTop5ByOrderByLikeCountDesc();
+        Pageable pageable = PageRequest.of(0, 5);
+        List<Post> popularPosts = postRepository.findPopularPostsOrderByCreatedAtDesc(pageable);
 
         return popularPosts.stream()
                 .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getLikeCount(), post.getCreatedAt()))
@@ -56,9 +61,10 @@ public class IndexService {
 
     // 베스트 리뷰
     public List<reviewDto> getTop5BestReview(){
-        List<Review> reviewList = reviewRepository.findTop5ByOrderByReviewLikeCountDesc();
+        Pageable pageable = PageRequest.of(0,5);
+        List<Review> reviewList = reviewRepository.findPopularPostsOrderByCreatedAtDesc(pageable);
         return reviewList.stream()
-                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getReviewLikeCount(), review.getRating(), review.getCreatedAt()))
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(), review.getRating(), review.getCreatedAt()))
                 .collect(Collectors.toList());
     }
     // 최신등록순으로 상위 3개 식당이름 리스트 반환해주는 메소드
@@ -70,9 +76,6 @@ public class IndexService {
         }
         return restaurantNames;
     }
-    // 자유게시판 최신순으로 정렬한 게시글 5개
-    @PersistenceContext
-    private EntityManager entityManager;
 
     public List<MainDTO> getLatestPostsForRestaurant() {
         TypedQuery<Post> query = entityManager.createQuery(

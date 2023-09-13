@@ -13,14 +13,22 @@ public class Member {
     private Long id;
 
     @Column(unique = true)
+    private String memberId;
+
+    @Column(unique = true)
     private String email;
+
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private College college;
 
     @Builder
-    public Member(String email, String password) {
+    public Member(String memberId,String email, String password, College college) {
+        this.memberId = memberId;
         this.email = email;
         this.password = password;
+        this.college = college;
     }
 
     public Member() {

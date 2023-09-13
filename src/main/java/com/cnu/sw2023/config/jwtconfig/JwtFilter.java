@@ -1,4 +1,4 @@
-package com.cnu.sw2023.member.JwtConfig;
+package com.cnu.sw2023.config.jwtconfig;
 
 import com.cnu.sw2023.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +28,19 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
+        if (authorization == null ) {
+            log.error("authorization 이 null 입니다");
+            filterChain.doFilter(request,response);
+            return ;
+        }
+        if (!authorization.startsWith("Bearer ")) {
             log.error("authorization 을 잘못보냈습니다");
             filterChain.doFilter(request,response);
             return ;
         }
 
         String token = authorization.split(" ")[1];
-
+        System.out.println(token);
         if (JwtUtil.isExpired(token,secretKey)) {
             log.error("Token이 만료되었습니다");
             filterChain.doFilter(request,response);
