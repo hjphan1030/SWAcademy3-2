@@ -1,4 +1,3 @@
-<!--
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
   <title>Test Page</title>
@@ -31,40 +30,3 @@
 </script>
 </body>
 </html>
--->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-  <title>Test Page</title>
-</head>
-<body>
-<div id="button-container">
-  <span id="authorizationToken" th:text="${Authorization}"></span>
-</div>
-<button type="button" onclick="getRestaurantList()">요청하기</button>
-<script th:inline="javascript">
-  /*<![CDATA[*/
-  var token = [[${Authorization}]];
-  function getRestaurantList() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://localhost:8080/boards/restaurantList", true);
-    xhr.setRequestHeader("Authorization", token); // "Bearer "를 추가하여 헤더에 토큰을 넣습니다.
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          // 요청이 완료되고 성공적으로 처리된 경우
-          var response = xhr.responseText;
-          console.log(response);
-        } else {
-          // 요청이 실패한 경우
-          console.error("요청 실패:", xhr.status);
-        }
-      }
-    };
-    xhr.send();
-    /*]]>*/
-  }
-</script>
-</body>
-</html>
-
