@@ -31,6 +31,19 @@ public class CommentService {
                 .build();
         commentRepository.save(comment);
     }
+//
+//    public Comment postComment(CommentForm commentForm) {
+//        Long postId = commentForm.getPostId();
+//        String content = commentForm.getContent();
+//
+//        Comment comment = Comment.builder()
+//                .post(postRepository.findById(postId).get())
+//                .content(content)
+//                .createdAt(LocalDateTime.now())
+//                .build();
+//        commentRepository.save(comment);
+//        return comment;
+//    }
 
     public boolean checkAuth(Long id, String email) {
         Comment comment = commentRepository.findById(id).get();

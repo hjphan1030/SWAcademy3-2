@@ -1,5 +1,9 @@
 package com.cnu.sw2023.hj.controller;
 
+import com.cnu.sw2023.comment.Form.CommentForm;
+import com.cnu.sw2023.comment.domain.Comment;
+import com.cnu.sw2023.comment.domain.CommentUpdateForm;
+import com.cnu.sw2023.comment.service.CommentService;
 import com.cnu.sw2023.exception.PostNotFoundException;
 import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.hj.service.PostWriteService;
@@ -34,6 +38,7 @@ public class PostWriteController {
     private final RestaurantService restaurantService;
     private final MemberService memberService;
     private final PostRepository postRepository;
+    private final CommentService commentService;
 
 
     @GetMapping("/boards/post")
@@ -72,6 +77,7 @@ public class PostWriteController {
         model.addAttribute("title", postForm.getTitle());
         model.addAttribute("content", postForm.getContent());
         model.addAttribute("restaurantName", restaurantName);
+//        model.addAttribute("createdAt", )
         model.addAttribute("postId", postId);
 //        model.addAttribute("userName", authentication.getName());
 
@@ -122,5 +128,44 @@ public class PostWriteController {
         postWriteService.deletePost(postId);
         return "postList";
     }
+
+    //    @ApiOperation("게시글 상세 보기")
+//    @GetMapping("/boards/detail")
+//    public String showDetailPost(Model model) {
+//        model.addAttribute("view", view);
+//        return "showDetailPost";
+//    }
+//
+//    @ApiOperation("댓글 작성하기")
+//    @PostMapping("/boards/comment")
+//    public String writeComment(String comment, Model model) {
+//        if (comment == null) {
+//            return "pageFault";
+//        }
+//        CommentForm commentForm = new CommentForm();
+//        commentForm.setContent(comment);
+//        Comment view = commentService.postComment(commentForm);
+//        model.addAttribute("view", view);
+//        return "detailPost";
+//    }
+//
+//    @ApiOperation("댓글 수정하기")
+//    @PostMapping("/boards/{commentId}/update")
+//    public String updateComment(CommentUpdateForm commentUpdateForm, @PathVariable Long commentId, Model model) {
+//        String content = commentUpdateForm.getContent();
+//        if (content == null) {
+//            return "pageFault";
+//        }
+//        commentService.updateComment(commentId, content);
+//        model.addAttribute("commentContent", content);
+//        return "detailPost";
+//    }
+//
+//    @ApiOperation("댓글 삭제하기")
+//    @GetMapping("/boards/{commentId}/delete")
+//    public String deleteComment() {
+//
+//        return "detailPost";
+//    }
 }
 
