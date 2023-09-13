@@ -88,25 +88,6 @@
       </div>
     </div>
   </div>
-  <div class="button-container">
-    <li class="page-item" th:if="${paging.hasPrevious}">
-      <a th:href="@{|?page=${paging.number-1}|}">이전</a>
-    </li>
-    <span th:text="${page}"></span>
-    <!--<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-      <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-        <span>다음</span>
-      </a>
-    </li>-->
-    <!--<form id="myForm" action="/freeBoard/move" method="GET">
-      &lt;!&ndash;<button type="button"  onclick="previousPage()">이전</button>&ndash;&gt;
-      <span th:text="${page}"></span>
-      <div th:if="${}">
-      <a class = "button" th:href="@{|?page=${page+1}|}"><span>이전</span></a>
-      <span th:text="${page+1}"></span>
-      &lt;!&ndash;<button type="button" onclick="nextPage()">다음</button>&ndash;&gt;
-    </form>-->
-  </div>
 </div>
 </body>
 </html>
