@@ -63,16 +63,33 @@
     }
     .button-container {
       text-align: center; /* 버튼을 가운데로 정렬 */
-      margin-top: 20px; /* 버튼 위 간격 추가 */
+      /*margin-top: 20px;*/ /* 버튼 위 간격 추가 */
     }
     .button-container button {
-      margin: 0 10px; /* 버튼 사이 간격 추가 */
     }
   </style>
 </head>
 <body>
 <div class="container">
   <h1>자유 게시판</h1>
+  <nav>
+    <Div class = "container">
+      <h1 class = "nav-logo">
+      </h1>
+      <div class = "nav-menu">
+        <u1 class = "nav-btn">
+          <li><a href = "index.html" target = "_blank"
+                 th:onclick="|location.href='@{/main}'|"
+          >홈</a></li>
+        </u1>
+        <u1 class = "nav-btn">
+          <li><a href = "index.html" target = "_blank"
+                 th:onclick="|location.href='@{/popularBoard}'|"
+          >핫 게시판</a></li>
+        </u1>
+      </div>
+    </Div>
+  </nav>
   <div th:each="post : ${posts}">
     <div class="post">
       <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
@@ -89,28 +106,13 @@
     </div>
   </div>
   <div class="button-container">
-    <li class="page-item">
-      <a th:disabled="${paging.getNumber()==0}" th:href="@{|?page=${paging.number-1}|}">이전</a>
-    </li>
-    <select
-            th:disabled="${paging.getNumber()==1}"
-            name="partnerCode"
-            id="partnerCode">
-    </select>
+    <a th:if="${paging.hasPrevious()}" th:href="@{|?page=${paging.number-1}|}">
+      <button>이전</button>
+    </a>
     <span th:text="${page}"></span>
-    <!--<li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-      <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-        <span>다음</span>
-      </a>
-    </li>-->
-    <!--<form id="myForm" action="/freeBoard/move" method="GET">
-      &lt;!&ndash;<button type="button"  onclick="previousPage()">이전</button>&ndash;&gt;
-      <span th:text="${page}"></span>
-      <div th:if="${}">
-      <a class = "button" th:href="@{|?page=${page+1}|}"><span>이전</span></a>
-      <span th:text="${page+1}"></span>
-      &lt;!&ndash;<button type="button" onclick="nextPage()">다음</button>&ndash;&gt;
-    </form>-->
+    <a th:if="${paging.hasNext()}" th:href="@{|?page=${paging.number+1}|}">
+      <button>다음</button>
+    </a>
   </div>
 </div>
 </body>
