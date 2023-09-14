@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -74,6 +75,8 @@ public class PostWriteController {
         postForm.setContent(content);
         Long postId = postWriteService.writePost(postForm, restaurantName);
         Post view = postWriteService.showPost(postId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
 //        postService.addPost(restaurantName, postForm1);
 //        model.addAttribute("title", postForm.getTitle());
@@ -90,6 +93,8 @@ public class PostWriteController {
     @GetMapping("/boards/{postId}/update")
     public String showUpdatePostForm(@PathVariable Long postId, Model model) {
         Post view = postWriteService.showPost(postId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
         model.addAttribute("postId", postId);
 
@@ -118,6 +123,8 @@ public class PostWriteController {
 
         postWriteService.updatePost(postId, title, content, restaurantName);
         Post view = postWriteService.showPost(postId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
 //        model.addAttribute("title", title);
 //        model.addAttribute("content", content);
@@ -152,6 +159,8 @@ public class PostWriteController {
         commentForm.setContent(commentContent);
         Comment commentView = commentService.postComment(commentForm);
         Post view = postWriteService.showPost(postId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("commentView", commentView);
         model.addAttribute("view", view);
         return "detailPost";
@@ -163,6 +172,8 @@ public class PostWriteController {
         Long postId = commentService.getPostId(commentId);
         Post view = postWriteService.showPost(postId);
         Comment commentView = commentService.showComment(commentId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
         model.addAttribute("commentView", commentView);
 
@@ -179,6 +190,8 @@ public class PostWriteController {
         Long postId = commentService.getPostId(commentId);
         Post view = postWriteService.showPost(postId);
         Comment commentView = commentService.updateComment(commentId, commentContent);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("commentView", commentView);
         model.addAttribute("view", view);
         return "detailPost";
@@ -190,6 +203,8 @@ public class PostWriteController {
         Long postId = commentService.getPostId(commentId);
         Post view = postWriteService.showPost(postId);
         commentService.deleteComment(commentId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
         return "detailPost";
     }

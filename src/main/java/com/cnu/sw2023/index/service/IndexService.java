@@ -1,4 +1,5 @@
 package com.cnu.sw2023.index.service;
+import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.index.dto.MainDTO;
 import com.cnu.sw2023.index.dto.MainPostDto;
 import com.cnu.sw2023.like.domain.PostLike;

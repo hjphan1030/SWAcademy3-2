@@ -6,11 +6,15 @@ import com.cnu.sw2023.exception.CommentNotFoundException;
 import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.comment.repository.CommentRepository;
 import com.cnu.sw2023.like.repository.CommentLikeRepository;
+import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 @Service @AllArgsConstructor
@@ -90,5 +94,18 @@ public class CommentService {
         }
         Comment comment = optionalComment.get();
         commentRepository.delete(comment);
+    }
+
+    // 댓글 목록 불러오기
+    public List<Comment> getCommentList(Long postId) {
+        Optional<Post> post = postRepository.findById(postId);
+        List<Comment> commentList = post.get().getComments();
+        if (commentList != null) {
+            commentList.sort(Comparator.comparing(Comment::getCreatedAt).reversed());
+            return commentList;
+        } else {
+            // commentList가 null인 경우 처리
+            return Collections.emptyList(); // 빈 리스트를 반환하거나 다른 적절한 처리를 수행합니다.
+        }
     }
 }
