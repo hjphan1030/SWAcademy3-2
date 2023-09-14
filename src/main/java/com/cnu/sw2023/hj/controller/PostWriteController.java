@@ -73,12 +73,14 @@ public class PostWriteController {
         postForm.setTitle(title);
         postForm.setContent(content);
         Long postId = postWriteService.writePost(postForm, restaurantName);
+        Post view = postWriteService.showPost(postId);
+        model.addAttribute("view", view);
 //        postService.addPost(restaurantName, postForm1);
-        model.addAttribute("title", postForm.getTitle());
-        model.addAttribute("content", postForm.getContent());
-        model.addAttribute("restaurantName", restaurantName);
+//        model.addAttribute("title", postForm.getTitle());
+//        model.addAttribute("content", postForm.getContent());
+//        model.addAttribute("restaurantName", restaurantName);
 //        model.addAttribute("createdAt", )
-        model.addAttribute("postId", postId);
+//        model.addAttribute("postId", postId);
 //        model.addAttribute("userName", authentication.getName());
 
         return "detailPost";
@@ -115,9 +117,11 @@ public class PostWriteController {
             return "pageFault";
 
         postWriteService.updatePost(postId, title, content, restaurantName);
-        model.addAttribute("title", title);
-        model.addAttribute("content", content);
-        model.addAttribute("restaurantName", restaurantName);
+        Post view = postWriteService.showPost(postId);
+        model.addAttribute("view", view);
+//        model.addAttribute("title", title);
+//        model.addAttribute("content", content);
+//        model.addAttribute("restaurantName", restaurantName);
 
         return "detailPost";
     }
@@ -136,36 +140,58 @@ public class PostWriteController {
 //        return "showDetailPost";
 //    }
 //
-//    @ApiOperation("댓글 작성하기")
-//    @PostMapping("/boards/comment")
-//    public String writeComment(String comment, Model model) {
-//        if (comment == null) {
-//            return "pageFault";
-//        }
-//        CommentForm commentForm = new CommentForm();
-//        commentForm.setContent(comment);
-//        Comment view = commentService.postComment(commentForm);
-//        model.addAttribute("view", view);
-//        return "detailPost";
-//    }
-//
-//    @ApiOperation("댓글 수정하기")
-//    @PostMapping("/boards/{commentId}/update")
-//    public String updateComment(CommentUpdateForm commentUpdateForm, @PathVariable Long commentId, Model model) {
-//        String content = commentUpdateForm.getContent();
-//        if (content == null) {
-//            return "pageFault";
-//        }
-//        commentService.updateComment(commentId, content);
-//        model.addAttribute("commentContent", content);
-//        return "detailPost";
-//    }
-//
-//    @ApiOperation("댓글 삭제하기")
-//    @GetMapping("/boards/{commentId}/delete")
-//    public String deleteComment() {
-//
-//        return "detailPost";
-//    }
+
+    @ApiOperation("댓글 작성하기")
+    @PostMapping("/boards/{postId}/comment")
+    public String writeComment(@PathVariable Long postId, String commentContent, Model model) {
+        if (commentContent == null) {
+            return "pageFault";
+        }
+        CommentForm commentForm = new CommentForm();
+        commentForm.setPostId(postId);
+        commentForm.setContent(commentContent);
+        Comment commentView = commentService.postComment(commentForm);
+        Post view = postWriteService.showPost(postId);
+        model.addAttribute("commentView", commentView);
+        model.addAttribute("view", view);
+        return "detailPost";
+    }
+
+    @ApiOperation("댓글 수정하기")
+    @GetMapping("/boards/comment/{commentId}/update")
+    public String showUpdateCommentForm(@PathVariable Long commentId, Model model) {
+        Long postId = commentService.getPostId(commentId);
+        Post view = postWriteService.showPost(postId);
+        Comment commentView = commentService.showComment(commentId);
+        model.addAttribute("view", view);
+        model.addAttribute("commentView", commentView);
+
+        return "updateComment";
+    }
+
+    @ApiOperation("댓글 수정하기")
+    @PostMapping("/boards/comment/{commentId}/update")
+    public String updateComment(CommentUpdateForm commentUpdateForm, @PathVariable Long commentId, Model model) {
+        String commentContent = commentUpdateForm.getContent();
+        if (commentContent == null) {
+            return "pageFault";
+        }
+        Long postId = commentService.getPostId(commentId);
+        Post view = postWriteService.showPost(postId);
+        Comment commentView = commentService.updateComment(commentId, commentContent);
+        model.addAttribute("commentView", commentView);
+        model.addAttribute("view", view);
+        return "detailPost";
+    }
+
+    @ApiOperation("댓글 삭제하기")
+    @GetMapping("/boards/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Long commentId, Model model) {
+        Long postId = commentService.getPostId(commentId);
+        Post view = postWriteService.showPost(postId);
+        commentService.deleteComment(commentId);
+        model.addAttribute("view", view);
+        return "detailPost";
+    }
 }
 

@@ -169,15 +169,6 @@
             font-size: 13px;
             min-height: 20px; padding: 5px;
         }
-        .comment-title {
-            font-size: 20px;
-        }
-        .comment-createdAt {
-            font-size: 15px;
-        }
-        .comment-content {
-            font-size: 18px;
-        }
         .button {
             position: fixed;
             bottom: 0px;
@@ -312,36 +303,33 @@
                     <div class="comment-item-container">
                         <div class="comment-item-left">
                             <form action="">
-                            <button class="comment_likes" type="button">
-                                좋아요
-                            </button>
+                                <button class="comment_likes" type="button">
+                                    좋아요
+                                </button>
                             </form>
                         </div>
                         <div class="comment-item-info-container">
                             <div class="comment-item-layout">
                                 <div class="comment-item-layout_header">
-                                    <div class="comment-title">
-                                    <h5 th:text="${commentView.getId()}" style="margin-top: 0px; margin-bottom: 0px; margin-right: 5px"></h5>
-                                    </div>
-                                    <div class="comment-createdAt">
-                                    <p th:text="${commentView.getCreatedAt()}" style="margin-top: 0px; margin-bottom: 0px"></p>
-                                    </div>
+<!--                                    <h5 th:text="${commentView.getId()}"></h5>-->
+<!--                                    <p th:text="${commentView.getCreatedAt()}"></p>-->
                                 </div>
-                                <div class="comment-item-layout_body">
-                                    <h6 class="comment-content" th:text="${commentView.getContent()}"></h6>
-                                </div>
-                                <div class="comment-item-layout_bottom">
-                                    <div class="button">
-                                        <form th:action="@{'/boards/comment/' + ${commentView.getId()} + '/update'}" method="get">
-                                            <button class="update" type="submit">수정</button>
+                                    <div class="comment-item-layout_body">
+                                        <form th:action="@{'/boards/comment/' + ${commentView.getId()} + '/update'}" method="post">
                                             <input type="hidden" name="commentId" th:value="${commentView.getId()}">
-                                        </form>
-                                        <form th:action="@{'/boards/comment/' + ${commentView.getId()} + '/delete'}" method="get">
-                                            <button class="update" type="submit">삭제</button>
-                                            <input type="hidden" name="commentId" th:value="${commentView.getId()}">
+                                            <textarea class="commentUpdateBox" th:field="${commentView.content}" name="commentContent"></textarea>
+                                            <button class="update" type="submit">완료</button>
                                         </form>
                                     </div>
-                                </div>
+                                    <div class="comment-item-layout_bottom">
+                                        <div class="button">
+<!--                                        <form th:action="@{'/boards/comment/' + ${commentView.getId()} + '/update'}" method="post">-->
+                                            <button class="update" type="button">취소</button>
+<!--                                            <input type="hidden" name="commentId" th:value="${commentView.getId()}">-->
+<!--                                        </form>-->
+<!--                                            <button class="update" type="submit">완료</button>-->
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>

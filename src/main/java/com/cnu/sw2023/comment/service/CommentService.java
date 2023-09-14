@@ -31,19 +31,28 @@ public class CommentService {
                 .build();
         commentRepository.save(comment);
     }
-//
-//    public Comment postComment(CommentForm commentForm) {
-//        Long postId = commentForm.getPostId();
-//        String content = commentForm.getContent();
-//
-//        Comment comment = Comment.builder()
-//                .post(postRepository.findById(postId).get())
-//                .content(content)
-//                .createdAt(LocalDateTime.now())
-//                .build();
-//        commentRepository.save(comment);
-//        return comment;
-//    }
+
+    public Comment postComment(CommentForm commentForm) {
+        Long postId = commentForm.getPostId();
+        String content = commentForm.getContent();
+
+        Comment comment = Comment.builder()
+                .post(postRepository.findById(postId).get())
+                .content(content)
+                .createdAt(LocalDateTime.now())
+                .build();
+        commentRepository.save(comment);
+        return comment;
+    }
+
+    public Comment showComment(Long commentId) {
+        return commentRepository.findById(commentId).get();
+    }
+
+    public Long getPostId(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).get();
+        return comment.getPost().getId();
+    }
 
     public boolean checkAuth(Long id, String email) {
         Comment comment = commentRepository.findById(id).get();
@@ -54,10 +63,10 @@ public class CommentService {
         }
     }
 
-    public void updateComment(Long commentId, String content) {
+    public Comment updateComment(Long commentId, String content) {
         Comment comment = commentRepository.findById(commentId).get();
         comment.setContent(content);
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
     }
 
     public void deleteComment(Long commentId, String email) {
@@ -70,6 +79,16 @@ public class CommentService {
         if (!comment.getEmail().equals(email)) {
             throw new UnauthorizedAccessException("댓글 작성자만 삭제할 수 있습니다");
         }
+        commentRepository.delete(comment);
+    }
+
+    public void deleteComment(Long commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+
+        if (optionalComment.isEmpty()) {
+            throw new CommentNotFoundException("not found comment");
+        }
+        Comment comment = optionalComment.get();
         commentRepository.delete(comment);
     }
 }
