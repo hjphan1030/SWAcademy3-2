@@ -95,6 +95,7 @@ public class MemberViewController {
         log.info("로그인 페이지에 들어왔습니다");
         return "loginForm";
     }
+
     @PostMapping("/login")
     public String processLoginForm(Model model, LoginRequestDto loginRequestDto
             , BindingResult bindingResult, HttpServletResponse response) {

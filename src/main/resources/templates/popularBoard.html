@@ -63,16 +63,29 @@
     }
     .button-container {
       text-align: center; /* 버튼을 가운데로 정렬 */
-      margin-top: 20px; /* 버튼 위 간격 추가 */
+      /*margin-top: 20px;*/ /* 버튼 위 간격 추가 */
     }
     .button-container button {
-      margin: 0 10px; /* 버튼 사이 간격 추가 */
     }
   </style>
 </head>
 <body>
 <div class="container">
   <h1>핫 게시판</h1>
+  <nav>
+    <Div class = "container">
+      <h1 class = "nav-logo">
+      </h1>
+      <div class = "nav-menu">
+        <u1 class = "nav-btn">
+          <a th:href="@{/}">홈</a>
+        </u1>
+        <u1 class = "nav-btn">
+          <button type="button" onclick="getHTML('http://localhost:8080/freeBoard')">자유 게시판</button>
+        </u1>
+      </div>
+    </Div>
+  </nav>
   <div th:each="post : ${posts}">
     <div class="post">
       <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
@@ -89,37 +102,70 @@
     </div>
   </div>
   <div class="button-container">
-    <form id="myForm" action="/popularBoard/move" method="POST">
-      <button type="button"  onclick="previousPage()">이전</button>
-      <span th:text="${page}"></span>
-      <button type="button" onclick="nextPage()">다음</button>
-    </form>
+    <a th:if="${paging.hasNext()}">
+      <button type="button" onclick="getPreviousPage()">이전</button>
+    </a>
+    <span th:text="${currentPage}"></span>
+    <a th:if="${paging.hasNext()}">
+      <button type="button" onclick="getNextPage()">다음</button>
+    </a>
   </div>
-  <script th:inline="javascript">
-    /* 변수 값을 JavaScript 변수에 할당 */
-    var currentPage = [[${page}]];
-    function previousPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        submitForm(currentPage);
-      }
-    }
-
-    function nextPage() {
-      currentPage++;
-      submitForm(currentPage);
-    }
-
-    function submitForm(page) {
-      var form = document.getElementById('myForm');
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'page';
-      input.value = page;
-      form.appendChild(input);
-      form.submit();
-    }
-  </script>
 </div>
+
+<script th:inline="javascript">
+  var currentPage = [[${currentPage}]];
+  window.addEventListener('beforeunload', function (event) {
+    // 사용자가 페이지를 새로고침하려고 할 때 실행됩니다.
+    event.preventDefault(); // 기본 동작을 막음 (경고 메시지를 표시하지 않음)
+    getHTML();
+  });
+
+  function openInNewWindow(htmlContent, url) {
+    var windowFeatures = 'fullscreen=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no';
+    // 새 창 열기
+    var urlToOpen = url;
+    var newWindow = window.open('', '_top', windowFeatures);
+    // 새 창에 HTML 내용 쓰기
+    newWindow.document.open();
+    newWindow.document.write(htmlContent);
+    // 브라우저 히스토리 업데이트
+    history.pushState(null, null, urlToOpen);
+    newWindow.document.close();
+  }
+
+  function getHTML(url) {
+    const requestOptions = {
+      method: 'GET', // 또는 다른 HTTP 메서드 사용
+      headers: new Headers({
+        'Authorization': localStorage.getItem("Authorization"), // Authorization 헤더에 토큰을 추가
+      }),
+    };
+    console.log(localStorage.getItem("Authorization"));
+    fetch(url, requestOptions)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.text(); // HTML 파일의 내용을 텍스트로 읽음
+            })
+            .then(htmlContent => {
+              // 원격 HTML 파일의 내용을 사용하여 동적으로 페이지에 표시
+              openInNewWindow(htmlContent, url);
+            })
+            .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+            });
+  }
+  function getNextPage(){
+    let page = currentPage+1;
+    let url = 'http://localhost:8080/popularBoard?page='+page;
+    getHTML(url)
+  }
+  function getPreviousPage(){
+    let page = currentPage-1;
+    let url = 'http://localhost:8080/popularBoard?page='+page;
+    getHTML(url)
+  }
+</script>
 </body>
 </html>
