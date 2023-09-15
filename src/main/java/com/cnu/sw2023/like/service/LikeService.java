@@ -66,7 +66,7 @@ public class LikeService {
     }
 
     public void reviewLike(Long reviewId,String email) {
-        Optional<ReviewLike> existingReviewLike = reviewLikeRepository.findByReviewIdAndEmail(reviewId,email);
+        Optional<ReviewLike> existingReviewLike = reviewLikeRepository.findByReviewIdAndEmail(reviewId, email);
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
         Review review = optionalReview.orElseThrow(EntityNotFoundException::new);
         if (existingReviewLike.isEmpty()) {
@@ -81,6 +81,23 @@ public class LikeService {
             reviewRepository.save(review);
             ReviewLike reviewLike = existingReviewLike.get();
             reviewLikeRepository.delete(reviewLike);
+        }
+    }
+    public void postLike(Long postId) throws EntityNotFoundException {
+        Optional<PostLike> existingLike = postLikeRepository.findById(postId);
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        Post post = optionalPost.orElseThrow(EntityNotFoundException::new);
+        if (existingLike.isEmpty()) {
+            post.setLikeCount(post.getLikeCount() + 1);
+            postRepository.save(post);
+            PostLike newLike = new PostLike();
+            newLike.setPost(post);
+            postLikeRepository.save(newLike);
+        } else {
+            post.setLikeCount(post.getLikeCount() - 1);
+            postRepository.save(post);
+            PostLike postLike = existingLike.get();
+            postLikeRepository.delete(postLike);
         }
     }
 }
