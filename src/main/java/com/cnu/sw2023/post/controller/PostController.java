@@ -154,7 +154,6 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
         }
     }
-
     @PostMapping("/{postId}/update")
     public ResponseEntity<Map<String,String>> updatePost(@PathVariable Long postId, @RequestBody PostUpdateForm postUpdateForm){
         String content = postUpdateForm.getContent();
@@ -166,6 +165,12 @@ public class PostController {
 }
 
 
-
-
-
+//    @PostMapping("/{postId}/update")
+//    public ResponseEntity<Map<String,String>> updatePost(@PathVariable Long postId, @RequestBody PostUpdateForm postUpdateForm){
+//        String content = postUpdateForm.getContent();
+//        postService.updatePost(postId,content);
+//        Map<String, String> res = new HashMap<>();
+//        res.put("message","수정 완료");
+//        return ResponseEntity.ok().body(res);
+//    }
+//}
