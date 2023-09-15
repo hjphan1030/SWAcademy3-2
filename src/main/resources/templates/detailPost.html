@@ -349,13 +349,10 @@
             <section class="community-comment">
                 <div class="community-comment-header">
                     <div class="comment-header">
-<!--                        <form th:action="@{'/boards/comment/' + ${commentId} + '/like'}" method="post">-->
-<!--                            <input type="hidden" name="commentId" th:value="${view.getId()}">-->
-<!--                            <h3 style="display: inline; text-align: center; margin-top: 0; margin-bottom: 0;">-->
-<!--                                댓글-->
-<!--&lt;!&ndash;                                <span th:text="${totalComment}">0</span>&ndash;&gt;-->
-<!--                            </h3>-->
-<!--                        </form>-->
+                        <h3 style="display: inline; text-align: center; margin-top: 0; margin-bottom: 0;">
+                            댓글
+                            <span th:text="${commentList.size()}"></span>
+                        </h3>
                     </div>
                 </div>
                 <div class="community-comment-editor">
@@ -379,10 +376,10 @@
                                     <div class="comment-likes">
                                         <form th:action="@{'/boards/comment/' + ${comment.getId()} + '/like'}" method="post">
                                             <input type="hidden" name="commentId" th:value="${comment.getId()}">
-                                            <button class="comment_likes_button" type="button">
+                                            <button class="comment_likes_button" type="submit">
                                                 <img src="좋아요.png" alt="">
                                             </button>
-                                           <h4 style="display: block; text-align: center; margin-top: 0; margin-bottom: 0"><span th:text="${number}">0</span></h4>
+                                           <h4 style="display: block; text-align: center; margin-top: 0; margin-bottom: 0"><span th:text="${comment.getLikeCount()}">0</span></h4>
                                         </form>
                                     </div>
                                 </td>
