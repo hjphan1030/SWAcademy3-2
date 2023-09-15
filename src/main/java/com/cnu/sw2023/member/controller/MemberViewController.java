@@ -107,7 +107,6 @@ public class MemberViewController {
             if (token != null) {
                 model.addAttribute("Authorization","Bearer "+token);
             }
-
             return "redirect:/";
         } catch (UnMatchedPasswordException e) {
             bindingResult.rejectValue("password","passwordInCorrect",e.getMessage());
