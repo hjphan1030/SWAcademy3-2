@@ -58,4 +58,22 @@ public class LikeService {
             commentLikeRepository.delete(commentLike);
         }
     }
+
+    public void postLike(Long postId) throws EntityNotFoundException {
+        Optional<PostLike> existingLike = postLikeRepository.findById(postId);
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        Post post = optionalPost.orElseThrow(EntityNotFoundException::new);
+        if (existingLike.isEmpty()) {
+            post.setLikeCount(post.getLikeCount() + 1);
+            postRepository.save(post);
+            PostLike newLike = new PostLike();
+            newLike.setPost(post);
+            postLikeRepository.save(newLike);
+        } else {
+            post.setLikeCount(post.getLikeCount() - 1);
+            postRepository.save(post);
+            PostLike postLike = existingLike.get();
+            postLikeRepository.delete(postLike);
+        }
+    }
 }

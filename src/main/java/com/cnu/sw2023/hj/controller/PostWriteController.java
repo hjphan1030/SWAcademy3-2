@@ -5,25 +5,32 @@ import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.comment.domain.CommentUpdateForm;
 import com.cnu.sw2023.comment.service.CommentService;
 import com.cnu.sw2023.hj.service.PostWriteService;
+import com.cnu.sw2023.like.service.LikeService;
 import com.cnu.sw2023.post.domain.Post;
+import com.cnu.sw2023.post.form.DetailPostForm;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.form.UpdatePostForm;
+import com.cnu.sw2023.post.service.PostService;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 public class PostWriteController {
 
+    private final PostService postService;
     private final PostWriteService postWriteService;
     private final RestaurantService restaurantService;
     private final CommentService commentService;
+    private final LikeService likeService;
 
 
     @GetMapping("/boards/post")
@@ -173,6 +180,46 @@ public class PostWriteController {
         List<Comment> commentList = commentService.getCommentList(postId);
         model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
+        return "detailPost";
+    }
+
+    @ApiOperation("게시글 좋아요 누르기")
+    @PostMapping("/boards/post/{postId}/like")
+    public String postLike(@PathVariable Long postId, Model model) {
+        likeService.postLike(postId, "temp123@naver.com");
+        List<Comment> commentList = commentService.getCommentList(postId);
+        Post view = postWriteService.showPost(postId);
+        model.addAttribute("view", view);
+        model.addAttribute("commentList", commentList);
+        return "detailPost";
+    }
+
+    @ApiOperation("댓글 좋아요 누르기")
+    @PostMapping("/boards/comment/{commentId}/like")
+    public String commentLike(@PathVariable Long commentId, Model model) {
+        likeService.commentLike(commentId, "temp123@naver.com");
+        Long postId = commentService.getPostId(commentId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        Post view = postWriteService.showPost(postId);
+        model.addAttribute("view", view);
+        model.addAttribute("commentList", commentList);
+        return "detailPost";
+    }
+
+    @ApiOperation("게시글 상세 보기")
+    @GetMapping("/boards/post/{postId}/detail")
+    public String showDetailPost(@PathVariable Long postId, Model model) {
+        Optional<Post> targetPost = postService.getPostByPostId(postId);
+        if (targetPost.isEmpty()) {
+            return "pageFault";
+        }
+
+        Post post = targetPost.get();
+        DetailPostForm detailPostForm = new DetailPostForm(post);
+        Post view = postWriteService.showPost(postId);
+        List<Comment> commentList = commentService.getCommentList(postId);
+        model.addAttribute("view", view);
+        model.addAttribute("commentList", commentList);
         return "detailPost";
     }
 }
