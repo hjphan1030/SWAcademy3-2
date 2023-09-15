@@ -35,20 +35,44 @@
             font-size: 20px;
             cursor: pointer;
         }
+        .college_select {
+            width: 530px;
+            height: 54px;
+        }
+        .college_option {
+            font-size: 20px;
+        }
     </style>
 </head>
 <div class="whole">
         <div class="title">
             <h2>회원가입</h2>
         </div>
-</div>
-    <form class="log_join" th:action="@{/user/join}" th:object="${joinReqDto}" method="post">
+    <div class="log_join">
+    <form th:action="@{/user/join}" th:object="${joinReqDto}" method="post">
         <div th:replace="~{errorForm :: formErrorsFragment}"></div>
         <div class="log_form">
-            <input placeholder="아이디 입력" type="email" name="email" id="email" th:field="*{email}">
-            <input placeholder="비밀번호 입력" type="password" name="password" id="password" th:field="*{password}">
-            <input placeholder="비밀번호 확인" type="password" name="password2" id="password2" th:field="*{password2}">
+            <input placeholder="아이디 입력" type="text" name="memberId" id="memberId" th:field="${joinReqDto.memberId}">
+            <input placeholder="이메일 입력" type="hidden" name="email" th:field="${joinReqDto.email}" th:value="${joinReqDto.email}">
+            <input placeholder="비밀번호 입력" type="password" name="password" id="password" th:field="${joinReqDto.password}">
+            <input placeholder="비밀번호 확인" type="password" name="password2" id="password2" th:field="${joinReqDto.password2}">
+            <select id="college" name="college" th:field="${joinReqDto.college}" class="college_select">
+                <option value="" selected class="college_option">소속 단과대를 선택해주세요</option>
+                <th:block th:each="college : ${collegeList}">
+                    <option th:value="${college}" th:text="${college}" class="college_option"></option>
+                </th:block>
+            </select>
         </div>
         <button type="submit" class="submit_btn">회원가입</button>
     </form>
+    </div>
+    <form th:action="@{/user/mailConfirm}" th:object="${joinReqDto}" method="post">
+        <input placeholder="이메일 입력" type="email" name="email" id="email"  th:field="${joinReqDto.email}">
+        <button type="submit" class="email_send_btn">이메일 발송</button>
+    </form>
+    <form >
+        <input placeholder="이메일 인증 코드 입력" type="text" name="authCode" id="authCode" th:field="${joinReqDto.authCode}">
+        <button type="button" class="verify_email_btn">인증 코드 확인</button>
+    </form>
+</div>
 </html>

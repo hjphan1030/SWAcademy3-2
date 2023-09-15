@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +23,9 @@ import java.util.stream.Stream;
 public class PostViewController {
     private final PostService postService;
     @GetMapping("/freeBoard")   // 자게 더보기
-    public String getFreeBoard(Model model, @RequestParam(defaultValue = "0") int page){
+    public String getFreeBoard(Model model, @RequestParam(defaultValue = "0") int page
+            , HttpServletRequest request){
+        String token = request.getHeader("Authorization");
         int size = 10;
         Pageable pageable = PageRequest.of(page, size);
         Page<Post> pages = postService.getFreePost(pageable); //(restaurantName, pageable);
@@ -33,7 +36,8 @@ public class PostViewController {
         List<PostPageDto> allPosts = dtoStream.collect(Collectors.toList());
         model.addAttribute("paging", pages);
         model.addAttribute("posts", allPosts);
-        model.addAttribute("page", page);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("token", token);
         return "freeBoard";
     }
     @GetMapping("/popularBoard")   // 핫게 더보기
@@ -50,7 +54,8 @@ public class PostViewController {
                 .map(post -> post.getCreatedAt().toString().substring(5,7)+"/"+post.getCreatedAt().toString().substring(8,10)+" "+post.getCreatedAt().toString().substring(11,16))
                 .collect(Collectors.toList());
         model.addAttribute("posts", allPosts);
-        model.addAttribute("page", page);
+        model.addAttribute("paging", pages);
+        model.addAttribute("currentPage", page);
         model.addAttribute("createdAts", CreatedAts);
         return "popularBoard";
     }

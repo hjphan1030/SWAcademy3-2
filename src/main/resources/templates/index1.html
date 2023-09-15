@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Test Page</title>
+</head>
+<body>
+<div id="button-container">
+  <span id="authorizationToken" th:text="${Authorization}"></span>
+</div>
+<button type="button" onclick="getRestaurantList()">요청하기</button>
+<script th:inline="javascript">
+  var token = [[${Authorization}]]
+  function getRestaurantList(){
+    /*<![CDATA[*/
+    console.log(token)
+    console.log("@")
+    // XMLHttpRequest를 사용하여 GET 요청 보내기
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:8080/boards/restaurantList", true);
+    xhr.setRequestHeader("Authorization", token);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // 요청이 완료되었을 때 처리할 코드
+        var response = xhr.responseText;
+        console.log(response);
+      }
+    };
+    xhr.send("GET", "http://localhost:8080/boards/restaurantList", true);
+    /*]]>*/
+  }
+</script>
+</body>
+</html>

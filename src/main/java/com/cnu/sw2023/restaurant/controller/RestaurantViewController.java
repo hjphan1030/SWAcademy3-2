@@ -1,4 +1,4 @@
-package com.cnu.sw2023.restaurant;
+package com.cnu.sw2023.restaurant.controller;
 
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.dto.PostPageDto;
@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 public class RestaurantViewController {
     private final PostService postService;
     private final RestaurantService restaurantService;
-
 
     @GetMapping("/restaurantList")
     public String restaurantPage(Model model) {

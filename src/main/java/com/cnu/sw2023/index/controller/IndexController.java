@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.*;
-import java.util.stream.Stream;
 
 @Controller
 @AllArgsConstructor
@@ -45,7 +44,6 @@ public class IndexController {
         log.info("review : {}", Arrays.toString(reviewLists.toArray()));
         return ResponseEntity.ok().body(reviewLists);
     }
-
     @GetMapping("/free") @ResponseBody    // 자게 프리뷰
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
