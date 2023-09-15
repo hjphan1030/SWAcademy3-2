@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor //쿠키 토큰
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -29,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorization == null ) {
-            log.error("authorization 이 null 입니다");
+//            log.error("authorization 이 null 입니다");
             filterChain.doFilter(request,response);
             return ;
         }

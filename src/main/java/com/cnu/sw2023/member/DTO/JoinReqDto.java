@@ -29,4 +29,5 @@ public class JoinReqDto {
     @NotEmpty(message = "단과대학을 선택해주세요")
     private String college;
 
+    private String authCode;
 }

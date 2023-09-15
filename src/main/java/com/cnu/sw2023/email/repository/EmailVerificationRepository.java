@@ -7,7 +7,7 @@ import java.util.Date;
 
 public interface EmailVerificationRepository extends JpaRepository<EmailVerification, Long> {
 
-    EmailVerification findByEmailAndAuthCode(String email, String authCode);
+    boolean existsByEmailAndAuthCode(String email, String authCode);
 
     void deleteByExpirationDateBefore(Date expirationDate);
 }

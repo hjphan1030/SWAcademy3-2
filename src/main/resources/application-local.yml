@@ -1,4 +1,7 @@
 spring:
+  web:
+    resources:
+      add-mappings: false
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -18,6 +21,7 @@ spring:
     username: sa
     password:
   mvc:
+    static-path-pattern: /static/**
     path match: # 스웨거 경로 설정
       matching-strategy: ant_path_matcher
   auditing:
@@ -44,6 +48,9 @@ spring:
 
 server:
   port: 8080
+  error:
+    whitelabel:
+      enabled: false
 
 
 logging:

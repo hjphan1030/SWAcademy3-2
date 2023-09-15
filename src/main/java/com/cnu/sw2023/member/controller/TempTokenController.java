@@ -17,6 +17,6 @@ public class TempTokenController {
     public String tempToken(HttpServletRequest request){
         String token = memberService.temp();
         request.setAttribute("Authorization", "Bearer " + token);
-        return "index";
+        return "index11";
     }
 }

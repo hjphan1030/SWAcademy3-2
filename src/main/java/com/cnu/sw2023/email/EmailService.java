@@ -73,4 +73,7 @@ public class EmailService {
         return templateEngine.process("mail", context);
     }
 
+    public boolean emailVerification(EmailCheck emailCheck) {
+        return emailVerificationRepository.existsByEmailAndAuthCode(emailCheck.getEmail(),emailCheck.getAuthCode());
+    }
 }
