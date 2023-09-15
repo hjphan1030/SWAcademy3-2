@@ -58,8 +58,8 @@ public class MemberViewController {
     }
     @PostMapping("/login")
     public String processLoginForm(LoginRequestDto loginRequestDto
-            ,Model model
-            ,BindingResult bindingResult) {
+            , Model model
+            , BindingResult bindingResult) {
         String memberId = loginRequestDto.getMemberId();
         String password = loginRequestDto.getPassword();
         try {
