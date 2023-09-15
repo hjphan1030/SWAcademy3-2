@@ -342,11 +342,11 @@
                             <button class="update" type="submit">삭제</button>
                             <input type="hidden" name="postId" th:value="${view.getId()}">
                         </form>
-                        <button class="goToList" onclick="goBack()">닫기</button> <!--버튼 클릭시 6-1로 돌아가기-->
+                        <button class="goToList" onClick= a()>닫기</button> <!--버튼 클릭시 6-1로 돌아가기-->
                         <script>
                             // JavaScript 함수를 사용하여 뒤로 가기 기능을 구현
-                            function goBack() {
-                                window.history.back();
+                            function a () {
+                                window.location.href ='http://localhost:8080/store'
                             }
                         </script>
                     </div>
