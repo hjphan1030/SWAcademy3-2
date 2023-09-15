@@ -110,7 +110,17 @@ public class MemberService {
                 .college(College.fromString("예술대학"))
                 .memberId(memberId)
                 .build();
+        Member member1 = Member.builder()
+                .email("2@2")
+                .password(passwordEncoder.encode("123"))
+                .college(College.경상대학).memberId("b123").build();
+        Member member2 = Member.builder()
+                .email("3@3")
+                .password(passwordEncoder.encode("123"))
+                .college(College.사범대학).memberId("c123").build();
         memberRepository.save(member);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
         log.info("아이디 : {} 비밀번호 : {} 으로 계정이 등록되었습니다",memberId,password);
         return "회원가입 성공";
     }

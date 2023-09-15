@@ -12,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,35 +27,43 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+            Cookie[] cookies = request.getCookies();
+            String authorization="";
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("accessToken".equals(cookie.getName())) {
+                        authorization = "Bearer " + cookie.getValue();
+                    }
+                }
+            }
+            log.info("{} authorization 값입니다",authorization);
+            if (authorization == null ) {
+                log.error("authorization 이 null 입니다");
+                filterChain.doFilter(request,response);
+                return ;
+            }
+            if (!authorization.startsWith("Bearer ")) {
+                log.error("authorization 을 잘못보냈습니다");
+                filterChain.doFilter(request,response);
+                return ;
+            }
 
-        final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authorization == null ) {
-//            log.error("authorization 이 null 입니다");
+            String token = authorization.split(" ")[1];
+            System.out.println(token);
+            if (JwtUtil.isExpired(token,secretKey)) {
+                log.error("Token이 만료되었습니다");
+                filterChain.doFilter(request,response);
+                return ;
+            }
+
+
+            String email = JwtUtil.getUserName(token,secretKey);
+            log.info("email : {}",email);
+            log.info("토큰 확인 완료 {}",token);
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(email , null , List.of(new SimpleGrantedAuthority("USER")));
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(request,response);
-            return ;
-        }
-        if (!authorization.startsWith("Bearer ")) {
-            log.error("authorization 을 잘못보냈습니다");
-            filterChain.doFilter(request,response);
-            return ;
-        }
-
-        String token = authorization.split(" ")[1];
-        System.out.println(token);
-        if (JwtUtil.isExpired(token,secretKey)) {
-            log.error("Token이 만료되었습니다");
-            filterChain.doFilter(request,response);
-            return ;
-        }
-
-
-        String email = JwtUtil.getUserName(token,secretKey);
-        log.info("email : {}",email);
-        log.info("토큰 확인 완료 {}",token);
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(email , null , List.of(new SimpleGrantedAuthority("USER")));
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        filterChain.doFilter(request,response);
     }
 }
