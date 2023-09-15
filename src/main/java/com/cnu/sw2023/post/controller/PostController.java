@@ -18,11 +18,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -125,7 +128,7 @@ public class PostController {
         List<Restaurant> restaurants = restaurantService.findRestaurants();
         Map<String,Object> res = new HashMap<>();
 
-        List<String> restaurantList = restaurants.stream().map(restaurant -> restaurant.getRestaurantName()).collect(Collectors.toList());
+        List<String> restaurantList = restaurants.stream().map(Restaurant::getRestaurantName).collect(Collectors.toList());
         Collections.sort(restaurantList);
         res.put("restaurantList",restaurantList);
 
@@ -151,7 +154,6 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
         }
     }
-
 //    @PostMapping("/{postId}/update")
 //    public ResponseEntity<Map<String,String>> updatePost(@PathVariable Long postId, @RequestBody PostUpdateForm postUpdateForm){
 //        String content = postUpdateForm.getContent();

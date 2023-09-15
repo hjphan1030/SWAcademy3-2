@@ -66,4 +66,37 @@ public class PostSearchController {
         Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
         return dtoStream.collect(Collectors.toList());
     }
+
+    @GetMapping("/search/title")
+    public List<PostPageDto> searchWholePostsByTitle(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Post> pages = postSearchService.searchWholePostByContent(keyword, pageable);
+        Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
+        return dtoStream.collect(Collectors.toList());
+    }
+
+    @GetMapping("/search/content")
+    public List<PostPageDto> searchWholePostsByContent(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Post> pages = postSearchService.searchWholePostByContent(keyword, pageable);
+        Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
+        return dtoStream.collect(Collectors.toList());
+    }
+
+    @GetMapping("/search")
+    public List<PostPageDto> searchWholePosts(
+            @RequestParam(name = "keyword") String keyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Post> pages = postSearchService.searchWholePost(keyword, pageable);
+        Stream<PostPageDto> dtoStream = pages.stream().map(PostPageDto::new);
+        return dtoStream.collect(Collectors.toList());
+    }
 }

@@ -4,15 +4,18 @@ package com.cnu.sw2023.member.service;
 import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.comment.repository.CommentRepository;
 import com.cnu.sw2023.member.DTO.JoinReqDto;
-import com.cnu.sw2023.member.JwtConfig.JwtUtil;
+import com.cnu.sw2023.member.exception.DuplicatedException;
+import com.cnu.sw2023.config.jwtconfig.JwtUtil;
+import com.cnu.sw2023.member.domain.College;
 import com.cnu.sw2023.member.domain.Member;
 import com.cnu.sw2023.member.exception.NotFoundException;
+import com.cnu.sw2023.member.exception.UnMatchedPasswordException;
 import com.cnu.sw2023.member.repository.MemberRepository;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +23,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -30,30 +38,40 @@ public class MemberService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private Long expiredMS = 1000 * 60 * 60L;
+    private final Long expiredMS = 1000 * 60 * 60L;
 
 
     public String join(JoinReqDto joinReqDto){
         String email = joinReqDto.getEmail();
         String password = joinReqDto.getPassword();
+        String memberId = joinReqDto.getMemberId();
+        College college = College.fromString(joinReqDto.getCollege());
         if (memberRepository.existsByEmail(email)) {
-            return "이미 존재하는 회원입니다";
+            throw new DuplicatedException("중복된 이메일입니다");
         }
-        Member member = Member.builder().email(email).password(passwordEncoder.encode(password)).build();
+        if (memberRepository.existsByMemberId(memberId)) {
+            throw new DuplicatedException("중복된 아이디입니다");
+        }
+        Member member = Member.builder()
+                .email(email)
+                .memberId(memberId)
+                .password(passwordEncoder.encode(password))
+                .college(college)
+                .build();
         memberRepository.save(member);
         return "회원가입 성공";
     }
-    public String login(String email,String password){
-        Member member = memberRepository.findByEmail(email)
+    public String login(String memberId,String password){
+        Member member = memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 아이디입니다"));
         if (!passwordEncoder.matches(password,member.getPassword())) {
-            throw new NotFoundException("비밀번호가 틀렸습니다");
+            throw new UnMatchedPasswordException("비밀번호가 일치하지 않습니다");
         }
-        return JwtUtil.createJwt(email,secretKey,expiredMS);
+        return JwtUtil.createJwt(memberId,secretKey,expiredMS);
     }
 
     public String temp(){
-        return JwtUtil.createJwt("temp@google.com" , secretKey , expiredMS);
+        return JwtUtil.createJwt("tempId" , secretKey , expiredMS);
     }
 
 
@@ -69,5 +87,38 @@ public class MemberService {
         int size = 10;
         Pageable pageable = PageRequest.of(page,size,Sort.by("createdAt"));
         return commentRepository.findByEmail(email,pageable);
+    }
+
+    public boolean existingEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    public String getEmailByMemberId(String memberId){
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 아이디입니다"));
+        return member.getEmail();
+    }
+
+    @PostConstruct
+    public String join(){
+        String email = "1@1";
+        String password = "123";
+        String memberId = "a123";
+        Member member = Member.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .college(College.fromString("예술대학"))
+                .memberId(memberId)
+                .build();
+        memberRepository.save(member);
+        log.info("아이디 : {} 비밀번호 : {} 으로 계정이 등록되었습니다",memberId,password);
+        return "회원가입 성공";
+    }
+    public List<String> getCollegeList() {
+        List<String> collegeList = new ArrayList<>();
+        for (College college : College.values()) {
+            collegeList.add(college.getName());
+        }
+        return collegeList;
     }
 }
