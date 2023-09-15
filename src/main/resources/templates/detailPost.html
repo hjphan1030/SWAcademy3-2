@@ -95,7 +95,7 @@
             margin-top: 24px;
         }
         .community-comment-comments {
-            margin: 32px 0;
+            margin: 15px 0;
         }
         .comment-item-container {
             display: flex;
@@ -130,6 +130,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin: 10px;
         }
         .layout {
             display: flex;
@@ -272,8 +273,24 @@
             border: none; /* 테두리 없애기 */
             cursor: pointer; /* 포인터 커서 설정 */
         }
-        .comment-likes {
-            margin-right: 10px;
+        .comment_likes_button {
+            background: none;
+            border: none; /* 테두리 없음 */
+            cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+        }
+        .comment_likes_button img {
+            /*vertical-align: middle; !* 이미지를 텍스트와 수직 가운데 정렬합니다. *!*/
+            width: 20px;
+            height: 20px;
+        }
+        .post_likes {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .post_likes img {
+            width: 25px;
+            height: 25px;
         }
     </style>
 </head>
@@ -304,9 +321,12 @@
             <div class="question_item_horizontal"></div>
             <div class="question_detail_body">
                 <div class="question_detail_body_left">
-                    <button type="button" class="post_likes">
-                        좋아요
-                    </button>
+                    <form th:action="@{/increase}" method="post">*
+                        <button type="button" class="post_likes">
+                            <img src="좋아요.png" alt="">
+                        </button>
+                        <h4 style="display: block; text-align: center; margin-top: 0; margin-bottom: 0"><span th:text="${number}">0</span></h4>
+                    </form>
                 </div>
                 <div class="question_detail_body_right">
                     <div class="question_detail_body_content" th:text="${view.getContent()}"></div>
@@ -328,7 +348,12 @@
             <section class="community-comment">
                 <div class="community-comment-header">
                     <div class="comment-header">
-                        <h3>댓글</h3>
+                        <form th:action="@{/increase}" method="post">*
+                            <h3 style="display: inline; text-align: center; margin-top: 0; margin-bottom: 0;">
+                                댓글
+                                <span th:text="${number}">0</span>
+                            </h3>
+                        </form>
                     </div>
                 </div>
                 <div class="community-comment-editor">
@@ -350,16 +375,17 @@
                             <tr th:each="comment : ${commentList}">
                                 <td>
                                     <div class="comment-likes">
-                                    <form action="">
-                                        <button class="comment_likes" type="button">
-                                            좋아요
-                                        </button>
-                                    </form>
+                                        <form th:action="@{/increase}" method="post">*
+                                            <button class="comment_likes_button" type="button">
+                                                <img src="좋아요.png" alt="">
+                                            </button>
+                                           <h4 style="display: block; text-align: center; margin-top: 0; margin-bottom: 0"><span th:text="${number}">0</span></h4>
+                                        </form>
                                     </div>
                                 </td>
-                                <td th:text="${comment.getId()}"></td>
-                                <td th:text="${comment.getContent()}"></td>
-                                <td th:text="${comment.getCreatedAt()}"></td>
+                                <td th:text="${comment.getId()}" style="padding: 10px; font-size: 15px; font-weight: bold"></td>
+                                <td th:text="${comment.getContent()}" style="padding: 10px; font-size: 15px"></td>
+                                <td th:text="${comment.getCreatedAt()}" style="padding: 10px; font-size: 13px; font-style: italic"></td>
                                 <td>
                                     <div class="comment-item-layout_bottom">
                                         <div class="button_2">

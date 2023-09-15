@@ -4,41 +4,25 @@ import com.cnu.sw2023.comment.Form.CommentForm;
 import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.comment.domain.CommentUpdateForm;
 import com.cnu.sw2023.comment.service.CommentService;
-import com.cnu.sw2023.exception.PostNotFoundException;
-import com.cnu.sw2023.exception.UnauthorizedAccessException;
 import com.cnu.sw2023.hj.service.PostWriteService;
-import com.cnu.sw2023.member.service.MemberService;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.form.UpdatePostForm;
-import com.cnu.sw2023.post.repository.PostRepository;
-import com.cnu.sw2023.post.service.PostService;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 public class PostWriteController {
 
     private final PostWriteService postWriteService;
-    private final PostService postService;
     private final RestaurantService restaurantService;
-    private final MemberService memberService;
-    private final PostRepository postRepository;
     private final CommentService commentService;
 
 
@@ -78,12 +62,6 @@ public class PostWriteController {
         List<Comment> commentList = commentService.getCommentList(postId);
         model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
-//        postService.addPost(restaurantName, postForm1);
-//        model.addAttribute("title", postForm.getTitle());
-//        model.addAttribute("content", postForm.getContent());
-//        model.addAttribute("restaurantName", restaurantName);
-//        model.addAttribute("createdAt", )
-//        model.addAttribute("postId", postId);
 //        model.addAttribute("userName", authentication.getName());
 
         return "detailPost";
@@ -126,9 +104,6 @@ public class PostWriteController {
         List<Comment> commentList = commentService.getCommentList(postId);
         model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
-//        model.addAttribute("title", title);
-//        model.addAttribute("content", content);
-//        model.addAttribute("restaurantName", restaurantName);
 
         return "detailPost";
     }
@@ -139,14 +114,6 @@ public class PostWriteController {
         postWriteService.deletePost(postId);
         return "postList";
     }
-
-    //    @ApiOperation("게시글 상세 보기")
-//    @GetMapping("/boards/detail")
-//    public String showDetailPost(Model model) {
-//        model.addAttribute("view", view);
-//        return "showDetailPost";
-//    }
-//
 
     @ApiOperation("댓글 작성하기")
     @PostMapping("/boards/{postId}/comment")
