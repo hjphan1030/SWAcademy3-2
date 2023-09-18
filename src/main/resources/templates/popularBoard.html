@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>핫 게시판</title>
+  <style>
+    /* 스타일링을 위한 CSS 코드 */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+    .post {
+      display: flex; /* flexbox 사용 */
+      align-items: flex-start; /* 제목을 위로 정렬 */
+      justify-content: space-between; /* 좌우 정렬 */
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd; /* 네모 모양의 테두리 추가 */
+      border-radius: 5px; /* 테두리 둥글게 만들기 */
+      height: 4em; /* 세로 길이를 조절 */
+    }
+    .postTitle {
+      float: left; /* 제목을 왼쪽으로 이동 */
+    }
+    .postInfo {
+      display: flex; /* 아이콘들을 가로로 나란히 정렬하기 위해 flexbox 사용 */
+      align-items: flex-end; /* 아이콘 아래로 정렬 */
+      justify-content: flex-end; /* 오른쪽으로 정렬 */
+      margin-top: 50px;
+    }
+    .postInfo i {
+      margin-left: 10px; /* 아이콘 사이에 간격 추가 */
+    }
+    .like {
+      color: crimson;
+    }
+    .chat {
+      color: aqua;
+    }
+    .button-container {
+      text-align: center; /* 버튼을 가운데로 정렬 */
+      /*margin-top: 20px;*/ /* 버튼 위 간격 추가 */
+    }
+    .button-container button {
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>핫 게시판</h1>
+  <nav>
+    <Div class = "container">
+      <h1 class = "nav-logo">
+      </h1>
+      <div class = "nav-menu">
+        <u1 class = "nav-btn">
+          <a th:href="@{/}">홈</a>
+        </u1>
+        <u1 class = "nav-btn">
+          <button type="button" onclick="getHTML('http://localhost:8080/freeBoard')">자유 게시판</button>
+        </u1>
+      </div>
+    </Div>
+  </nav>
+  <div th:each="post : ${posts}">
+    <div class="post">
+      <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
+      <div class="postInfo">
+        <span class="like">
+          <i class="fas fa-thumbs-up"></i>
+          <span th:text="${post.getPostLikeCount()}"></span>
+        </span>
+        <span class="chat">
+          <i class="fas fa-comment"></i>
+          <span th:text="${post.getCommentCount()}"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <a th:if="${paging.hasNext()}">
+      <button type="button" onclick="getPreviousPage()">이전</button>
+    </a>
+    <span th:text="${currentPage}"></span>
+    <a th:if="${paging.hasNext()}">
+      <button type="button" onclick="getNextPage()">다음</button>
+    </a>
+  </div>
+</div>
+
+<script th:inline="javascript">
+  var currentPage = [[${currentPage}]];
+  window.addEventListener('beforeunload', function (event) {
+    // 사용자가 페이지를 새로고침하려고 할 때 실행됩니다.
+    event.preventDefault(); // 기본 동작을 막음 (경고 메시지를 표시하지 않음)
+    getHTML();
+  });
+
+  function openInNewWindow(htmlContent, url) {
+    var windowFeatures = 'fullscreen=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no';
+    // 새 창 열기
+    var urlToOpen = url;
+    var newWindow = window.open('', '_top', windowFeatures);
+    // 새 창에 HTML 내용 쓰기
+    newWindow.document.open();
+    newWindow.document.write(htmlContent);
+    // 브라우저 히스토리 업데이트
+    history.pushState(null, null, urlToOpen);
+    newWindow.document.close();
+  }
+
+  function getHTML(url) {
+    const requestOptions = {
+      method: 'GET', // 또는 다른 HTTP 메서드 사용
+      headers: new Headers({
+        'Authorization': localStorage.getItem("Authorization"), // Authorization 헤더에 토큰을 추가
+      }),
+    };
+    console.log(localStorage.getItem("Authorization"));
+    fetch(url, requestOptions)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.text(); // HTML 파일의 내용을 텍스트로 읽음
+            })
+            .then(htmlContent => {
+              // 원격 HTML 파일의 내용을 사용하여 동적으로 페이지에 표시
+              openInNewWindow(htmlContent, url);
+            })
+            .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+            });
+  }
+  function getNextPage(){
+    let page = currentPage+1;
+    let url = 'http://localhost:8080/popularBoard?page='+page;
+    getHTML(url)
+  }
+  function getPreviousPage(){
+    let page = currentPage-1;
+    let url = 'http://localhost:8080/popularBoard?page='+page;
+    getHTML(url)
+  }
+</script>
+</body>
+</html>

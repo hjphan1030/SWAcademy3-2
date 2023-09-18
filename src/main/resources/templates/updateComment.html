@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세보기</title>
+    <style>
+        #header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 72;
+            box-sizing: inherit;
+            display: block;
+        }
+        .container_desktop_container {
+            display: block;
+            padding: 0 32px;
+            min-height: unset;
+            height: 100%;
+        }
+        .content {
+            display: flex;
+            height: 100%;
+        }
+        .brand_header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .navbar-menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1 1 auto;
+            margin-right: 0;
+        }
+        #main {
+            min-height: 800px;
+        }
+        .question_container {
+            display: grid;
+            grid-template-areas: "main sidebar";
+            grid-template-columns: minmax(0,812px) 388px;
+            margin: 0 auto;
+            max-width: 1200px;
+            box-sizing: content-box;
+            color: #212529;
+        }
+        .question_item_main {
+            grid-area: main;
+            height: 100%;
+            min-height: 990px;
+            border-left: 1px solid #e9ecef;
+            border-right: 1px solid #e9ecef;
+        }
+        .question_detail_header {
+            padding: 40px 40px 24px;
+            color: #212529;
+        }
+        .question_item_horizontal {
+            margin: 0 48px;
+            height: 1px;
+            background-color: #e9ecef;
+        }
+        .question_detail_body {
+            display: flex;
+            padding: 24px 40px;
+        }
+        .question_detail_body_left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 16px;
+        }
+        .question_detail_body_right {
+            flex: 1;
+            width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .community-comment {
+            padding: 40px;
+            border-top: 1px solid #e9ecef;
+        }
+        .community-comment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 27px;
+        }
+        .community-comment-editor {
+            margin-top: 24px;
+        }
+        .community-comment-comments {
+            margin: 32px 0;
+        }
+        .comment-item-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .comment-item-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .comment-item-info-container {
+            flex: 1;
+            width: 0;
+            margin-left: 16px;
+            /*padding-top: 12px;*/
+        }
+        .comment-item-layout {
+
+        }
+        .comment-item-layout_header {
+            display: flex;
+            align-items: center;
+        }
+        .comment-item-layout_body {
+            min-height: 48px;
+            margin: 8px 0 0;
+            word-break: break-all;
+        }
+        .comment-item-layout_bottom{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .layout {
+            display: flex;
+            flex-direction: column;
+            margin: 0px auto;
+            padding: 0px 16px;
+            width: 100%;
+            max-width: 600px;
+            min-height: 100vh;
+        }
+        .component {
+            display: flex;
+            margin: 0px auto;
+            max-width: 600px;
+            width: 100%;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        /*.question_detail_title {*/
+        /*    !*border-radius: 5px;*!*/
+        /*    !*border: 1px solid rgb(180, 180, 180);*!*/
+        /*    font-size: 20px;*/
+        /*    margin-top: 100px; margin-bottom: 30px;*/
+        /*    padding: 5px;*/
+        /*    min-height: 30px;*/
+        /*}*/
+        .question_detail_body_content {
+            /*border-radius: 5px;*/
+            /*border: 1px solid rgb(180, 180, 180);*/
+            font-size: 15px;
+            margin-bottom: 30px; min-height: 300px;
+            padding: 10px;
+        }
+        .question_detail_body_tag {
+            /*border-radius: 5px;*/
+            /*border: 1px solid rgb(180, 180, 180);*/
+            font-size: 13px;
+            min-height: 20px; padding: 5px;
+        }
+        .button {
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            display: flex;
+            -webkit-box-pack: end;
+            justify-content: flex-end;
+            -webkit-box-align: center;
+            align-items: center;
+            padding: 16px 20px;
+            width: 100%;
+            border: 1px solid rgb(222, 226, 230);
+            background-color: rgb(255, 255, 255);
+            z-index: 100;
+        }
+        @media (min-width: 1025px) {
+            .button {
+                position: static;
+                padding: 16px 0px;
+                border: none;
+            }
+        }
+        .update {
+            padding: 0px 22px;
+            appearance: none;
+            text-align: left;
+            text-decoration: none;
+            box-sizing: border-box;
+            height: 42px;
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            display: inline-block;
+            width: auto;
+            font-weight: 600;
+            position: relative;
+            line-height: 1;
+            font-size: 16px;
+            user-select: none;
+            cursor: pointer;
+            margin-right: 16px;
+            color: rgb(0, 0, 0);
+            background-color: rgb(255, 255, 255);
+            border: 1px solid rgb(206, 212, 218);
+            border-radius: 8px;
+        }
+        .goToList {
+            padding: 0px 22px;
+            appearance: none;
+            text-align: left;
+            text-decoration: none;
+            box-sizing: border-box;
+            height: 42px;
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            display: inline-block;
+            width: auto;
+            font-weight: 600;
+            position: relative;
+            line-height: 1;
+            font-size: 16px;
+            user-select: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            color: rgb(255, 255, 255);
+            background-color: #ff9704;
+            border-radius: 8px;
+        }
+        .comment-write {
+            font-size: 15px;
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .comment-complete {
+            margin: 10px;
+            border-radius: 8px;
+            padding: 7px;/* 버튼의 패딩 설정 */
+            background-color: lightgray; /* 배경색 설정 */
+            border: none; /* 테두리 없애기 */
+            cursor: pointer; /* 포인터 커서 설정 */
+        }
+        .update_2 {
+            margin: 8px;
+            border-radius: 8px;
+            padding: 8px 8px; /* 버튼의 패딩 설정 */
+            background-color: gray; /* 배경색 설정 */
+            color: white; /* 글자색 설정 */
+            border: none; /* 테두리 없애기 */
+            cursor: pointer; /* 포인터 커서 설정 */
+        }
+        .commentUpdateBox {
+            font-size: 15px;
+            padding: 10px;
+            min-height: 70px;
+            margin-bottom: 0;
+            min-width: 500px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+        .button2 {
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            display: flex;
+            -webkit-box-pack: end;
+            justify-content: flex-end;
+            -webkit-box-align: center;
+            align-items: center;
+            padding: 16px 20px;
+            width: 100%;
+            border: 1px solid rgb(222, 226, 230);
+            background-color: rgb(255, 255, 255);
+            z-index: 100;
+        }
+        @media (min-width: 1025px) {
+            .button2 {
+                position: static;
+                padding: 0px 0px;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<!--  <header id="header" class>-->
+<!--    <nav class="navbar">-->
+<!--      <div class="container_desktop_container">-->
+<!--        <div class="content">-->
+<!--          <div class="brand_header">-->
+<!--            header-->
+<!--          </div>-->
+<!--          <div class="navbar-menu">-->
+<!--            header-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </nav>-->
+<!--  </header>-->
+<main id="main" class>
+    <div class="question_container">
+        <div class="question_item_main">
+            <div class="question_detail_header">
+                <h2 class="question_detail_title" th:text="${view.getTitle()}"></h2>
+                <p class="question_detail_info">
+                    <span style="float: right" class="createdAt" th:text="${view.getCreatedAt()}"></span>
+                </p>
+            </div>
+            <div class="question_item_horizontal"></div>
+            <div class="question_detail_body">
+                <div class="question_detail_body_left">
+                    <button type="button" class="post_likes">
+                        좋아요
+                    </button>
+                </div>
+                <div class="question_detail_body_right">
+                    <div class="question_detail_body_content" th:text="${view.getContent()}"></div>
+                    <label>태그 : </label>
+                    <div class="question_detail_body_tag" th:text="${view.getRestaurant().getRestaurantName()}"></div>
+                    <div class="button">
+                        <form th:action="@{'/boards/' + ${view.getId()} + '/update'}" method="get">
+                            <button class="update" type="submit">수정</button>
+                            <input type="hidden" name="postId" th:value="${view.getId()}">
+                        </form>
+                        <form th:action="@{'/boards/' + ${view.getId()} + '/delete'}" method="get">
+                            <button class="update" type="submit">삭제</button>
+                            <input type="hidden" name="postId" th:value="${view.getId()}">
+                        </form>
+                        <button class="goToList" onclick="goBack()">닫기</button> <!--버튼 클릭시 6-1로 돌아가기-->
+                        <script>
+                            // JavaScript 함수를 사용하여 뒤로 가기 기능을 구현
+                            function goBack() {
+                                window.history.back();
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <section class="community-comment">
+                <div class="community-comment-header">
+                    <div class="comment-header">
+                        <h3>댓글</h3>
+                    </div>
+                </div>
+                <div class="community-comment-editor">
+                    <form th:action="@{'/boards/' + ${view.getId()} + '/comment'}" method="post">
+                        <input type="hidden" name="postId" th:value="${view.getId()}">
+                        <input class="comment-write" type="text" name="commentContent" placeholder="댓글 작성하기">
+                        <button class="comment-complete" type="submit">완료</button>
+                    </form>
+                </div>
+                <div class="community-comment-comments">
+                    <div class="comment-item-container">
+                        <div class="comment-item-left">
+                        </div>
+                        <div class="comment-item-info-container">
+                            <div class="comment-item-layout">
+                                <div class="comment-item-layout_header">
+                                </div>
+                                <form th:action="@{'/boards/comment/' + ${commentView.getId()} + '/update'}" method="post">
+                                    <div class="comment-item-layout_body">
+                                        <input type="hidden" name="commentId" th:value="${commentView.getId()}">
+                                        <textarea class="commentUpdateBox" th:field="${commentView.content}" name="commentContent"></textarea>
+                                    </div>
+                                    <div class="comment-item-layout_bottom">
+                                        <div class="button2">
+                                            <button class="update_2" type="button">취소</button>
+                                            <button class="update_2" type="submit">완료</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+</body>
+</html>
