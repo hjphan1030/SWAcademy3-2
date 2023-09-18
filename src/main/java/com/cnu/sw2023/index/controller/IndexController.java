@@ -46,7 +46,7 @@ public class IndexController {
         return ResponseEntity.ok().body(newRestaurantList);
 
     }
-    @GetMapping("/slide/bestReview") @ResponseBody//좋아요 많은 순으로 리뷰 3개 전달
+    @GetMapping("/slide/bestReview") @ResponseBody//좋아요 많은 순으로 리뷰 5개 전달
     public ResponseEntity<List<reviewDto>> getTop5BestReview() {
         List<reviewDto> reviewLists = indexService.getTop5BestReview();
         log.info("review : {}", Arrays.toString(reviewLists.toArray()));

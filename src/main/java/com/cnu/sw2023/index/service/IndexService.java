@@ -64,8 +64,9 @@ public class IndexService {
     public List<reviewDto> getTop5BestReview(){
         Pageable pageable = PageRequest.of(0,5);
         List<Review> reviewList = reviewRepository.findPopularPostsOrderByCreatedAtDesc(pageable);
+
         return reviewList.stream()
-                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(), review.getRating(), review.getCreatedAt()))
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(), review.getRating(), review.getCreatedAt(), review.getRestaurant().getRestaurantName()))
                 .collect(Collectors.toList());
     }
     // 최신등록순으로 상위 3개 식당이름 리스트 반환해주는 메소드
