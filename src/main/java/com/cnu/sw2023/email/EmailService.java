@@ -36,7 +36,7 @@ public class EmailService {
     public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
 
         createCode();
-        String setFrom = "cnustudent0@gmail.com"; //email-config에 설정한 자신의 이메일 주소(보내는 사람)
+        String setFrom = "cnustudent0@gmail.com";
         String toEmail = email;
         String title = "냠냠사이트 회원가입 인증 번호";
 
@@ -62,7 +62,8 @@ public class EmailService {
     public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage emailForm = createEmailForm(toEmail);
-        emailSender.send(emailForm);
+
+
 
         return authCode;
     }

@@ -1,5 +1,6 @@
 package com.cnu.sw2023.email;
 
+import com.cnu.sw2023.exception.EmailException;
 import com.cnu.sw2023.member.DTO.JoinReqDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,27 +14,34 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/join")
+@RequestMapping("/api")
 @RestController
 public class EmailController {
 
     private final EmailService emailService;
 
     @PostMapping("/mailConfirm")
-    public String mailConfirm(JoinReqDto joinReqDto, Model model) throws MessagingException, UnsupportedEncodingException {
-
-        String authCode = emailService.sendEmail(joinReqDto.getEmail());
-        return authCode;
+    public ResponseEntity<Map<String,String>> mailConfirm(EmailConfirmDto emailConfirmDto) throws EmailException {
+        String email = emailConfirmDto.getEmail();
+        HashMap<String, String> res = new HashMap<>();
+        try {
+            String authCode = emailService.sendEmail(email);
+            res.put("success","true");
+            return ResponseEntity.ok().body(res);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            res.put("success","false");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+        }
     }
 
     @PostMapping("/emailCheck")
-    public boolean emailVerification(@RequestBody JoinReqDto joinReqDto){
-        EmailCheck emailCheck = new EmailCheck();
-        emailCheck.setEmail(joinReqDto.getEmail());
-        emailCheck.setAuthCode(joinReqDto.getAuthCode());
+    public boolean emailVerification(@RequestBody EmailCheck emailCheck){
+        String email = emailCheck.getEmail();
+        String authCode = emailCheck.getEmail();
         return emailService.emailVerification(emailCheck);
     }
 }
