@@ -198,6 +198,7 @@ public class PostWriteController {
     @PostMapping("/boards/comment/{commentId}/like")
     public String commentLike(@PathVariable Long commentId, Model model) {
         likeService.commentLike(commentId, "temp123@naver.com");
+
         Long postId = commentService.getPostId(commentId);
         List<Comment> commentList = commentService.getCommentList(postId);
         Post view = postWriteService.showPost(postId);

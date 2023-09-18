@@ -141,7 +141,7 @@ public class PostController {
         return restaurantService.getRestaurantInfo(restaurantName);
     }
 
-/*
+
     @GetMapping("/checkPostAuth")
     public ResponseEntity<Map<String,String>> checkUpdateAuth(@RequestParam Long id,Authentication authentication){
         String email = authentication.getName();
@@ -153,10 +153,7 @@ public class PostController {
             res.put("message","게시글 수정 권한 없음");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
         }
-<<<<<<< HEAD
-    }*/
-
-
+    }
 //    @PostMapping("/{postId}/update")
 //    public ResponseEntity<Map<String,String>> updatePost(@PathVariable Long postId, @RequestBody PostUpdateForm postUpdateForm){
 //        String content = postUpdateForm.getContent();

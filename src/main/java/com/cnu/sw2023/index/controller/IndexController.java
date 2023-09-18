@@ -2,13 +2,17 @@ package com.cnu.sw2023.index.controller;
 
 import com.cnu.sw2023.index.dto.MainDTO;
 import com.cnu.sw2023.index.dto.MainPostDto;
+import com.cnu.sw2023.post.domain.Post;
+import com.cnu.sw2023.post.dto.PostPageDto;
 import com.cnu.sw2023.review.dto.reviewDto;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import com.cnu.sw2023.index.service.IndexService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

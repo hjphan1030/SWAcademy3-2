@@ -53,11 +53,7 @@ object-assign
  */
 
 /**
-<<<<<<< HEAD
- * @remix-run/router v1.9.0
-=======
  * @remix-run/router v1.8.0
->>>>>>> b25edece05911d5e649969f9692379e0eec0d39a
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -68,11 +64,7 @@ object-assign
  */
 
 /**
-<<<<<<< HEAD
- * React Router DOM v6.16.0
-=======
  * React Router DOM v6.15.0
->>>>>>> b25edece05911d5e649969f9692379e0eec0d39a
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -83,11 +75,7 @@ object-assign
  */
 
 /**
-<<<<<<< HEAD
- * React Router v6.16.0
-=======
  * React Router v6.15.0
->>>>>>> b25edece05911d5e649969f9692379e0eec0d39a
  *
  * Copyright (c) Remix Software Inc.
  *

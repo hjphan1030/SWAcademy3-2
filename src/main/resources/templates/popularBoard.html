@@ -102,7 +102,7 @@
     </div>
   </div>
   <div class="button-container">
-    <a th:if="${paging.hasPrevious()}">
+    <a th:if="${paging.hasNext()}">
       <button type="button" onclick="getPreviousPage()">이전</button>
     </a>
     <span th:text="${currentPage}"></span>
@@ -136,9 +136,9 @@
   function getHTML(url) {
     const requestOptions = {
       method: 'GET', // 또는 다른 HTTP 메서드 사용
-      /*headers: new Headers({
+      headers: new Headers({
         'Authorization': localStorage.getItem("Authorization"), // Authorization 헤더에 토큰을 추가
-      }),*/
+      }),
     };
     console.log(localStorage.getItem("Authorization"));
     fetch(url, requestOptions)
