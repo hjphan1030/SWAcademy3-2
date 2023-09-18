@@ -36,8 +36,8 @@ public class AuthenticationConfig {
                         "/swagger-resources",
                         "/swagger-resources/configuration/ui",
                         "/swagger-resources/configuration/security").permitAll()
-                .anyRequest().authenticated()
-//                .anyRequest().permitAll()
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt 사용하는 경우 씀
