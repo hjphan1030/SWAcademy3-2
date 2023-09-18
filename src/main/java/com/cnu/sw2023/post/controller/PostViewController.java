@@ -37,7 +37,6 @@ public class PostViewController {
         model.addAttribute("paging", pages);
         model.addAttribute("posts", allPosts);
         model.addAttribute("currentPage", page);
-        model.addAttribute("token", token);
         return "freeBoard";
     }
     @GetMapping("/popularBoard")   // 핫게 더보기
@@ -49,14 +48,9 @@ public class PostViewController {
                 .stream()
                 .map(PostPageDto::new);
         List<PostPageDto> allPosts = dtoStream.collect(Collectors.toList());
-        List<String> CreatedAts = allPosts
-                .stream()
-                .map(post -> post.getCreatedAt().toString().substring(5,7)+"/"+post.getCreatedAt().toString().substring(8,10)+" "+post.getCreatedAt().toString().substring(11,16))
-                .collect(Collectors.toList());
-        model.addAttribute("posts", allPosts);
         model.addAttribute("paging", pages);
+        model.addAttribute("posts", allPosts);
         model.addAttribute("currentPage", page);
-        model.addAttribute("createdAts", CreatedAts);
         return "popularBoard";
     }
 }
