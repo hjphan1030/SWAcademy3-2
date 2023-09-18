@@ -32,14 +32,19 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody JoinReqDto joinReqDto){
+    public ResponseEntity<Map<String,String>> join(@RequestBody JoinReqDto joinReqDto){
         String res = null;
+        HashMap<String, String> map = new HashMap<>();
         try {
             res = memberService.join(joinReqDto);
+            map.put("message",res);
+            return ResponseEntity.ok().body(map);
         }catch (Exception e){
             res = e.getMessage();
+            map.put("message",res);
+            return ResponseEntity.badRequest().body(map);
         }
-        return ResponseEntity.ok().body(res);
+
     }
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDto loginRequestDto) {

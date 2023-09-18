@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +25,9 @@ public class EmailController {
     private final EmailService emailService;
 
     @PostMapping("/mailConfirm")
-    public ResponseEntity<Map<String,String>> mailConfirm(EmailConfirmDto emailConfirmDto) throws EmailException {
+    public ResponseEntity<Map<String,String>> mailConfirm(@RequestBody @Valid EmailConfirmDto emailConfirmDto){
         String email = emailConfirmDto.getEmail();
+        log.info(email);
         HashMap<String, String> res = new HashMap<>();
         try {
             String authCode = emailService.sendEmail(email);
