@@ -28,6 +28,7 @@ public class EmailController {
         String authCode = emailService.sendEmail(joinReqDto.getEmail());
         return authCode;
     }
+
     @PostMapping("/emailCheck")
     public boolean emailVerification(@RequestBody JoinReqDto joinReqDto){
         EmailCheck emailCheck = new EmailCheck();

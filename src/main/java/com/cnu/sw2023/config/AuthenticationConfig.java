@@ -29,8 +29,8 @@ public class AuthenticationConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/member/login","/member/join","/member/temp","/member/temp1","/tempToken","/user/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/member/login","/member/join","/member/temp","/member/temp1","/tempToken","/user/**","/login").permitAll()
+                .antMatchers("/h2-console/**","/static/**").permitAll()
                 .antMatchers("/swagger-ui/**",
                         "/v2/api-docs",
                         "/swagger-resources",
