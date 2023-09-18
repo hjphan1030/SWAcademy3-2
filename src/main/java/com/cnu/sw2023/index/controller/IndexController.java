@@ -30,13 +30,21 @@ import java.util.*;
 public class IndexController {
     private final IndexService indexService;
     @GetMapping("/slide/recent") @ResponseBody                 //최신순으로 등록된 식당 이름, 주소 3개 전달
-    public HashMap<String, String> getRecentRestaurant() {
+    public ResponseEntity<List<Map>> getRecentRestaurant() {
         ArrayList<String> restaurantsNames = indexService.getRecentRestaurant();
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map;
+        List<Map> newRestaurantList = new ArrayList<>();
+        int i = 0;
         for (String name : restaurantsNames) {
-            map.put(name, "boards/" + name + "/");
+            i++;
+            map = new HashMap<>();
+            map.put("name", name);
+            map.put("rank", Integer.toString(i));
+            map.put("category", "new 음식점");
+            newRestaurantList.add(map);
         }
-        return map;
+        return ResponseEntity.ok().body(newRestaurantList);
+
     }
     @GetMapping("/slide/bestReview") @ResponseBody//좋아요 많은 순으로 리뷰 3개 전달
     public ResponseEntity<List<reviewDto>> getTop5BestReview() {
