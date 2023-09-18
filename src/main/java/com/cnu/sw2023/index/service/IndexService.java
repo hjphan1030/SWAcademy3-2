@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.*;
@@ -51,12 +52,11 @@ public class IndexService {
         return postLikes;
     }
 
-    public List<MainPostDto> getTop5PopularPosts() {
+    public List<MainDTO> getTop5PopularPosts() {
         Pageable pageable = PageRequest.of(0, 5);
         List<Post> popularPosts = postRepository.findPopularPostsOrderByCreatedAtDesc(pageable);
 
-        return popularPosts.stream()
-                .map(post -> new MainPostDto(post.getId(), post.getTitle(), post.getLikeCount(), post.getCreatedAt()))
+        return popularPosts.stream().map(m -> new MainDTO(m.getId(), m.getTitle(), m.getCreatedAt(), m.getLikeCount(), m.getComments().size()))
                 .collect(Collectors.toList());
     }
 
@@ -64,8 +64,9 @@ public class IndexService {
     public List<reviewDto> getTop5BestReview(){
         Pageable pageable = PageRequest.of(0,5);
         List<Review> reviewList = reviewRepository.findPopularPostsOrderByCreatedAtDesc(pageable);
+
         return reviewList.stream()
-                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(), review.getRating(), review.getCreatedAt()))
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(), review.getRating(), review.getCreatedAt(), review.getRestaurant().getRestaurantName()))
                 .collect(Collectors.toList());
     }
     // 최신등록순으로 상위 3개 식당이름 리스트 반환해주는 메소드
