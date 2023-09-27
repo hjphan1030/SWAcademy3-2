@@ -106,6 +106,13 @@
                 border: none;
             }
         }
+        /* 스크롤 가능한 div 스타일 */
+        #listContainer {
+            max-height: 150px; /* 목록의 최대 높이 설정 */
+            overflow-y: auto; /* 세로 스크롤 바 활성화 */
+            display: none; /* 초기에는 숨겨짐 */
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -120,12 +127,12 @@
         </script>
     </div>
     <form class="component" action="/boards/post" method="post">
-        <input name="title" placeholder="제목" type="text" style="margin-top: 50px; margin-bottom: 30px; padding: 5px; min-height: 30px; font-size: 20px;">
-        <textarea name="content" placeholder="내용" style="margin-bottom: 30px; min-height: 300px; padding: 10px;"></textarea>
-        <input name="restaurantName" placeholder="태그" type="text" style="min-height: 20px; padding: 5px; font-size: 13px;">
-        <div class="button">
-            <button class="complete" type="submit">완료</button>
-        </div>
+            <input name="title" placeholder="제목" type="text" autocomplete="off" style="margin-top: 50px; margin-bottom: 30px; padding: 5px; min-height: 30px; font-size: 20px;">
+            <textarea name="content" placeholder="내용" autocomplete="off" style="margin-bottom: 30px; min-height: 300px; padding: 10px;"></textarea>
+            <input name="restaurantName" placeholder="태그" type="text" autocomplete="off" style="min-height: 20px; padding: 5px; font-size: 13px;">
+            <div class="button">
+                <button class="complete" type="submit">완료</button>
+            </div>
     </form>
 </div>
 </body>

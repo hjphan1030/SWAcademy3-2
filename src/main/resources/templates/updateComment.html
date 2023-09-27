@@ -41,16 +41,22 @@
         }
         .question_container {
             display: grid;
-            grid-template-areas: "main sidebar";
-            grid-template-columns: minmax(0,812px) 388px;
-            margin: 0 auto;
+            grid-template-columns: 100px 1fr;
+            /*grid-template-areas: "main sidebar";*/
+            /*grid-template-columns: minmax(0,812px) 388px;*/
+            /*margin-left: auto;*/
+            /*margin-right: auto;*/
             max-width: 1200px;
             box-sizing: content-box;
             color: #212529;
         }
+        .logo {
+            margin-left: 20px;
+        }
         .question_item_main {
             grid-area: main;
             height: 100%;
+            min-width: 900px;
             min-height: 990px;
             border-left: 1px solid #e9ecef;
             border-right: 1px solid #e9ecef;
@@ -290,6 +296,15 @@
                 border: none;
             }
         }
+        .post_likes {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .post_likes img {
+            width: 25px;
+            height: 25px;
+        }
     </style>
 </head>
 <body>
@@ -309,6 +324,7 @@
 <!--  </header>-->
 <main id="main" class>
     <div class="question_container">
+        <a class="logo" href="http://localhost:8080"><img src="https://cdn-icons-png.flaticon.com/512/5159/5159840.png" width="50" height="50"/></a>
         <div class="question_item_main">
             <div class="question_detail_header">
                 <h2 class="question_detail_title" th:text="${view.getTitle()}"></h2>
@@ -319,9 +335,13 @@
             <div class="question_item_horizontal"></div>
             <div class="question_detail_body">
                 <div class="question_detail_body_left">
-                    <button type="button" class="post_likes">
-                        좋아요
-                    </button>
+                    <form th:action="@{'/boards/post/' + ${view.getId()} + '/like'}" th:method="post">
+                        <input type="hidden" name="postId" th:value="${view.getId()}">
+                        <button type="submit" class="post_likes">
+                            <img src="./좋아요.png" alt="">
+                        </button>
+                        <h4 style="display: block; text-align: center; margin-top: 0; margin-bottom: 0"><span th:text="${view.getLikeCount()}">0</span></h4>
+                    </form>
                 </div>
                 <div class="question_detail_body_right">
                     <div class="question_detail_body_content" th:text="${view.getContent()}"></div>
@@ -355,7 +375,7 @@
                 <div class="community-comment-editor">
                     <form th:action="@{'/boards/' + ${view.getId()} + '/comment'}" method="post">
                         <input type="hidden" name="postId" th:value="${view.getId()}">
-                        <input class="comment-write" type="text" name="commentContent" placeholder="댓글 작성하기">
+                        <input class="comment-write" type="text" name="commentContent" placeholder="댓글 작성하기" autocomplete="off">
                         <button class="comment-complete" type="submit">완료</button>
                     </form>
                 </div>
@@ -370,7 +390,7 @@
                                 <form th:action="@{'/boards/comment/' + ${commentView.getId()} + '/update'}" method="post">
                                     <div class="comment-item-layout_body">
                                         <input type="hidden" name="commentId" th:value="${commentView.getId()}">
-                                        <textarea class="commentUpdateBox" th:field="${commentView.content}" name="commentContent"></textarea>
+                                        <textarea class="commentUpdateBox" autocomplete="off" th:field="${commentView.content}" name="commentContent"></textarea>
                                     </div>
                                     <div class="comment-item-layout_bottom">
                                         <div class="button2">

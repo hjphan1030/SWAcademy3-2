@@ -11,6 +11,7 @@ import com.cnu.sw2023.post.form.DetailPostForm;
 import com.cnu.sw2023.post.form.PostForm;
 import com.cnu.sw2023.post.form.UpdatePostForm;
 import com.cnu.sw2023.post.service.PostService;
+import com.cnu.sw2023.restaurant.domain.Restaurant;
 import com.cnu.sw2023.restaurant.service.RestaurantService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +35,15 @@ public class PostWriteController {
 
 
     @GetMapping("/boards/post")
-    public String showPostForm() {
+    public String showPostForm(Model model) {
 //        String token = memberService.temp();
 //        System.out.println(token);
 //        request.setAttribute("Authorization", "Bearer " + token);
 
 //        if ( ! authentication.isAuthenticated())
 //            return "pageFault";
-
+        List<Restaurant> restaurantList = restaurantService.findRestaurants();
+        model.addAttribute("restaurantList", restaurantList);
         return "postWrite";
     }
 
@@ -79,6 +81,8 @@ public class PostWriteController {
     public String showUpdatePostForm(@PathVariable Long postId, Model model) {
         Post view = postWriteService.showPost(postId);
         List<Comment> commentList = commentService.getCommentList(postId);
+        List<Restaurant> restaurantList = restaurantService.findRestaurants();
+        model.addAttribute("restaurantList", restaurantList);
         model.addAttribute("commentList", commentList);
         model.addAttribute("view", view);
         model.addAttribute("postId", postId);
@@ -223,5 +227,8 @@ public class PostWriteController {
         model.addAttribute("commentList", commentList);
         return "detailPost";
     }
+
+//    @ApiOperation("게시판 목록 불러오기")
+//    @GetMapping
 }
 

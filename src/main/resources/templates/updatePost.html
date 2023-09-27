@@ -122,9 +122,9 @@
   </div>
   <form class="component" th:action="@{'/boards/' + ${postId} + '/update'}" method="post">
     <input type="hidden" name="postId" th:value="${postId}">
-    <input name="title" th:value="${view.getTitle()}" placeholder="제목" type="text" style="margin-top: 50px; margin-bottom: 30px; padding: 5px; min-height: 30px; font-size: 20px;">
-    <textarea name="content" th:field="${view.content}" placeholder="내용" style="margin-bottom: 30px; min-height: 300px; padding: 10px;"></textarea>
-    <input name="restaurantName" th:value="${view.restaurant.getRestaurantName()}" placeholder="태그" type="text" style="min-height: 20px; padding: 5px; font-size: 13px;">
+    <input name="title" th:value="${view.getTitle()}" placeholder="제목" type="text" autocomplete="off" style="margin-top: 50px; margin-bottom: 30px; padding: 5px; min-height: 30px; font-size: 20px;">
+    <textarea name="content" th:field="${view.content}" placeholder="내용" autocomplete="off" style="margin-bottom: 30px; min-height: 300px; padding: 10px;"></textarea>
+    <input name="restaurantName" th:value="${view.restaurant.getRestaurantName()}" placeholder="태그" type="text" autocomplete="off" style="min-height: 20px; padding: 5px; font-size: 13px;">
     <div class="button">
       <button class="complete" type="submit">완료</button>
     </div>
