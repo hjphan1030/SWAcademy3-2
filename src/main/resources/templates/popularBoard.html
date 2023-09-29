@@ -89,6 +89,7 @@
   <div th:each="post : ${posts}">
     <div class="post">
       <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
+      <span class="postContent" th:text="${#strings.length(post.getContent()) > 40 ? #strings.substring(post.getContent(), 0, 20) : post.getContent()}"></span>
       <span th:text="${#temporals.format(post.getCreatedAt(), 'yyyy/MM/dd')}"></span>
       <div class="postInfo">
         <span class="like">

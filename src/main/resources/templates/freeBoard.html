@@ -13,7 +13,7 @@
       background-color: #f5f5f5;
     }
     .container {
-      max-width: 800px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 20px;
       background-color: #fff;
@@ -89,6 +89,7 @@
   <div th:each="post : ${posts}">
     <div class="post">
       <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
+      <span class="postContent" th:text="${#strings.length(post.getContent()) > 40 ? #strings.substring(post.getContent(), 0, 20) : post.getContent()}"></span>
       <span th:text="${#temporals.format(post.getCreatedAt(), 'yyyy/MM/dd')}"></span>
       <div class="postInfo">
         <span class="like">
