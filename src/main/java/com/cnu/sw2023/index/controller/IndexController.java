@@ -56,12 +56,11 @@ public class IndexController {
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
         List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
-        log.info("top5 free: {}", Arrays.toString(top5Titles.toArray()));
         return ResponseEntity.ok().body(top5Titles);
     }
     @GetMapping("/popular") @ResponseBody  // 핫게 프리뷰
-    public ResponseEntity<List<MainPostDto>> getTop5PopularPosts() {
-        List<MainPostDto> popularPosts = indexService.getTop5PopularPosts();
+    public ResponseEntity<List<MainDTO>> getTop5PopularPosts() {
+        List<MainDTO> popularPosts = indexService.getTop5PopularPosts();
         return ResponseEntity.ok().body(popularPosts);
     }
 }

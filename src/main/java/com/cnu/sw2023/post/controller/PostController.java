@@ -135,11 +135,7 @@ public class PostController {
         return ResponseEntity.ok().body(res);
     }
 
-    @ApiOperation("특정 음식점에 대한 정보 보기")
-    @GetMapping("/restaurantInfo/{restaurantName}")
-    public Map<String,String> getRestaurantInfo(@PathVariable("restaurantName") String restaurantName){
-        return restaurantService.getRestaurantInfo(restaurantName);
-    }
+
 
 
     @GetMapping("/checkPostAuth")
