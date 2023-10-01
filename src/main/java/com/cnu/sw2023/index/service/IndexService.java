@@ -95,5 +95,4 @@ public class IndexService {
     public List<Restaurant> getAllRestaurantList(){
         return restaurantRepository.findAll();
     }
-
 }

@@ -23,7 +23,9 @@ import java.util.stream.Stream;
 public class PostViewController {
     private final PostService postService;
     @GetMapping("/freeBoard")   // 자게 더보기
-    public String getFreeBoard(Model model, @RequestParam(defaultValue = "0") int page){
+    public String getFreeBoard(Model model, @RequestParam(defaultValue = "0") int page
+            , HttpServletRequest request){
+        String token = request.getHeader("Authorization");
         int size = 10;
         Pageable pageable = PageRequest.of(page, size);
         Page<Post> pages = postService.getFreePost(pageable); //(restaurantName, pageable);
@@ -52,6 +54,5 @@ public class PostViewController {
         return "popularBoard";
     }
 }
-
 
 
