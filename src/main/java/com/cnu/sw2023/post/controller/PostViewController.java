@@ -23,9 +23,7 @@ import java.util.stream.Stream;
 public class PostViewController {
     private final PostService postService;
     @GetMapping("/freeBoard")   // 자게 더보기
-    public String getFreeBoard(Model model, @RequestParam(defaultValue = "0") int page
-            , HttpServletRequest request){
-        String token = request.getHeader("Authorization");
+    public String getFreeBoard(Model model, @RequestParam(defaultValue = "0") int page){
         int size = 10;
         Pageable pageable = PageRequest.of(page, size);
         Page<Post> pages = postService.getFreePost(pageable); //(restaurantName, pageable);
@@ -37,7 +35,6 @@ public class PostViewController {
         model.addAttribute("paging", pages);
         model.addAttribute("posts", allPosts);
         model.addAttribute("currentPage", page);
-        model.addAttribute("token", token);
         return "freeBoard";
     }
     @GetMapping("/popularBoard")   // 핫게 더보기
@@ -49,16 +46,12 @@ public class PostViewController {
                 .stream()
                 .map(PostPageDto::new);
         List<PostPageDto> allPosts = dtoStream.collect(Collectors.toList());
-        List<String> CreatedAts = allPosts
-                .stream()
-                .map(post -> post.getCreatedAt().toString().substring(5,7)+"/"+post.getCreatedAt().toString().substring(8,10)+" "+post.getCreatedAt().toString().substring(11,16))
-                .collect(Collectors.toList());
-        model.addAttribute("posts", allPosts);
         model.addAttribute("paging", pages);
+        model.addAttribute("posts", allPosts);
         model.addAttribute("currentPage", page);
-        model.addAttribute("createdAts", CreatedAts);
         return "popularBoard";
     }
 }
+
 
 

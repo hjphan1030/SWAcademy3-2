@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>자유 게시판</title>
+  <title>통합 게시판</title>
   <style>
     /* 스타일링을 위한 CSS 코드 */
     body {
@@ -13,7 +13,7 @@
       background-color: #f5f5f5;
     }
     .container {
-      max-width: 800px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 20px;
       background-color: #fff;
@@ -71,7 +71,7 @@
 </head>
 <body>
 <div class="container">
-  <h1>자유 게시판</h1>
+  <h1>통합 게시판</h1>
   <nav>
     <Div class = "container">
       <h1 class = "nav-logo">
@@ -81,7 +81,7 @@
           <a th:href="@{/}">홈</a>
         </u1>
         <u1 class = "nav-btn">
-          <button type="button" onclick="getHTML('http://localhost:8080/popularBoard')">핫 게시판</button>
+          <a th:href="@{http://localhost:8080/popularBoard}" class="btn btn-primary">핫 게시판</a>
         </u1>
       </div>
     </Div>
@@ -89,6 +89,8 @@
   <div th:each="post : ${posts}">
     <div class="post">
       <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
+      <span class="postContent" th:text="${#strings.length(post.getContent()) > 40 ? #strings.substring(post.getContent(), 0, 20) : post.getContent()}"></span>
+      <span th:text="${#temporals.format(post.getCreatedAt(), 'yyyy/MM/dd')}"></span>
       <div class="postInfo">
         <span class="like">
           <i class="fas fa-thumbs-up"></i>
@@ -102,70 +104,14 @@
     </div>
   </div>
   <div class="button-container">
-    <a th:if="${paging.hasNext()}">
-      <button type="button" onclick="getPreviousPage()">이전</button>
+    <a th:if="${paging.hasPrevious()}">
+      <a th:href="@{|?page=${paging.number-1}|}">이전</a>
     </a>
     <span th:text="${currentPage}"></span>
     <a th:if="${paging.hasNext()}">
-      <button type="button" onclick="getNextPage()">다음</button>
+      <a th:href="@{|?page=${paging.number+1}|}">다음</a>
     </a>
   </div>
 </div>
-
-<script th:inline="javascript">
-  var currentPage = [[${currentPage}]];
-  window.addEventListener('beforeunload', function (event) {
-    // 사용자가 페이지를 새로고침하려고 할 때 실행됩니다.
-    event.preventDefault(); // 기본 동작을 막음 (경고 메시지를 표시하지 않음)
-    getHTML();
-  });
-
-  function openInNewWindow(htmlContent, url) {
-    var windowFeatures = 'fullscreen=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no';
-    // 새 창 열기
-    var urlToOpen = url;
-    var newWindow = window.open('', '_top', windowFeatures);
-    // 새 창에 HTML 내용 쓰기
-    newWindow.document.open();
-    newWindow.document.write(htmlContent);
-    // 브라우저 히스토리 업데이트
-    history.pushState(null, null, urlToOpen);
-    newWindow.document.close();
-  }
-
-  function getHTML(url) {
-    const requestOptions = {
-      method: 'GET', // 또는 다른 HTTP 메서드 사용
-      headers: new Headers({
-        'Authorization': localStorage.getItem("Authorization"), // Authorization 헤더에 토큰을 추가
-      }),
-    };
-    console.log(localStorage.getItem("Authorization"));
-    fetch(url, requestOptions)
-            .then(response => {
-              if (!response.ok) {
-                throw new Error('Network response was not ok');
-              }
-              return response.text(); // HTML 파일의 내용을 텍스트로 읽음
-            })
-            .then(htmlContent => {
-              // 원격 HTML 파일의 내용을 사용하여 동적으로 페이지에 표시
-              openInNewWindow(htmlContent, url);
-            })
-            .catch(error => {
-              console.error('There was a problem with the fetch operation:', error);
-            });
-  }
-  function getNextPage(){
-    let page = currentPage+1;
-    let url = 'http://localhost:8080/freeBoard?page='+page;
-    getHTML(url)
-  }
-  function getPreviousPage(){
-    let page = currentPage-1;
-    let url = 'http://localhost:8080/freeBoard?page='+page;
-    getHTML(url)
-  }
-</script>
 </body>
 </html>

@@ -46,7 +46,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
 
     Page<Post> findByOrderByLikeCountDesc(Pageable pageable);  // 좋아요 내림차순으로 전부 가져오기
 
-    @Query("SELECT e FROM Post e WHERE e.likeCount >= 10 ORDER BY e.likeCount DESC")  //좋아요가 10 이상인 것들만 내림차순으로 가져오기
+    @Query("SELECT e FROM Post e WHERE e.likeCount >= 10 ORDER BY e.likeCount DESC")  //좋아요가 10 이상인 것들만 내림차순으로 SA가져오기
     Page<Post> findWithLikeCountGreaterThanEqualOrderByLikeCountDesc(Pageable pageable);
 
     @Query("SELECT p FROM Post p WHERE p.likeCount >= 5 ORDER BY p.createdAt DESC")

@@ -4,7 +4,10 @@ package com.cnu.sw2023.restaurant.service;
 import com.cnu.sw2023.config.KakaoApiUtil;
 import com.cnu.sw2023.member.domain.College;
 import com.cnu.sw2023.restaurant.domain.Restaurant;
+import com.cnu.sw2023.restaurant.dto.RestaurantInfo;
 import com.cnu.sw2023.restaurant.repository.RestaurantRepository;
+import com.cnu.sw2023.review.domain.Review;
+import com.cnu.sw2023.review.repository.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +30,7 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final ReviewRepository reviewRepository;
 
     public boolean findRestaurantByRestaurantName(String restaurantName){
         return restaurantRepository.existsRestaurantByRestaurantName(restaurantName);
@@ -67,12 +68,17 @@ public class RestaurantService {
 //        saveRestaurantInfo(restaurantInfo);
 //    }
 
-    public Map<String,String > getRestaurantInfo(String restaurantName) {
+    public RestaurantInfo getRestaurantInfo(String restaurantName) {
         Restaurant restaurant = restaurantRepository.findByRestaurantName(restaurantName);
-        Map<String, String> res = new HashMap<>();
-        res.put("address",restaurant.getAddressName());
-        res.put("phone",restaurant.getPhone());
-        return res;
+        List<Review> reviews = reviewRepository.findAllByRestaurantRestaurantName(restaurant.getRestaurantName());
+        OptionalDouble average = reviews.stream().mapToDouble(review -> review.getRating())
+                .average();
+
+        return RestaurantInfo.builder()
+                .address(restaurant.getAddressName())
+                .phone(restaurant.getPhone())
+                .rating(average.getAsDouble())
+                .build();
     }
 
     public List<Restaurant> getRankingByCategoryAndCollege(String category, String college) {

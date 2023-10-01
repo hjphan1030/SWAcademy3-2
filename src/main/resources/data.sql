@@ -2073,3 +2073,10 @@ INSERT INTO COMMENT (COMMENT_ID, POST_ID, CREATED_AT, LIKE_COUNT, CONTENT,EMAIL)
                                                                                      (3019, 1576, '2023-03-05 00:00:00', 27, 'test Context of CommentId 1576', 'temp'),
                                                                                      (3020, 1576, '2023-04-13 00:00:00', 44, 'test Context of CommentId 1576', 'temp'),
                                                                                      (3021, 1577, '2023-01-13 00:00:00', 10, 'test Context of CommentId 1577', 'temp');
+INSERT INTO REVIEW (REVIEW_ID,CONTENT, CREATED_AT, LIKE_COUNT, RATING, USER_EMAIL,RESTAURANT_NAME)
+VALUES (100, '개굿', '2023-01-13 00:00:00', 5, 5, 'A', '연래춘'),
+       ( 101,'잉', '2023-01-11 00:00:00', 9, 4, 'B', '잇마이타이 봉명점'),
+       (102, '옹', '2023-01-15 00:00:00', 1, 3, 'C', '연래춘'),
+       (103, '캉', '2023-01-18 00:00:00', 6, 2, 'Dㅍ', '초원돌구이'),
+       (104, '캉', '2023-01-30 00:00:00', 10, 1, 'Dㅊ', '초원돌구이'),
+       (105, '캉', '2023-01-23 00:00:00', 6, 1, 'Dㅌ', '최진엽샤브샤브');

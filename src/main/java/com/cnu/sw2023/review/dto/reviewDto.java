@@ -14,5 +14,6 @@ public class reviewDto {
     private int reviewLikeCount;
     private int rating;
     private LocalDateTime createdAt;
+    private String restaurantName;
 
 }

@@ -61,7 +61,7 @@ public class ReviewController {
         List<Review> reviews = reviewService.findReviews();
 
         List<reviewDto> reviewList = reviews.stream()
-                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(),review.getRating(),review.getCreatedAt()))
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(),review.getRating(),review.getCreatedAt(), review.getRestaurant().getRestaurantName()))
                 .sorted(Comparator.comparing(reviewDto::getCreatedAt).reversed())
                 .collect(Collectors.toList());
 
@@ -113,7 +113,7 @@ public class ReviewController {
     public ResponseEntity<List<reviewDto>> getRestaurantReview(@PathVariable String restaurantName){
         List<Review> result = reviewService.getRestaurantReview(restaurantName);
         List<reviewDto> reviewList = result.stream()
-                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(),review.getRating(),review.getCreatedAt()))
+                .map(review -> new reviewDto(review.getId(), review.getContent(), review.getLikeCount(),review.getRating(),review.getCreatedAt(), review.getRestaurant().getRestaurantName()))
                 .sorted(Comparator.comparing(reviewDto::getCreatedAt).reversed())
                 .collect(Collectors.toList());
         return ResponseEntity.ok().body(reviewList);
