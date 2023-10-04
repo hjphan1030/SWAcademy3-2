@@ -2,6 +2,7 @@ package com.cnu.sw2023.email;
 
 import com.cnu.sw2023.email.repository.EmailVerificationRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -13,12 +14,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Random;
 
-@Service
+@Service @Slf4j
 @RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
-    private String authCode; //랜덤 인증 코드
+    private String authCode;
     private final EmailVerificationRepository emailVerificationRepository;
 
     //랜덤 인증 코드 생성
@@ -55,16 +56,13 @@ public class EmailService {
         emailVerification.setExpirationDate(calendar.getTime());
 
         emailVerificationRepository.save(emailVerification);
-
         return message;
     }
 
     public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage emailForm = createEmailForm(toEmail);
-
-
-
+        emailSender.send(emailForm);
         return authCode;
     }
 

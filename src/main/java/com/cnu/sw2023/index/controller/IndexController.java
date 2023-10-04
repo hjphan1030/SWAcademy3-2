@@ -46,7 +46,7 @@ public class IndexController {
         return ResponseEntity.ok().body(newRestaurantList);
 
     }
-    @GetMapping("/slide/bestReview") @ResponseBody//좋아요 많은 순으로 리뷰 3개 전달
+    @GetMapping("/slide/bestReview") @ResponseBody//좋아요 많은 순으로 리뷰 5개 전달
     public ResponseEntity<List<reviewDto>> getTop5BestReview() {
         List<reviewDto> reviewLists = indexService.getTop5BestReview();
         log.info("review : {}", Arrays.toString(reviewLists.toArray()));
@@ -56,12 +56,11 @@ public class IndexController {
     public ResponseEntity<List<MainDTO>> getTop5TitlesByOrderDesc() {
         Map<String, Object> response = new HashMap<>();
         List<MainDTO> top5Titles = indexService.getLatestPostsForRestaurant();
-        log.info("top5 free: {}", Arrays.toString(top5Titles.toArray()));
         return ResponseEntity.ok().body(top5Titles);
     }
     @GetMapping("/popular") @ResponseBody  // 핫게 프리뷰
-    public ResponseEntity<List<MainPostDto>> getTop5PopularPosts() {
-        List<MainPostDto> popularPosts = indexService.getTop5PopularPosts();
+    public ResponseEntity<List<MainDTO>> getTop5PopularPosts() {
+        List<MainDTO> popularPosts = indexService.getTop5PopularPosts();
         return ResponseEntity.ok().body(popularPosts);
     }
 }

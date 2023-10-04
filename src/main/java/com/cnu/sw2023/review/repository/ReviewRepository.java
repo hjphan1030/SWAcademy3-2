@@ -23,4 +23,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findPopularPostsOrderByCreatedAtDesc(Pageable pageable);
 
     List<Review> findAllByRestaurantRestaurantName(String restaurantName);
+
 }
