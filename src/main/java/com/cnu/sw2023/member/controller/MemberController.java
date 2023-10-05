@@ -2,9 +2,12 @@ package com.cnu.sw2023.member.controller;
 
 import com.cnu.sw2023.comment.Form.CommentPageForm;
 import com.cnu.sw2023.comment.domain.Comment;
+import com.cnu.sw2023.config.jwtconfig.EncoderConfig;
+import com.cnu.sw2023.exception.EmailException;
 import com.cnu.sw2023.member.DTO.FindIdForm;
 import com.cnu.sw2023.member.DTO.JoinReqDto;
 import com.cnu.sw2023.member.DTO.LoginRequestDto;
+import com.cnu.sw2023.member.DTO.ModifyPasswordDto;
 import com.cnu.sw2023.member.service.MemberService;
 import com.cnu.sw2023.post.domain.Post;
 import com.cnu.sw2023.post.dto.PostPageDto;
@@ -13,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -30,6 +34,7 @@ import java.util.stream.Stream;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/join")
     public ResponseEntity<Map<String,String>> join(@RequestBody JoinReqDto joinReqDto){
@@ -95,8 +100,20 @@ public class MemberController {
         }
     }
 
-//    @PostMapping("/findPassword")
-//    public ResponseEntity<Map<String,String>> findMyPassword(@RequestBody FindPasswordForm passwordForm){
-//
-//    }
+    @PostMapping("/modifyPassword")
+    public ResponseEntity<Map<String,String>> modifyPassword(@RequestBody ModifyPasswordDto modifyPasswordDto,Authentication authentication) throws EmailException {
+        Map<String,String> res = new HashMap<>();
+        String email = authentication.getName();
+        String password = memberService.getPasswordByEmail(email);
+
+        if (! passwordEncoder.matches(modifyPasswordDto.getNowPassword(),password)) {
+            res.put("message","현재 비밀번호가 일치하지 않습니다");
+        } else if (! modifyPasswordDto.getNewPassword1().equals(modifyPasswordDto.getNewPassword2())) {
+            res.put("message", "변경할 비밀번호가 일치하지 않습니다");
+        } else {
+            memberService.modifyPassword(modifyPasswordDto, email);
+            res.put("message","비밀번호가 성공적으로 수정되었습니다.");
+        }
+        return ResponseEntity.ok().body(res);
+    }
 }

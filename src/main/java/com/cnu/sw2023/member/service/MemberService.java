@@ -3,7 +3,9 @@ package com.cnu.sw2023.member.service;
 
 import com.cnu.sw2023.comment.domain.Comment;
 import com.cnu.sw2023.comment.repository.CommentRepository;
+import com.cnu.sw2023.exception.EmailException;
 import com.cnu.sw2023.member.DTO.JoinReqDto;
+import com.cnu.sw2023.member.DTO.ModifyPasswordDto;
 import com.cnu.sw2023.member.exception.DuplicatedException;
 import com.cnu.sw2023.config.jwtconfig.JwtUtil;
 import com.cnu.sw2023.member.domain.College;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -99,7 +102,7 @@ public class MemberService {
         return member.getEmail();
     }
 
-    @PostConstruct
+    @PostConstruct //초기 회원 정보 삽입
     public String join(){
         String email = "1@1";
         String password = "123";
@@ -130,5 +133,20 @@ public class MemberService {
             collegeList.add(college.getName());
         }
         return collegeList;
+    }
+
+    public String getPasswordByEmail(String email) throws EmailException {
+        Optional<Member> byEmail = memberRepository.findByEmail(email);
+        if (byEmail.isPresent()) {
+            return byEmail.get().getPassword();
+        } else {
+            throw new EmailException("존재 하지 않는 이메일입니다");
+        }
+    }
+
+    public void modifyPassword(ModifyPasswordDto modifyPasswordDto, String email) throws EmailException {
+        Member member = memberRepository.findByEmail(email).get();
+        member.setPassword(passwordEncoder.encode(modifyPasswordDto.getNewPassword1()));
+        memberRepository.save(member);
     }
 }

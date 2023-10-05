@@ -34,4 +34,8 @@ public class Member {
     public Member() {
 
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

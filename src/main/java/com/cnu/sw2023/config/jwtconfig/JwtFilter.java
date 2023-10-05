@@ -29,6 +29,11 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
             Cookie[] cookies = request.getCookies();
             String authorization="";
+
+            String authorizationHeader = request.getHeader("Authorization");
+            if (authorizationHeader != null && !authorizationHeader.isEmpty()){
+                authorization = authorizationHeader;
+            }
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if ("accessToken".equals(cookie.getName())) {
@@ -36,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     }
                 }
             }
-            log.info("{} authorization 값입니다",authorization);
+
             if (authorization == null ) {
                 log.error("authorization 이 null 입니다");
                 filterChain.doFilter(request,response);
@@ -49,7 +54,6 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
             String token = authorization.split(" ")[1];
-            System.out.println(token);
             if (JwtUtil.isExpired(token,secretKey)) {
                 log.error("Token이 만료되었습니다");
                 filterChain.doFilter(request,response);
