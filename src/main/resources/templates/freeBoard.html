@@ -88,7 +88,7 @@
   </nav>
   <div th:each="post : ${posts}">
     <div class="post">
-      <a class="postTitle" th:href="@{|/boards/${post.getPostId()}|}" th:text="${post.getTitle()}"></a>
+      <a class="postTitle" th:href="@{|/boards/post/${post.getPostId()}/detail|}" th:text="${post.getTitle()}"></a>
       <span th:text="${#temporals.format(post.getCreatedAt(), 'yyyy/MM/dd')}"></span>
       <div class="postInfo">
         <span class="like">
